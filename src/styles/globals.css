@@ -1,0 +1,61 @@
+/* src/styles/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "GTAmerica";
+  src: url("/fonts/GTAmerica-Regular.otf") format("otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GTAmerica";
+  src: url("/fonts/GTAmerica-Bold.otf") format("otf");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ObjectSans";
+  src: url("/fonts/PPObjectSans-Regular.otf") format("otf");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ObjectSans";
+  src: url("/fonts/PPObjectSans-Heavy.otf") format("otf");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ObjectSans";
+  src: url("/fonts/PPObjectSans-Slanted.otf") format("otf");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ObjectSans";
+  src: url("/fonts/PPObjectSans-HeavySlanted.otf") format("otf");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    /* font-family: [ "Object Sans", sans-serif]; */
+    @apply font-ObjectSans;
+  }
+  body {
+    @apply h-full  antialiased;
+    /* font-family: [ "Object Sans", sans-serif]; */
+  }
+}
