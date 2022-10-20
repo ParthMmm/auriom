@@ -13,8 +13,37 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model Example {
-  id        String   @id @default(cuid())
+
+
+model User{
+  id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  name String
+  email String @unique
+  password String
+  reviews Review[]
 }
+
+model Review{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  title String
+  content String
+  published Boolean @default(false)
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  album Album @relation(fields: [albumId], references: [id])
+  albumId Int
+}
+
+model Album{
+  id Int @id @default(autoincrement())
+  title String
+  artist String
+  genre String
+  year Int
+  reviews Review[]
+  mbid String
+  
+}
+

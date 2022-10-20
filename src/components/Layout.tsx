@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ReactNode } from "react";
+import Navbar from "./Navbar";
 type Props = {
   children: ReactNode;
 };
@@ -10,7 +11,10 @@ function Layout({ children }: Props) {
       <Head>
         <title>albus</title>
       </Head>
-      <div>{children}</div>
+      <div className="bg-white text-black dark:bg-black dark:text-white">
+        <Navbar />
+        {children}
+      </div>
     </>
   );
 }
