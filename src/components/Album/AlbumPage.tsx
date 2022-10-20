@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { fetchAlbumInfo } from "../../utils/queries";
+import AlbumInfo from "./AlbumInfo";
+import Tracklist from "./Tracklist";
+import Reviews from "./Reviews";
 
-function AlbumPage({}: Props) {
+function AlbumPage({}) {
   const router = useRouter();
 
   const artist = router.query.artist as string;
@@ -17,13 +20,26 @@ function AlbumPage({}: Props) {
     }
   );
 
-  console.log(data);
+  //   console.log(data);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <>Loading...</>;
+  }
+  if (error || !data) {
+    return <>error</>;
   }
 
-  return <div>AlbumPage</div>;
+  return (
+    <>
+      <div className="h-screen   ">
+        <div className="mx-auto flex flex-col items-center justify-center">
+          <AlbumInfo album={data} />
+          <Tracklist albumTracks={data.tracks} />
+          <Reviews />
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default AlbumPage;

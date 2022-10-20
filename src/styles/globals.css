@@ -55,7 +55,7 @@
     @apply font-ObjectSans;
   }
   body {
-    @apply h-full  antialiased;
+    @apply h-screen  antialiased;
     /* font-family: [ "Object Sans", sans-serif]; */
   }
 }

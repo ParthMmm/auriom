@@ -1,3 +1,4 @@
+import { cleanHTML } from "./../cleanHTML";
 import { albumInfoFetch } from "./../urls/index";
 import axios from "axios";
 import { albumSearchFetch } from "../urls";
@@ -26,5 +27,9 @@ export const fetchAlbumInfo = async (
   );
   const data = await res.data.album;
 
-  return data as AlbumInfo;
+  const cleanedHTML = cleanHTML(data.wiki.content);
+
+  const modifiedData = { ...data, cleanedHTML };
+
+  return modifiedData as AlbumInfo;
 };

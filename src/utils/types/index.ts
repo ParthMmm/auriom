@@ -32,6 +32,12 @@ export interface AlbumInfo {
   playcount: string;
   url: string;
   wiki: Wiki;
+  cleanedHTML: cleanedHTML;
+}
+
+export interface cleanedHTML {
+  content: string;
+  length: number;
 }
 
 export interface Tags {
@@ -52,8 +58,12 @@ export interface Track {
   duration: number;
   url: string;
   name: string;
-  "@attr": Attr;
+  "@attr": AttrTrack;
   artist: Artist;
+}
+
+export interface AttrTrack {
+  rank: string;
 }
 
 export interface Streamable {
