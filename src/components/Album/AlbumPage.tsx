@@ -31,11 +31,17 @@ function AlbumPage({}) {
 
   return (
     <>
-      <div className="h-screen   ">
-        <div className="mx-auto flex flex-col items-center justify-center">
+      <div className="h-full ">
+        <div className=" mx-auto  flex w-3/4  flex-col ">
           <AlbumInfo album={data} />
-          <Tracklist albumTracks={data.tracks} />
-          <Reviews />
+          <div className="flex w-full flex-col justify-between md:flex-row ">
+            <div className=" md:w-1/4">
+              <Tracklist albumTracks={data.tracks} />
+            </div>
+            <div className="md:w-2/4">
+              <Reviews />
+            </div>
+          </div>
         </div>
       </div>
     </>
