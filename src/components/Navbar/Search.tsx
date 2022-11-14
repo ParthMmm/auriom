@@ -24,7 +24,7 @@ function Search({}) {
 
   return (
     <div>
-      <div className="flex items-center rounded-full border-2 pl-4 align-middle outline-harlequin-500 focus-within:text-harlequin-500 focus-within:outline   ">
+      <div className="flex items-center rounded-full border-2 pl-4 align-middle outline-harlequin-500 focus-within:border-black focus-within:text-harlequin-500 focus-within:outline   ">
         <i className="">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ function Search({}) {
           value={value}
           onKeyPress={(e) => handleKeyPress(e)}
           onChange={handleChange}
-          className="h-10  w-64 border-0 bg-transparent px-3 text-sm text-black placeholder-gray-600 outline-none dark:text-white md:w-96  "
+          className=" h-10 w-64  border-0 bg-transparent px-3 text-sm text-black placeholder-gray-600 outline-none dark:text-white md:w-96  "
         />
       </div>
     </div>

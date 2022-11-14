@@ -14,12 +14,10 @@ datasource db {
 }
 
 
-
-model User{
-  id Int @id @default(autoincrement())
+model User {
+  id            String    @id @default(cuid())
+  username         String   @unique
   createdAt DateTime @default(now())
-  name String
-  email String @unique
   password String
   reviews Review[]
 }
@@ -31,7 +29,7 @@ model Review{
   content String
   published Boolean @default(false)
   author User @relation(fields: [authorId], references: [id])
-  authorId Int
+  authorId String
   album Album @relation(fields: [albumId], references: [id])
   albumId Int
 }
@@ -46,4 +44,9 @@ model Album{
   mbid String
   
 }
+
+
+
+
+
 

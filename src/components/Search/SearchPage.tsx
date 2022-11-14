@@ -26,10 +26,16 @@ function SearchPage({}: Props) {
   }
 
   return (
-    <div className="grid grid-cols-4 grid-rows-4 gap-6">
-      {data?.results.albummatches.album.map((album: Album) => (
-        <AlbumCard key={`${album.name} + ${album.artist}`} album={album} />
-      ))}
+    <div className="grid-view">
+      <div className="grid-season">
+        <h1 className="season-heading text-2xl">{input}</h1>
+        <div className="grid-playlists-container">
+          {/* <div className="grid grid-cols-4 grid-rows-4 gap-6"> */}
+          {data?.results.albummatches.album.map((album: Album) => (
+            <AlbumCard key={`${album.name} + ${album.artist}`} album={album} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
