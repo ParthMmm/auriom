@@ -2,11 +2,19 @@ import * as z from "zod";
 
 export const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z
+    .string({
+      required_error: "password is required",
+    })
+    .min(8, {
+      message: "password must be at least 8 characters",
+    }),
 });
 
 export const signUpSchema = loginSchema.extend({
-  username: z.string(),
+  username: z.string().min(3, {
+    message: "username must be at least 3 characters",
+  }),
 });
 
 export type ILogin = z.infer<typeof loginSchema>;

@@ -1,9 +1,7 @@
 import LogInButton from "../Auth/LogInButton";
 import SignUpButton from "../Auth/SignUpButton";
 
-type Props = {};
-
-function AuthButtons({}: Props) {
+function AuthButtons({}) {
   return (
     <div className="flex flex-row items-center space-x-2">
       <LogInButton />

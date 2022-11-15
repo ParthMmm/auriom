@@ -144,22 +144,18 @@ img.asset {
   opacity: 1;
   padding-left: var(--gutter-x);
   padding-right: var(--gutter-x);
-  padding-top: 85px;
+  /* padding-top: 85px; */
   visibility: visible;
 }
-.grid-view .grid-season {
-  padding-bottom: 150px;
-  padding-top: 75;
-}
 .grid-view .season-heading {
-  margin-bottom: 120px;
+  margin-bottom: 155px;
   text-align: center;
+  width: 100%;
 }
 .grid-view .grid-playlists-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 100%;
 }
 .grid-view .grid-playlist {
   text-decoration: none;
@@ -205,6 +201,7 @@ img.asset {
   display: flex;
   justify-content: space-between;
   margin-top: 7px;
+  /* margin-bottom: calc(10% - var(--gutter-y) * 0.5); */
   text-transform: uppercase;
 }
 .grid-view .grid-playlist-heading,

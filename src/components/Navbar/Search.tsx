@@ -24,25 +24,33 @@ function Search({}) {
 
   return (
     <div>
-      <div className="flex items-center rounded-full border-2 pl-4 align-middle outline-harlequin-500 focus-within:border-black focus-within:text-harlequin-500 focus-within:outline   ">
-        <i className="">
+      <div className="group flex items-center rounded-full bg-gray-800 p-4  align-middle  transition-all  focus-within:bg-transparent focus-within:text-harlequin-500 focus-within:outline-none  focus-within:ring focus-within:ring-harlequin-500  ">
+        <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            className=" h-4 w-4 fill-current "
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className=" mr-1 mb-1  h-4 w-4 group-hover:stroke-harlequin-500 "
           >
-            <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            />
           </svg>
-        </i>
-
-        <input
-          id="search"
-          placeholder="search for an album"
-          value={value}
-          onKeyPress={(e) => handleKeyPress(e)}
-          onChange={handleChange}
-          className=" h-10 w-64  border-0 bg-transparent px-3 text-sm text-black placeholder-gray-600 outline-none dark:text-white md:w-96  "
-        />
+        </div>
+        <div>
+          <input
+            id="search"
+            placeholder="search for an album"
+            value={value}
+            onKeyPress={(e) => handleKeyPress(e)}
+            onChange={handleChange}
+            className="text-md  w-64 bg-transparent text-black placeholder-gray-500 focus:outline-none dark:text-white md:w-96  "
+          />
+        </div>
       </div>
     </div>
   );

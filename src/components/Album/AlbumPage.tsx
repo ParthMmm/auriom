@@ -4,6 +4,7 @@ import { fetchAlbumInfo } from "../../utils/queries";
 import AlbumInfo from "./AlbumInfo";
 import Tracklist from "./Tracklist";
 import Reviews from "./Reviews";
+import Spinner from "../Spinner";
 
 function AlbumPage({}) {
   const router = useRouter();
@@ -23,7 +24,7 @@ function AlbumPage({}) {
   //   console.log(data);
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <Spinner loadingText={`fetching ${artist} - ${album}`} />;
   }
   if (error || !data) {
     return <>error</>;

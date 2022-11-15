@@ -2,7 +2,6 @@ import React, { Dispatch, Fragment, SetStateAction } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { trpc } from "../../utils/trpc";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, ISignUp } from "../../pages/api/auth/auth";
 type Props = { open: boolean; setOpen: Dispatch<SetStateAction<boolean>> };
@@ -11,7 +10,8 @@ function LogInModal({ open, setOpen }: Props) {
   const {
     register,
     handleSubmit,
-    watch,
+
+    reset,
     formState: { errors },
   } = useForm<ISignUp>({
     resolver: zodResolver(signUpSchema),
@@ -41,17 +41,22 @@ function LogInModal({ open, setOpen }: Props) {
     console.log(mutation.error.message);
   }
 
+  console.log(errors);
+
   return (
     <div>
       {" "}
       <Transition appear show={open} as={Fragment}>
         <Dialog
-          onClose={() => setOpen(false)}
+          onClose={() => {
+            reset();
+            setOpen(false);
+          }}
           as="div"
           className="relative z-10"
         >
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex min-h-full items-center justify-center  p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -61,12 +66,17 @@ function LogInModal({ open, setOpen }: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="bg-grod-500 w-full max-w-xl transform overflow-hidden rounded-2xl border-2 border-gray-600 p-6 text-left align-middle text-white shadow-xl transition-all">
-                  <div className="flex flex-row justify-between">
+                <Dialog.Panel className=" w-full max-w-xl transform overflow-hidden rounded-2xl border-2 border-gray-600 bg-black p-12 text-left align-middle text-white shadow-xl transition-all">
+                  <div className=" mb-12 flex flex-row justify-between">
                     <Dialog.Title className="text-lg font-light ">
-                      Sign Up
+                      log in
                     </Dialog.Title>
-                    <button onClick={() => setOpen(false)}>
+                    <button
+                      onClick={() => {
+                        setOpen(false);
+                        reset();
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -85,33 +95,45 @@ function LogInModal({ open, setOpen }: Props) {
                   </div>
 
                   <Dialog.Description>
-                    This will permanently deactivate your account
+                    {/* This will permanently deactivate your account */}
                   </Dialog.Description>
                   <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium">email</label>
+                    <div className=" space-y-6 ">
+                      {/* <label className="invisible block text-sm font-medium">
+                        email
+                      </label> */}
                       <input
                         {...register("email")}
                         type="email"
                         name="email"
                         id="email"
                         placeholder="email"
-                        className="mt-1 block w-full rounded-md border-gray-300 p-2 text-black placeholder-slate-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        className=" mt-1 block w-full rounded-md  bg-gray-800 p-2 text-lg text-white placeholder-gray-500 shadow-sm  transition-all focus:bg-black  focus:outline-none focus:ring focus:ring-harlequin-500 sm:text-sm"
                       />
-                      <label className="block text-sm font-medium">
+                      {errors.email && (
+                        <span className="text-sm lowercase text-red-500">
+                          {errors.email.message}
+                        </span>
+                      )}
+                      {/* <label className="block text-sm font-medium">
                         username
-                      </label>
+                      </label> */}
                       <input
                         {...register("username")}
                         type="username"
                         name="username"
                         id="username"
                         placeholder="username"
-                        className="mt-1 block w-full rounded-md border-gray-300 p-2 text-black shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        className=" mt-1 block w-full rounded-md  bg-gray-800 p-2 text-lg text-white placeholder-gray-500 shadow-sm  transition-all focus:bg-black  focus:outline-none focus:ring focus:ring-harlequin-500 sm:text-sm"
                       />
-                      <label className="block text-sm font-medium">
+                      {errors.username && (
+                        <span className="text-sm lowercase text-red-500">
+                          {errors.username.message}
+                        </span>
+                      )}
+                      {/* <label className="block text-sm font-medium">
                         password
-                      </label>
+                      </label> */}
 
                       <input
                         {...register("password")}
@@ -119,10 +141,22 @@ function LogInModal({ open, setOpen }: Props) {
                         name="password"
                         id="password"
                         placeholder="password"
-                        className="mt-1 block w-full rounded-md border-gray-300 p-2 text-black shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        className=" mt-1 block w-full rounded-md  bg-gray-800 p-2 text-lg text-white placeholder-gray-500 shadow-sm  transition-all focus:bg-black  focus:outline-none focus:ring focus:ring-harlequin-500 sm:text-sm"
                       />
+                      {errors.password && (
+                        <span className="text-sm lowercase text-red-500">
+                          {errors.password.message}
+                        </span>
+                      )}
                     </div>
-                    <button type="submit">submit</button>
+                    <div className="mt-8 ml-auto mr-0 flex justify-end">
+                      <button
+                        type="submit"
+                        className="text-harlequin-500 hover:text-harlequin-700"
+                      >
+                        submit
+                      </button>
+                    </div>
                   </form>
                   {mutation.isError && mutation.error.message}
                   {/* {mutation.isSuccess && mutation.data}  */}
