@@ -1,12 +1,11 @@
-import { useState } from "react";
-import LogInModal from "./LogInModal";
+import { useRouter } from "next/router";
 
 function LogInButton({}) {
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
+
   return (
     <div>
-      <button onClick={() => setOpen(!open)}>log in</button>
-      <LogInModal open={open} setOpen={setOpen} />
+      <button onClick={() => router.push("/sign-in")}>log in</button>
     </div>
   );
 }

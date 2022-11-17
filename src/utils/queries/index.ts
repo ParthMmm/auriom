@@ -3,7 +3,6 @@ import { albumInfoFetch } from "./../urls/index";
 import axios from "axios";
 import { albumSearchFetch } from "../urls";
 import { AlbumInfo } from "../types";
-import { User } from "../../pages/api/user";
 
 export const fetchAlbumSearch = async (query: string) => {
   const res = await axios.get(albumSearchFetch + `&album=${query}`);
@@ -33,24 +32,4 @@ export const fetchAlbumInfo = async (
   const modifiedData = { ...data, cleanedHTML };
 
   return modifiedData as AlbumInfo;
-};
-
-export const logIn = async (username: string) => {
-  const res = await axios.post("/api/login", {
-    username,
-  });
-
-  const data = await res.data;
-
-  return data;
-};
-
-export const register = async (user: User) => {
-  const res = await axios.post("/api/register", {
-    user,
-  });
-
-  const data = await res.data;
-
-  return data;
 };

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { fetchAlbumSearch } from "../../utils/queries";
-import { Album } from "../../utils/types";
+import type { Album } from "../../utils/types";
 import AlbumCard from "../Album/AlbumCard";
 import Spinner from "../Spinner";
 

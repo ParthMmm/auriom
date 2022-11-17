@@ -1,8 +1,4 @@
-import React from "react";
-
-type Props = {};
-
-function Reviews({}: Props) {
+function Reviews({}) {
   return (
     <div className="mb-12 md:mb-24 ">
       <h2 className="text-4xl font-bold">reviews</h2>

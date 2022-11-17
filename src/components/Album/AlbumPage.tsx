@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { fetchAlbumInfo } from "../../utils/queries";
 import AlbumInfo from "./AlbumInfo";
 import Tracklist from "./Tracklist";
 import Reviews from "./Reviews";
 import Spinner from "../Spinner";
+import { trpc } from "../../utils/trpc";
 
 function AlbumPage({}) {
   const router = useRouter();
@@ -13,15 +12,14 @@ function AlbumPage({}) {
   const album = router.query.album as string;
   const mbid = router.query.mbid as string;
 
-  const { isLoading, data, error } = useQuery(
-    ["fetchAlbumInfo", [artist, album, mbid]],
-    () => fetchAlbumInfo(album, artist, mbid),
+  const albumInfo = trpc.album.getAlbumInfo.useQuery(
+    { artist, album, mbid },
     {
       enabled: !!artist && !!album,
     }
   );
 
-  //   console.log(data);
+  const { isLoading, data, error } = albumInfo;
 
   if (isLoading) {
     return <Spinner loadingText={`fetching ${artist} - ${album}`} />;

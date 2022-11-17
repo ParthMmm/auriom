@@ -1,11 +1,21 @@
 import LogInButton from "../Auth/LogInButton";
 import SignUpButton from "../Auth/SignUpButton";
+import { useUser, useClerk } from "@clerk/nextjs";
 
 function AuthButtons({}) {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const { signOut } = useClerk();
+
   return (
     <div className="flex flex-row items-center space-x-2">
-      <LogInButton />
-      <SignUpButton />
+      {isLoaded && isSignedIn && user ? (
+        <button onClick={() => signOut()}>sign out</button>
+      ) : (
+        <>
+          <LogInButton />
+          <SignUpButton />
+        </>
+      )}
     </div>
   );
 }

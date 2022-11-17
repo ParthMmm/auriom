@@ -1,11 +1,16 @@
 import Head from "next/head";
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
+import { useAuth, useUser } from "@clerk/nextjs";
+
 type Props = {
   children: ReactNode;
 };
 
 function Layout({ children }: Props) {
+  // const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isLoaded, isSignedIn, user } = useUser();
+
   return (
     <>
       <Head>

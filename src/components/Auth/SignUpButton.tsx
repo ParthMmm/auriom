@@ -1,17 +1,16 @@
-import { useState } from "react";
-import SignUpModal from "./SignUpModal";
+import { useRouter } from "next/router";
 
 function SignUpButton({}) {
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
+
   return (
     <div>
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => router.push("/sign-up")}
         className="rounded-full border-2 border-harlequin-500 px-4 py-2 transition-colors hover:border-harlequin-700 hover:text-harlequin-500"
       >
         sign up
       </button>
-      <SignUpModal open={open} setOpen={setOpen} />
     </div>
   );
 }

@@ -7,11 +7,17 @@ type Props = {
 };
 
 function AlbumInfo({ album }: Props) {
-  console.log(album);
+  const image = album?.image.filter((image) => image.size === "extralarge")[0];
 
+  if (!image) {
+    return null;
+  }
   if (!album.name) {
     return null;
   }
+
+  const imageURL = image["#text"];
+
   return (
     <>
       <div className="mt-24 mb-8  w-full justify-center border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
@@ -24,12 +30,7 @@ function AlbumInfo({ album }: Props) {
 
         <div className="flex flex-col md:flex-row ">
           <div>
-            <Image
-              src={album?.image[4]["#text"]}
-              alt={album.name}
-              width="1000"
-              height="1000"
-            />
+            <Image src={imageURL} alt={album.name} width="1000" height="1000" />
             <div className="m-2 flex justify-between ">
               <div className="space-y-2">
                 <div className="i flex flex-row items-center space-x-1">

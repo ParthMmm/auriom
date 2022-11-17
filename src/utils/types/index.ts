@@ -1,3 +1,5 @@
+import { EmailAddress } from "@clerk/nextjs/dist/api";
+
 export interface Album {
   name: string;
   artist: string;
@@ -85,4 +87,14 @@ export interface Wiki {
   published: string;
   summary: string;
   content: string;
+}
+
+export interface User {
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  fullName: string | null;
+  username: string | null;
+  profileImageURL: string | null;
+  primaryEmailAddress: EmailAddress | null;
 }
