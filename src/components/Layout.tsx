@@ -20,7 +20,7 @@ function Layout({ children }: Props) {
       <Head>
         <title>albus</title>
       </Head>
-      <div className="bg-white text-black dark:bg-black dark:text-white">
+      <div className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
         <Navbar />
         {children}
       </div>

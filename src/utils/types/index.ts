@@ -24,8 +24,8 @@ export interface Root {
 
 export interface AlbumInfo {
   artist: string;
-  mbid: string;
-  tags: Tags;
+  mbid: string | undefined;
+  tags: Tags | undefined;
   name: string;
   userplaycount: number;
   image: Image[];
@@ -33,8 +33,8 @@ export interface AlbumInfo {
   listeners: string;
   playcount: string;
   url: string;
-  wiki: Wiki;
-  cleanedHTML: cleanedHTML;
+  wiki?: Wiki | undefined;
+  cleanedHTML?: cleanedHTML | undefined;
 }
 
 export interface cleanedHTML {

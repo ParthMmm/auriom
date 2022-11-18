@@ -9,6 +9,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Spinner from "@components/Spinner";
 import dynamic from "next/dynamic";
 import { dark } from "@clerk/themes";
+import ErrorBoundary from "@components/ErrorBoundary";
 
 const Layout = dynamic(() => import("@components/Layout"), {
   suspense: true,
@@ -40,7 +41,7 @@ const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
         }}
       >
         <QueryClientProvider client={queryClient}>
-          {getContent()}
+          <ErrorBoundary>{getContent()}</ErrorBoundary>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ClerkProvider>

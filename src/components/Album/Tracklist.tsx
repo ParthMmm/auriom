@@ -12,7 +12,7 @@ function Tracklist({ albumTracks }: Props) {
 
       <div className=" border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
         <div className=" ">
-          {albumTracks.track.map((track) => (
+          {albumTracks?.track.map((track) => (
             <div key={track.name} className="group p-2">
               <div className="   flex flex-row justify-between space-x-1">
                 <div className="">

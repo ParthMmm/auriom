@@ -27,10 +27,10 @@ function SearchPage({}) {
 
   return (
     <div className="grid-view">
-      <div className="grid-season">
-        <div className="text-left">
-          <h1 className="text-3xl font-bold md:text-6xl">{query}</h1>
-          <span> results</span>
+      <div className="">
+        <div className="mt-8 mb-12 w-full text-center md:mt-16 md:text-left">
+          <h1 className="text-2xl font-bold md:text-4xl">{query}</h1>
+          <span className=""> results</span>
         </div>
 
         <div className="grid-playlists-container">

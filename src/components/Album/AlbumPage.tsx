@@ -35,7 +35,9 @@ function AlbumPage({}) {
     return <Spinner loadingText={`fetching ${artist} - ${album}`} />;
   }
   if (error || !data) {
-    return <>error</>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">error</div>
+    );
   }
 
   return (
@@ -44,9 +46,11 @@ function AlbumPage({}) {
         <div className=" mx-auto  flex w-3/4  flex-col ">
           <AlbumInfo album={data} />
           <div className="flex w-full flex-col justify-between md:flex-row ">
-            <div className=" md:w-1/4">
-              <Tracklist albumTracks={data.tracks} />
-            </div>
+            {data?.tracks?.track && (
+              <div className=" md:w-1/4">
+                <Tracklist albumTracks={data?.tracks} />
+              </div>
+            )}
             <div className="md:w-2/4">
               <Reviews />
             </div>

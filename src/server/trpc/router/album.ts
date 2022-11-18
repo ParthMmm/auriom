@@ -14,19 +14,37 @@ export const albumRouter = router({
     .query(async ({ input }) => {
       if (input?.mbid) {
         const res = await axios.get(albumInfoFetch + `&mbid=${input.mbid}`);
-        const data = await res.data;
-        return data as AlbumInfo;
+        const data = await res.data.album;
+
+        if (data.wiki) {
+          const cleanedHTML = cleanHTML(data?.wiki?.content);
+
+          const modifiedData: AlbumInfo = { ...data, cleanedHTML };
+
+          return modifiedData;
+        }
+        const modifiedData: AlbumInfo = data;
+        return modifiedData;
       }
-      const res = await axios.get(
-        albumInfoFetch + `&album=${input.album} + &artist=${input.artist}`
-      );
-      const data = await res.data.album;
 
-      const cleanedHTML = cleanHTML(data.wiki.content);
+      if (input?.album && input?.artist) {
+        const res = await axios.get(
+          albumInfoFetch + `&album=${input.album} + &artist=${input.artist}`
+        );
+        const data = await res.data.album;
 
-      const modifiedData: AlbumInfo = { ...data, cleanedHTML };
+        if (data.wiki) {
+          const cleanedHTML = cleanHTML(data?.wiki?.content);
 
-      return modifiedData;
+          const modifiedData: AlbumInfo = { ...data, cleanedHTML };
+
+          return modifiedData;
+        }
+        const modifiedData: AlbumInfo = data;
+        return modifiedData;
+      }
+
+      return null;
     }),
 
   getAlbumSearch: publicProcedure

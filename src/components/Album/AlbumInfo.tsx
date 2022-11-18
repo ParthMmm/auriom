@@ -7,7 +7,7 @@ type Props = {
 };
 
 function AlbumInfo({ album }: Props) {
-  const image = album?.image.filter((image) => image.size === "extralarge")[0];
+  const image = album?.image.filter((image) => image.size === "mega")[0];
 
   if (!image) {
     return null;
@@ -27,10 +27,22 @@ function AlbumInfo({ album }: Props) {
             <h3 className="text-3xl ">{album.artist}</h3>
           </div>
         </div>
+        <div>
+          {imageURL && (
+            <picture className="lazyPicture aspect-ratio">
+              <Image
+                src={imageURL}
+                alt={album.name}
+                className="asset"
+                fill
+                quality={100}
+              />
+            </picture>
+          )}
+        </div>
 
         <div className="flex flex-col md:flex-row ">
           <div>
-            <Image src={imageURL} alt={album.name} width="1000" height="1000" />
             <div className="m-2 flex justify-between ">
               <div className="space-y-2">
                 <div className="i flex flex-row items-center space-x-1">
@@ -64,16 +76,18 @@ function AlbumInfo({ album }: Props) {
                 </div>
               </div>
             </div>
-            <div className="ml-2  flex flex-row flex-wrap ">
-              {album.tags.tag.map((tag) => (
-                <div key={tag.name} className="group  m-1  ">
-                  <span className="group-hover:shadow-highlight-blurple italic">
-                    {" "}
-                    {tag.name}
-                  </span>
-                </div>
-              ))}
-            </div>
+            {album?.tags?.tag && (
+              <div className="ml-2  flex flex-row flex-wrap ">
+                {album?.tags?.tag.map((tag) => (
+                  <div key={tag.name} className="group  m-1  ">
+                    <span className="group-hover:shadow-highlight-blurple italic">
+                      {" "}
+                      {tag.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="mx-2">
