@@ -1,9 +1,19 @@
 import { useRouter } from "next/router";
-import AlbumInfo from "./AlbumInfo";
-import Tracklist from "./Tracklist";
-import Reviews from "./Reviews";
 import Spinner from "../Spinner";
 import { trpc } from "../../utils/trpc";
+import dynamic from "next/dynamic";
+
+const AlbumInfo = dynamic(() => import("./AlbumInfo"), {
+  suspense: true,
+});
+
+const Reviews = dynamic(() => import("./Reviews"), {
+  suspense: true,
+});
+
+const Tracklist = dynamic(() => import("./Tracklist"), {
+  suspense: true,
+});
 
 function AlbumPage({}) {
   const router = useRouter();

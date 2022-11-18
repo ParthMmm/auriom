@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { KeyboardEvent, useState } from "react";
+import type { KeyboardEvent } from "react";
+import { useState } from "react";
 
 function Search({}) {
   const [value, setValue] = useState("");

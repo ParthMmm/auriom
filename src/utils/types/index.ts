@@ -1,4 +1,4 @@
-import { EmailAddress } from "@clerk/nextjs/dist/api";
+import type { EmailAddress } from "@clerk/nextjs/dist/api";
 
 export interface Album {
   name: string;

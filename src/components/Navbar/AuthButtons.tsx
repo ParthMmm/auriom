@@ -9,7 +9,7 @@ function AuthButtons({}) {
   return (
     <div className="flex flex-row items-center space-x-2">
       {isLoaded && isSignedIn && user ? (
-        <button onClick={() => signOut()}>sign out</button>
+        <button onClick={() => signOut()}>{user.username}, sign out</button>
       ) : (
         <>
           <LogInButton />

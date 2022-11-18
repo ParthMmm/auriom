@@ -1,7 +1,13 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
-import AuthButtons from "./AuthButtons";
-import Search from "./Search";
+const Search = dynamic(() => import("./Search"), {
+  suspense: true,
+});
+
+const AuthButtons = dynamic(() => import("./AuthButtons"), {
+  suspense: true,
+});
 
 function Navbar({}) {
   return (
@@ -14,10 +20,12 @@ function Navbar({}) {
                 <Link href="/">albus</Link>
               </h1>
             </div>
-
-            <Search />
-
-            <AuthButtons />
+            <div>
+              <Search />
+            </div>
+            <div>
+              <AuthButtons />
+            </div>
           </div>
         </div>
       </div>

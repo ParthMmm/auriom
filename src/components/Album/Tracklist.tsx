@@ -1,6 +1,5 @@
-import React from "react";
-import { convertTime } from "../../utils/convertTime";
-import { Tracks } from "../../utils/types";
+import { convertTime } from "@utils/convertTime";
+import type { Tracks } from "@utils/types";
 
 type Props = {
   albumTracks: Tracks;

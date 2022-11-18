@@ -1,11 +1,15 @@
 import Head from "next/head";
-import { ReactNode } from "react";
-import Navbar from "./Navbar";
+import type { ReactNode } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
+import dynamic from "next/dynamic";
 
 type Props = {
   children: ReactNode;
 };
+
+const Navbar = dynamic(() => import("@components/Navbar"), {
+  suspense: true,
+});
 
 function Layout({ children }: Props) {
   // const { isLoaded, userId, sessionId, getToken } = useAuth();

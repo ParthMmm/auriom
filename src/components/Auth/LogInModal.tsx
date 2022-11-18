@@ -1,9 +1,5 @@
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { trpc } from "../../utils/trpc";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 
 function LogInModal({}) {
   return (

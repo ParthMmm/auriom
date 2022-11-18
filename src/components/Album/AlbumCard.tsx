@@ -1,5 +1,4 @@
-import React from "react";
-import { Album } from "../../utils/types";
+import type { Album } from "@utils/types";
 import Image from "next/future/image";
 import Link from "next/link";
 

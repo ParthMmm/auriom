@@ -5,7 +5,7 @@ function LogInButton({}) {
 
   return (
     <div>
-      <button onClick={() => router.push("/sign-in")}>log in</button>
+      <button onClick={() => router.push("/auth/sign-in")}>log in</button>
     </div>
   );
 }
