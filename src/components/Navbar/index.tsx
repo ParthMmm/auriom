@@ -12,20 +12,18 @@ const AuthButtons = dynamic(() => import("./AuthButtons"), {
 function Navbar({}) {
   return (
     <nav>
-      <div className="sticky top-0 z-10 ">
-        <div className="container mx-auto max-w-screen-xl p-5">
-          <div className="flex flex-row items-center justify-between align-middle sm:h-16 lg:pt-4">
-            <div>
-              <h1 className="text-4xl font-bold italic tracking-tight text-white md:text-6xl">
-                <Link href="/">albus</Link>
-              </h1>
-            </div>
-            <div>
-              <Search />
-            </div>
-            <div>
-              <AuthButtons />
-            </div>
+      <div className="fixed top-0 z-10  w-full border-b-[1px] border-gray-50 bg-black  ">
+        <div className="flex w-full    ">
+          <div className="flex basis-2/12 items-center justify-center py-8 px-4  ">
+            <h1 className=" text-4xl  font-black tracking-tight text-white md:text-6xl">
+              <Link href="/">albus</Link>
+            </h1>
+          </div>
+          <div className="flex w-full basis-8/12 items-center justify-start  border-l-[1px] border-gray-700 py-8 px-4   ">
+            <Search />
+          </div>
+          <div className="flex basis-2/12 items-center justify-center  border-l-[1px] border-gray-700 py-8 px-4  ">
+            <AuthButtons />
           </div>
         </div>
       </div>

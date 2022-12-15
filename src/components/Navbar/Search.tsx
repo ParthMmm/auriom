@@ -24,35 +24,51 @@ function Search({}) {
   };
 
   return (
-    <div>
-      <div className="group flex items-center rounded-full bg-gray-800 p-4  align-middle  transition-all  focus-within:bg-transparent focus-within:text-harlequin-500 focus-within:outline-none  focus-within:ring focus-within:ring-harlequin-500  ">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className=" mr-1 mb-1  h-4 w-4 group-hover:stroke-harlequin-500 "
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </div>
-        <div>
-          <input
-            id="search"
-            placeholder="search for an album"
-            value={value}
-            onKeyPress={(e) => handleKeyPress(e)}
-            onChange={handleChange}
-            className="text-md  w-64 bg-transparent text-black placeholder-gray-500 focus:outline-none dark:text-white md:w-96  "
+    <div className="group flex w-full flex-row items-center rounded-sm align-middle transition-all focus-within:bg-transparent focus-within:text-harlequin-500 focus-within:outline-none  focus-within:ring focus-within:ring-harlequin-500  ">
+      {/* show an x icon to clear search input when value */}
+
+      {value ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className=" mx-1   h-6 w-6 group-hover:stroke-harlequin-500 "
+          onClick={() => setValue("")}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
           />
-        </div>
-      </div>
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className=" mx-1  h-6 w-6 group-hover:stroke-harlequin-500 "
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        </svg>
+      )}
+
+      <input
+        id="search"
+        type="search"
+        placeholder="Search for an album, artist, or song"
+        value={value}
+        onKeyPress={(e) => handleKeyPress(e)}
+        onChange={handleChange}
+        className="text-md w-full  overflow-visible bg-transparent py-5 text-black placeholder-gray-500 focus:outline-none dark:text-white   "
+      />
     </div>
   );
 }

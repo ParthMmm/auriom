@@ -1,7 +1,7 @@
 import React from "react";
 import { AlbumInfo } from "../../utils/types";
 import { NumericFormat } from "react-number-format";
-import Image from "next/future/image";
+import Image from "next/image";
 type Props = {
   album: AlbumInfo;
 };

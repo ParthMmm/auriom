@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
   font-family: "GTAmerica";
   src: url("/fonts/GTAmerica-Regular.otf") format("otf");
   font-weight: normal;
@@ -47,12 +47,12 @@
   font-weight: bold;
   font-style: italic;
   font-display: swap;
-}
+} */
 
 @layer base {
   html {
     /* font-family: [ "Object Sans", sans-serif]; */
-    @apply font-ObjectSans antialiased;
+    @apply font-sans subpixel-antialiased;
   }
   /* body {
     @apply antialiased;

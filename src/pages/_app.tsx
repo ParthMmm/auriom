@@ -18,6 +18,31 @@ const Layout = dynamic(() => import("@components/Layout"), {
 const queryClient = new QueryClient();
 const frontendApi = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API;
 
+// const objectSans = localFont({
+//   // src: [
+//   //   {
+//   //     path: "../../public/fonts/PPObjectSans-Bold.woff2",
+//   //     weight: "600",
+//   //     style: "normal",
+//   //   },
+//   //   {
+//   //     path: "../../public/fonts/PPObjectSans-BoldSlanted.woff2",
+//   //     weight: "600",
+//   //     style: "italic",
+//   //   },
+
+//   //   {
+//   //     path: "../../public/fonts/PPObjectSans-Regular.woff2",
+//   //     weight: "300",
+//   //     style: "normal",
+//   //   },
+//   // ],
+//   src: "../../public/fonts/PPObjectSans-Regular.woff2",
+//   variable: "--font-ObjectSans",
+// });
+
+// console.log(objectSans);
+
 const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
   const getContent = () => {
     if (appProps.router.pathname.includes("/auth")) {

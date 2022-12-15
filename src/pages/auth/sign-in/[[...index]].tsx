@@ -84,20 +84,3 @@ function SignInPage({}) {
 }
 
 export default SignInPage;
-
-// {
-//   "variables": {
-//    "colorPrimary": "#DF1B1B",
-//    "colorTextSecondary": "#000",
-//    "fontFamily": "\"Open Sans\", sans-serif",
-//    "fontWeight": {
-//     "normal": 400,
-//     "medium": 600,
-//     "bold": 700
-//    }
-//   },
-//   "layout": {
-//    "socialButtonsVariant": "iconButton"
-//   },
-
-//  }

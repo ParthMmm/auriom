@@ -31,8 +31,15 @@ module.exports = {
           900: "#210127",
         },
       },
+      fontWeight: {
+        normal: 315,
+        bold: 570,
+        black: 730,
+        thin: 140,
+      },
+
       fontFamily: {
-        ObjectSans: ["Object Sans", "sans-serif", "system-ui"],
+        sans: ["var(--font-object-sans)"],
       },
     },
   },
