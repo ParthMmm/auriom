@@ -3,3 +3,9 @@ export const albumInfoFetch = `https://ws.audioscrobbler.com/2.0/?method=album.g
 export const albumSearchFetch = `https://ws.audioscrobbler.com/2.0/?method=album.search&format=json${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
 export const chartTopArtists = `https://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&format=json&limit=10${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
 export const chartTopTracks = `https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&format=json&limit=10${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
+export const artistSearchFetch = `https://ws.audioscrobbler.com/2.0/?method=artist.search&format=json${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
+export const artistInfoFetch = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&format=json${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
+export const artistTopAlbumsFetch = `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&format=json${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
+export const artistTopTracksFetch = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&format=json${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
+export const artistSimilarFetch = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&format=json${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;
+export const trackSearchFetch = `https://ws.audioscrobbler.com/2.0/?method=track.search&format=json${process.env.NEXT_PUBLIC_LAST_FM_KEY}`;

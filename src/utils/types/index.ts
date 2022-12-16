@@ -1,28 +1,28 @@
 import type { EmailAddress } from "@clerk/nextjs/dist/api";
 
-export interface Album {
+export type Album = {
   name: string;
   artist: string;
   url: string;
   image: Image[];
   streamable: string;
   mbid: string;
-}
+};
 
-export interface Image {
+export type Image = {
   "#text": string;
   size: string;
-}
+};
 
-export interface Attr {
+export type Attr = {
   for: string;
-}
+};
 
-export interface Root {
+export type Root = {
   album: Album;
-}
+};
 
-export interface AlbumInfo {
+export type AlbumInfo = {
   artist: string;
   mbid: string | undefined;
   tags: Tags | undefined;
@@ -35,61 +35,77 @@ export interface AlbumInfo {
   url: string;
   wiki?: Wiki | undefined;
   cleanedHTML?: cleanedHTML | undefined;
-}
+};
 
-export interface cleanedHTML {
+export type cleanedHTML = {
   content: string;
   length: number;
-}
+};
 
-export interface Tags {
+export type Tags = {
   tag: Tag[];
-}
+};
 
-export interface Tag {
+export type Tag = {
   url: string;
   name: string;
-}
+};
 
-export interface Tracks {
+export type Tracks = {
   track: Track[];
-}
+};
 
-export interface Track {
+export type Track = {
   streamable: Streamable;
   duration: number;
   url: string;
   name: string;
   "@attr": AttrTrack;
   artist: Artist;
-}
+  image?: Image[];
+  listeners?: string;
+  mbid?: string;
+};
 
-export interface AttrTrack {
+export type TrackSearch = Omit<Track, "artist"> & {
+  artist: string;
+};
+
+export type AttrTrack = {
   rank: string;
-}
+};
 
-export interface Streamable {
+export type Streamable = {
   fulltrack: string;
   "#text": string;
-}
+};
 
-export interface TrackListAttr {
+export type TrackListAttr = {
   rank: number;
-}
+};
 
-export interface Artist {
+export type Artist = {
   url: string;
   name: string;
   mbid: string;
-}
+  listeners?: string;
+  streamable?: string;
+  image: Image[];
+};
 
-export interface Wiki {
+// export type ArtistInfo = Artist & {
+//   listeners: string;
+//   streamable: string;
+//   image: Image[];
+// };
+
+export type Wiki = {
   published: string;
   summary: string;
   content: string;
-}
+};
 
-export interface User {
+export type User = {
   id: string;
   firstName: string | null;
   lastName: string | null;
@@ -97,4 +113,4 @@ export interface User {
   username: string | null;
   profileImageURL: string | null;
   primaryEmailAddress: EmailAddress | null;
-}
+};

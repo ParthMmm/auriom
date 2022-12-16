@@ -10,6 +10,7 @@ import Spinner from "@components/Spinner";
 import dynamic from "next/dynamic";
 import { dark } from "@clerk/themes";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { objectSans } from "@components/Layout";
 
 const Layout = dynamic(() => import("@components/Layout"), {
   suspense: true,
@@ -46,7 +47,11 @@ const frontendApi = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API;
 const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
   const getContent = () => {
     if (appProps.router.pathname.includes("/auth")) {
-      return <Component {...pageProps} />;
+      return (
+        <div className={`${objectSans.variable} font-sans `}>
+          <Component {...pageProps} />
+        </div>
+      );
     }
 
     return (

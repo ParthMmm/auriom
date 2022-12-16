@@ -22,6 +22,6 @@ export default defineNextConfig({
     defaultLocale: "en",
   },
   images: {
-    domains: ["lastfm.freetls.fastly.net"],
+    domains: ["lastfm.freetls.fastly.net", "images.clerk.dev"],
   },
 });

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import type { ReactNode } from "react";
-import { useAuth, useUser } from "@clerk/nextjs";
 import dynamic from "next/dynamic";
 import localFont from "@next/font/local";
 
@@ -12,7 +11,7 @@ const Navbar = dynamic(() => import("@components/Navbar"), {
   suspense: true,
 });
 
-const objectSans = localFont({
+export const objectSans = localFont({
   src: [
     {
       path: "../../public/fonts/PPObjectSans-Bold.woff2",
@@ -59,9 +58,6 @@ const objectSans = localFont({
 });
 
 function Layout({ children }: Props) {
-  // const { isLoaded, userId, sessionId, getToken } = useAuth();
-  const { isLoaded, isSignedIn, user } = useUser();
-
   return (
     <>
       <Head>

@@ -13,7 +13,6 @@ function AlbumCard({ album }: Props) {
     return null;
   }
   const imageURL = image["#text"];
-  console.log(imageURL);
 
   return (
     <Link

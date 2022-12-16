@@ -3,24 +3,21 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
 
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
 }
 
 
 model User {
   id            String    @id @default(cuid())
   username         String   @unique
-  email            String   @unique
   createdAt DateTime @default(now())
-  password String
   reviews Review[]
+  clerk_id String @unique 
 }
 
 model Review{

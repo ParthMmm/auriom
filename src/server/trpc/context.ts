@@ -6,6 +6,7 @@ import type { inferAsyncReturnType } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { prisma } from "../db/client";
 import { getAuth, clerkClient } from "@clerk/nextjs/server";
+import getToken from "../spotify/auth";
 /**
  * Replace this with an object if you want to pass things to createContextInner
  */
@@ -15,10 +16,11 @@ import { getAuth, clerkClient } from "@clerk/nextjs/server";
  *  - testing, where we dont have to Mock Next.js' req/res
  *  - trpc's `createSSGHelpers` where we don't have req/res
  */
-export const createContextInner = async ({ user }) => {
+export const createContextInner = async ({ user, spotifyToken }) => {
   return {
     prisma,
     user,
+    spotifyToken,
   };
 };
 
@@ -37,7 +39,9 @@ export const createContext = async (opts: CreateNextContextOptions) => {
 
   const user = await getUser();
 
-  return await createContextInner({ user });
+  const spotifyToken = await getToken();
+
+  return await createContextInner({ user, spotifyToken });
 };
 
 export type Context = inferAsyncReturnType<typeof createContext>;
