@@ -13,11 +13,10 @@ datasource db {
 
 
 model User {
-  id String @unique
+  id String @id @unique
   username         String   @unique
   createdAt DateTime @default(now())
   reviews Review[]
-  clerk_id String @unique
   listening Listening[]
   listened Listened[]
   wantToListen WantToListen[]
