@@ -48,7 +48,7 @@ model Album{
 model Listening{
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  mbid String
+  mbid String?
   artist String
   album String
   user User @relation(fields: [userId], references: [id])
@@ -59,7 +59,7 @@ model Listening{
 model Listened{
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  mbid String
+  mbid String?
   artist String
   album String
   user User @relation(fields: [userId], references: [id])
@@ -69,7 +69,7 @@ model Listened{
 model WantToListen{
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  mbid String
+  mbid String?
   artist String
   album String
   user User @relation(fields: [userId], references: [id])

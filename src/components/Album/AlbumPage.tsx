@@ -44,7 +44,7 @@ function AlbumPage({}) {
   return (
     <>
       <div className="h-full ">
-        <ActionButtons />
+        <ActionButtons album={album} artist={artist} mbid={mbid} />
         <div className=" mx-auto  flex w-3/4  flex-col ">
           <AlbumInfo album={data} />
           <div className="flex w-full flex-col justify-between md:flex-row ">

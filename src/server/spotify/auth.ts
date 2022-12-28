@@ -22,7 +22,6 @@ const getToken = async () => {
   axios
     .post("https://accounts.spotify.com/api/token", data, config)
     .then((res) => {
-      console.log(res.data, "spotify token");
       return res.data;
     })
     .catch((err) => {

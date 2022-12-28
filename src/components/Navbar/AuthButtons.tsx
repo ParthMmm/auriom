@@ -7,8 +7,6 @@ import ProfileButton from "./ProfileButton";
 function AuthButtons({}) {
   const { isLoaded, isSignedIn, user } = useUser();
 
-  console.log(user);
-
   return (
     <div className="flex flex-row items-center gap-4">
       {isLoaded && isSignedIn && user ? (

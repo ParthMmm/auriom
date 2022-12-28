@@ -10,8 +10,6 @@ function Page({}) {
 
   const searchFilter = useStore((state) => state.searchFilter);
 
-  console.log(searchFilter);
-
   // console.log(data);
 
   return (

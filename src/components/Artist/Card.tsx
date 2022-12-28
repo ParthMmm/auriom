@@ -8,7 +8,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
     return null;
   }
   const imageURL = image["#text"];
-  console.log(imageURL);
   return (
     <Link
       href={{
