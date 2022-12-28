@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { dark } from "@clerk/themes";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { objectSans } from "@components/Layout";
+import { Analytics } from "@vercel/analytics/react";
 
 const Layout = dynamic(() => import("@components/Layout"), {
   suspense: true,
@@ -75,6 +76,7 @@ const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ClerkProvider>
+      <Analytics />
     </Suspense>
   );
 };
