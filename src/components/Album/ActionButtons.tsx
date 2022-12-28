@@ -21,10 +21,14 @@ function ActionButtons({ album, artist, mbid }: Props) {
   const [selected, setSelected] = useState("");
   // console.log(selected);
 
+  const user_id = user?.id;
+
   const getSelected = trpc.albumAction.getActions.useQuery(
-    { album, artist, mbid, user_id: user?.id },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { album, artist, user_id: user_id },
     {
-      enabled: isLoaded && isSignedIn && !!user,
+      enabled: isLoaded && isSignedIn && !!user_id,
     }
   );
 
