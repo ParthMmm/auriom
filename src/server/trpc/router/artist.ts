@@ -1,5 +1,5 @@
 import { artistInfoFetch, artistSearchFetch } from "@utils/urls/index";
-import type { Album, Artist, ArtistInfo, Image } from "@utils/types/index";
+import type { Album, Artist, Image } from "@utils/types/index";
 import { router, publicProcedure } from "../trpc";
 import axios from "axios";
 
@@ -42,24 +42,24 @@ export const artistRouter = router({
 
       const data = await res.data;
       return data;
-      const cleanedData = data.map((artist: ArtistInfo) => {
-        const hasImage = artist.image.map((image: Image) => {
-          if (image["#text"].length === 0) {
-            return false;
-          }
-          return true;
-        });
+      // const cleanedData = data.map((artist: ArtistInfo) => {
+      //   const hasImage = artist.image.map((image: Image) => {
+      //     if (image["#text"].length === 0) {
+      //       return false;
+      //     }
+      //     return true;
+      //   });
 
-        if (hasImage.includes(false)) {
-          return null;
-        }
-        return artist;
-      });
+      //   if (hasImage.includes(false)) {
+      //     return null;
+      //   }
+      //   return artist;
+      // });
 
-      const filteredData: Album[] = cleanedData.filter(
-        (album: Album) => album !== null
-      );
+      // const filteredData: Album[] = cleanedData.filter(
+      //   (album: Album) => album !== null
+      // );
 
-      return filteredData;
+      // return filteredData;
     }),
 });

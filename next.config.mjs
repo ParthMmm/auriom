@@ -22,6 +22,10 @@ export default defineNextConfig({
     defaultLocale: "en",
   },
   images: {
-    domains: ["lastfm.freetls.fastly.net", "images.clerk.dev"],
+    domains: [
+      "lastfm.freetls.fastly.net",
+      "images.clerk.dev",
+      "www.gravatar.com",
+    ],
   },
 });

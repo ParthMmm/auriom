@@ -34,6 +34,8 @@ export const createContext = async (opts: CreateNextContextOptions) => {
     const { userId } = getAuth(opts.req);
     // get full user object
     const user = userId ? await clerkClient.users.getUser(userId) : null;
+
+    console.log(user, "user");
     return user;
   }
 

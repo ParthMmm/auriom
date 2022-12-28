@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import Spinner from "../Spinner";
 import { trpc } from "../../utils/trpc";
 import dynamic from "next/dynamic";
+import ActionButtons from "./ActionButtons";
 
 const AlbumInfo = dynamic(() => import("./AlbumInfo"), {
   suspense: true,
@@ -43,6 +44,7 @@ function AlbumPage({}) {
   return (
     <>
       <div className="h-full ">
+        <ActionButtons />
         <div className=" mx-auto  flex w-3/4  flex-col ">
           <AlbumInfo album={data} />
           <div className="flex w-full flex-col justify-between md:flex-row ">

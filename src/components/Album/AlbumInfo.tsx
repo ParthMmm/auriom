@@ -21,24 +21,26 @@ function AlbumInfo({ album }: Props) {
   return (
     <>
       <div className="mt-24 mb-8  w-full justify-center border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
-        <div>
-          <div className="p-4">
-            <h1 className="text-5xl font-bold">{album.name}</h1>
-            <h3 className="text-3xl ">{album.artist}</h3>
+        <div className="flex flex-row justify-between">
+          <div>
+            <div className="p-4">
+              <h1 className="text-5xl font-bold">{album.name}</h1>
+              <h3 className="text-3xl ">{album.artist}</h3>
+            </div>
           </div>
-        </div>
-        <div>
-          {imageURL && (
-            <picture className="lazyPicture aspect-ratio">
-              <Image
-                src={imageURL}
-                alt={album.name}
-                className="asset"
-                fill
-                quality={100}
-              />
-            </picture>
-          )}
+          <div className="h-96 w-96">
+            {imageURL && (
+              <picture className="lazyPicture aspect-ratio">
+                <Image
+                  src={imageURL}
+                  alt={album.name}
+                  className="asset"
+                  fill
+                  quality={100}
+                />
+              </picture>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row ">

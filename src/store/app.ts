@@ -6,6 +6,6 @@ interface AppState {
 }
 
 export const useStore = create<AppState>((set) => ({
-  searchFilter: "",
+  searchFilter: "album",
   setSearchFilter: (value: string) => set({ searchFilter: value }),
 }));

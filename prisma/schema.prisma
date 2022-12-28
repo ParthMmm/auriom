@@ -13,11 +13,14 @@ datasource db {
 
 
 model User {
-  id            String    @id @default(cuid())
+  id String @unique
   username         String   @unique
   createdAt DateTime @default(now())
   reviews Review[]
-  clerk_id String @unique 
+  clerk_id String @unique
+  listening Listening[]
+  listened Listened[]
+  wantToListen WantToListen[]
 }
 
 model Review{
@@ -43,8 +46,35 @@ model Album{
   
 }
 
+model Listening{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  mbid String
+  artist String
+  album String
+  user User @relation(fields: [userId], references: [id])
+  // users User[]
+  userId String
+}
 
+model Listened{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  mbid String
+  artist String
+  album String
+  user User @relation(fields: [userId], references: [id])
+  userId String
+}
 
-
+model WantToListen{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  mbid String
+  artist String
+  album String
+  user User @relation(fields: [userId], references: [id])
+  userId String
+}
 
 
