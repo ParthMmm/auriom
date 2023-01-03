@@ -62,6 +62,13 @@ function Layout({ children }: Props) {
     <>
       <Head>
         <title>albus</title>
+        <meta name="description" content="albus " />
+        <meta property="og:title" content="albus" />
+        <meta property="og:description" content="albus" />
+        <meta
+          property="og:image"
+          content="https://albus-v2.vercel.app/api/og"
+        />
       </Head>
       <div
         className={`min-h-screen ${objectSans.variable} bg-white font-sans text-black dark:bg-black dark:text-white`}
