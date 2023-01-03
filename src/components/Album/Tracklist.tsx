@@ -1,8 +1,8 @@
-import { convertTime } from "@utils/convertTime";
-import type { Tracks } from "@utils/types";
+import { msToTime } from "@utils/convertTime";
+import type { AlbumTracksItem } from "@utils/types/albumTracks";
 
 type Props = {
-  albumTracks: Tracks;
+  albumTracks: AlbumTracksItem[];
 };
 
 function Tracklist({ albumTracks }: Props) {
@@ -12,11 +12,11 @@ function Tracklist({ albumTracks }: Props) {
 
       <div className=" border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
         <div className=" ">
-          {albumTracks?.track.map((track) => (
+          {albumTracks?.map((track) => (
             <div key={track.name} className="group p-2">
               <div className="   flex flex-row justify-between space-x-1">
                 <div className="">
-                  <span className="mr-1 font-bold">{track["@attr"].rank}.</span>
+                  <span className="mr-1 font-bold">{track.track_number}.</span>
 
                   <span className="group-hover:shadow-highlight-blurple">
                     {track.name}
@@ -24,7 +24,7 @@ function Tracklist({ albumTracks }: Props) {
                 </div>
 
                 <div>
-                  <span>{convertTime(track.duration)}</span>
+                  <span>{msToTime(track.duration_ms)}</span>
                 </div>
               </div>
             </div>

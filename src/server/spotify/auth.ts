@@ -19,14 +19,24 @@ const getToken = async () => {
     ["grant_type", "client_credentials"],
   ]).toString();
 
-  axios
-    .post("https://accounts.spotify.com/api/token", data, config)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const res = await axios.post(
+    "https://accounts.spotify.com/api/token",
+    data,
+    config
+  );
+
+  const token = await res.data;
+  return token;
+
+  // axios
+  //   .post("https://accounts.spotify.com/api/token", data, config)
+  //   .then((res) => {
+  //     // console.log(res.data);
+  //     return res.data;
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 };
 
 export default getToken;

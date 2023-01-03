@@ -1,24 +1,51 @@
-import TrackCard from "@components/Track/Card";
+import SpotifyCard from "@components/Track/SpotifyCard";
 import { trpc } from "@utils/trpc";
+import type { TrackItem } from "@utils/types/spotify";
 import { useRouter } from "next/router";
-import type { TrackSearch } from "@utils/types";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 function Tracks({}) {
   const router = useRouter();
   const query = router.query.input as string;
 
-  const trackSearch = trpc.track.getTrackSearch.useQuery(
-    { query },
-    {
-      enabled: !!query,
-    }
-  );
-  return (
-    <div className="grid-playlists-container">
-      {trackSearch.data?.map((track: TrackSearch) => (
-        <TrackCard key={`${track.name} + ${track.artist}`} track={track} />
-      ))}
-    </div>
-  );
+  const { data, fetchNextPage, isLoading, error } =
+    trpc.spotify.trackSearch.useInfiniteQuery(
+      { query: query, type: "track" },
+      {
+        enabled: !!query,
+        getNextPageParam: (lastPage) => lastPage?.offset + lastPage?.limit,
+      }
+    );
+  if (isLoading) {
+    return <div>loading</div>;
+  }
+
+  if (error) {
+    return <div>error</div>;
+  }
+
+  if (data?.pages) {
+    return (
+      <div>
+        <InfiniteScroll
+          next={() => fetchNextPage()}
+          hasMore={true}
+          loader={<div>yo</div>}
+          dataLength={data?.pages?.length * 20 || 0}
+        >
+          <div className="grid-playlists-container">
+            {data?.pages.map((page) =>
+              page?.items.map((track: TrackItem) => (
+                <SpotifyCard key={track.uri} track={track} />
+              ))
+            )}
+          </div>
+        </InfiniteScroll>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 export default Tracks;

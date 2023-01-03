@@ -11,7 +11,7 @@ function ProfilePage({}) {
 
   const username = router?.query?.username[0] as string;
 
-  const data = trpc.albumAction.getAllActions.useQuery(
+  const data = trpc.albumAction.getAllUserActions.useQuery(
     {
       username,
     },

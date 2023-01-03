@@ -26,6 +26,7 @@ export default defineNextConfig({
       "lastfm.freetls.fastly.net",
       "images.clerk.dev",
       "www.gravatar.com",
+      "i.scdn.co",
     ],
   },
 });

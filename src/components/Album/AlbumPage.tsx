@@ -21,46 +21,60 @@ function AlbumPage({}) {
 
   const artist = router.query.artist as string;
   const album = router.query.album as string;
-  const mbid = router.query.mbid as string;
+  const uri = router.query.uri as string;
 
-  const albumInfo = trpc.album.getAlbumInfo.useQuery(
-    { artist, album, mbid },
+  // const albumInfo = trpc.album.getAlbumInfo.useQuery(
+  //   { artist, album, mbid },
+  //   {
+  //     enabled: !!artist && !!album,
+  //   }
+  // );
+
+  const albumTracks = trpc.spotify.albumTracks.useQuery(
+    { uri },
     {
-      enabled: !!artist && !!album,
+      enabled: !!uri,
     }
   );
 
-  const { isLoading, data, error } = albumInfo;
+  const albumInfo = trpc.spotify.getAlbum.useQuery(
+    { uri },
+    {
+      enabled: !!uri,
+    }
+  );
 
-  if (isLoading) {
+  if (albumTracks.isLoading || albumInfo.isLoading) {
     return <Spinner loadingText={`fetching ${artist} - ${album}`} />;
   }
-  if (error || !data) {
+  if (albumInfo.error || !albumInfo.data) {
     return (
       <div className="flex min-h-screen items-center justify-center">error</div>
     );
   }
 
-  return (
-    <>
-      <div className="h-full ">
-        <ActionButtons album={album} artist={artist} mbid={mbid} />
-        <div className=" mx-auto  flex w-3/4  flex-col ">
-          <AlbumInfo album={data} />
-          <div className="flex w-full flex-col justify-between md:flex-row ">
-            {data?.tracks?.track && (
-              <div className=" md:w-1/4">
-                <Tracklist albumTracks={data?.tracks} />
+  if (albumInfo.data) {
+    return (
+      <>
+        <div className="h-full ">
+          <ActionButtons album={albumInfo?.data} />
+          <div className=" mx-auto  flex w-3/4  flex-col ">
+            <AlbumInfo album={albumInfo?.data} />
+            <div className="flex w-full flex-col justify-between md:flex-row ">
+              {albumTracks?.data?.items && (
+                <div className=" md:w-1/4">
+                  <Tracklist albumTracks={albumTracks?.data?.items} />
+                </div>
+              )}
+              <div className="md:w-2/4">
+                <Reviews />
               </div>
-            )}
-            <div className="md:w-2/4">
-              <Reviews />
             </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }
 
 export default AlbumPage;

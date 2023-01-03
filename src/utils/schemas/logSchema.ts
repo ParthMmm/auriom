@@ -1,16 +1,22 @@
 import * as z from "zod";
 
 export const logSchema = z.object({
-  mbid: z.string().optional(),
+  uri: z.string(),
   artist: z.string(),
-  album: z.string(),
+  title: z.string(),
   user_id: z.string(),
   action: z.string(),
+  images: z.array(
+    z.object({
+      url: z.string(),
+      width: z.number(),
+      height: z.number(),
+    })
+  ),
 });
 
 export const getLogSchema = z.object({
-  artist: z.string(),
-  album: z.string(),
+  uri: z.string(),
   user_id: z.string(),
 });
 

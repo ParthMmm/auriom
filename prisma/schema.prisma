@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-
 }
 
 datasource db {
@@ -11,69 +10,80 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id String @id @unique
-  username         String   @unique
-  createdAt DateTime @default(now())
-  reviews Review[]
-  listening Listening[]
-  listened Listened[]
+  id           String         @id @unique
+  username     String         @unique
+  createdAt    DateTime       @default(now())
+  reviews      Review[]
+  listening    Listening[]
+  listened     Listened[]
   wantToListen WantToListen[]
 }
 
-model Review{
-  id Int @id @default(autoincrement())
+model Review {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  title String
-  content String
-  published Boolean @default(false)
-  author User @relation(fields: [authorId], references: [id])
-  authorId String
-  album Album @relation(fields: [albumId], references: [id])
-  albumId Int
+  title     String
+  content   String
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  album     Album    @relation(fields: [albumId], references: [uri])
+  albumId   String
+  rating    Int
 }
 
-model Album{
-  id Int @id @default(autoincrement())
-  title String
-  artist String
-  genre String
-  year Int
-  reviews Review[]
-  mbid String
-  
+model Album {
+  uri          String         @id @unique
+  title        String
+  artist       String
+  genre        String?
+  year         Int?
+  reviews      Review[]
+  listening    Listening[]
+  listened     Listened[]
+  wantToListen WantToListen[]
+  images       Image[]
 }
 
-model Listening{
-  id Int @id @default(autoincrement())
+model Image {
+  id      Int    @id @default(autoincrement())
+  url     String
+  height  Int
+  width   Int
+  Album   Album  @relation(fields: [albumId], references: [uri])
+  albumId String
+}
+
+model Listening {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  mbid String?
-  artist String
-  album String
-  user User @relation(fields: [userId], references: [id])
-  // users User[]
-  userId String
+  artist    String
+  album     String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  Album     Album?   @relation(fields: [albumUri], references: [uri])
+  albumUri  String?
 }
 
-model Listened{
-  id Int @id @default(autoincrement())
+model Listened {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  mbid String?
-  artist String
-  album String
-  user User @relation(fields: [userId], references: [id])
-  userId String
+  artist    String
+  album     String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  Album     Album?   @relation(fields: [albumUri], references: [uri])
+  albumUri  String?
 }
 
-model WantToListen{
-  id Int @id @default(autoincrement())
+model WantToListen {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  mbid String?
-  artist String
-  album String
-  user User @relation(fields: [userId], references: [id])
-  userId String
+  artist    String
+  album     String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  Album     Album?   @relation(fields: [albumUri], references: [uri])
+  albumUri  String?
 }
-
-
