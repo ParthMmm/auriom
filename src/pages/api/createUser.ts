@@ -15,9 +15,6 @@ export default async function handle(
   if (external_accounts && external_accounts.length > 0) {
     const externalAccount = external_accounts[0];
     img = externalAccount.picture;
-    if (img === "") {
-      img = profile_image_url;
-    }
   } else {
     img = profile_image_url;
   }
