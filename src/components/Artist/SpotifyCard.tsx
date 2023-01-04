@@ -15,52 +15,48 @@ function SpotifyCard({ artist }: Props) {
   }
 
   return (
-    <Link
-      href={{
-        pathname: `/artist/[artist]`,
-        query: {
-          artist: artist.name,
+    // <Link
+    //   href={{
+    //     pathname: `/artist/[artist]`,
+    //     query: {
+    //       artist: artist.name,
 
-          uriLink: artist.uri,
-        },
-      }}
-      as={`/artist/${encodeURIComponent(artist.name)}`}
-    >
-      <div className="grid-playlist group cursor-pointer ">
-        <div className="grid-playlist-hero">
-          {imageURL && (
-            <picture className="lazyPicture aspect-ratio ">
-              <Image
-                src={imageURL}
-                alt={"album cover"}
-                className="asset"
-                // fill
-                height={640}
-                width={640}
-                // height={300}
-                // width={456}
-                quality={100}
-                // unoptimized={true}
-              />
-            </picture>
-          )}
-        </div>
-        <div className="grid-playlist-info-container mb-8  lg:mb-0">
+    //       uriLink: artist.uri,
+    //     },
+    //   }}
+    //   as={`/artist/${encodeURIComponent(artist.name)}`}
+    // >
+    <div className="grid-playlist group cursor-pointer ">
+      <div className="grid-playlist-hero">
+        {imageURL && (
+          <picture className="lazyPicture aspect-ratio ">
+            <Image
+              src={imageURL}
+              alt={"album cover"}
+              className="asset"
+              fill
+              // height={300}
+              // width={456}
+              quality={100}
+              // unoptimized={true}
+            />
+          </picture>
+        )}
+      </div>
+      <div className="grid-playlist-info-container mb-8  lg:mb-0">
+        <div className="">
           <div className="">
-            <div className="">
-              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
-                {artist.name}
-              </span>
-            </div>
-            <div className="">
-              <span className="text-sm md:text-lg">
-                {artist.followers.total}
-              </span>
-            </div>
+            <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
+              {artist.name}
+            </span>
+          </div>
+          <div className="">
+            <span className="text-sm md:text-lg">{artist.followers.total}</span>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
+    // </Link>
   );
 }
 

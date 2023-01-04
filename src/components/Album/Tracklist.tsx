@@ -7,7 +7,7 @@ type Props = {
 
 function Tracklist({ albumTracks }: Props) {
   return (
-    <div className="mb-12 md:mb-24">
+    <div className="mb-12 w-full md:mb-24">
       <h2 className="text-4xl font-bold">tracklist</h2>
 
       <div className=" border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
@@ -21,6 +21,11 @@ function Tracklist({ albumTracks }: Props) {
                   <span className="group-hover:shadow-highlight-blurple">
                     {track.name}
                   </span>
+                  {track.explicit && (
+                    <div className="inline-block pl-2 text-xs text-gray-500">
+                      E
+                    </div>
+                  )}
                 </div>
 
                 <div>

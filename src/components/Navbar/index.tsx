@@ -12,7 +12,7 @@ const AuthButtons = dynamic(() => import("./AuthButtons"), {
 function Navbar({}) {
   return (
     <nav>
-      <div className="fixed top-0 z-10  w-full border-b-[1px] border-gray-50 bg-black  ">
+      <div className="fixed top-0 z-20  w-full border-b-[1px] border-gray-50 bg-black  ">
         <div className="flex w-full    ">
           <div className="flex basis-2/12 items-center justify-center py-8 px-4  ">
             <h1 className=" text-4xl  font-black tracking-tight text-white md:text-6xl">

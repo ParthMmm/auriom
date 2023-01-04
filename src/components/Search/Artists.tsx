@@ -17,8 +17,6 @@ function Artists({}) {
       }
     );
 
-  console.log(data?.pages);
-
   if (isLoading) {
     return <div>loading</div>;
   }

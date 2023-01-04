@@ -30,7 +30,7 @@ function Tracks({}) {
         <InfiniteScroll
           next={() => fetchNextPage()}
           hasMore={true}
-          loader={<div>yo</div>}
+          loader={<div>loading</div>}
           dataLength={data?.pages?.length * 20 || 0}
         >
           <div className="grid-playlists-container">

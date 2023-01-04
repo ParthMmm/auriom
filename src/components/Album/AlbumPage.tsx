@@ -8,7 +8,7 @@ const AlbumInfo = dynamic(() => import("./AlbumInfo"), {
   suspense: true,
 });
 
-const Reviews = dynamic(() => import("./Reviews"), {
+const Reviews = dynamic(() => import("../Reviews"), {
   suspense: true,
 });
 
@@ -56,18 +56,18 @@ function AlbumPage({}) {
   if (albumInfo.data) {
     return (
       <>
-        <div className="h-full ">
+        <div className="h-full pb-24">
           <ActionButtons album={albumInfo?.data} />
           <div className=" mx-auto  flex w-3/4  flex-col ">
             <AlbumInfo album={albumInfo?.data} />
-            <div className="flex w-full flex-col justify-between md:flex-row ">
+            <div className=" flex w-full flex-col gap-8 md:flex-row  ">
               {albumTracks?.data?.items && (
-                <div className=" md:w-1/4">
+                <div className="flex md:basis-5/12">
                   <Tracklist albumTracks={albumTracks?.data?.items} />
                 </div>
               )}
-              <div className="md:w-2/4">
-                <Reviews />
+              <div className="flex md:basis-7/12">
+                <Reviews album={albumInfo?.data} />
               </div>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { albumActionsRouter } from "./albumActions";
 
 import { exampleRouter } from "./example";
 import { spotifyRouter } from "./spotify";
+import { reviewRouter } from "./review";
 
 export const appRouter = router({
   example: exampleRouter,
@@ -17,6 +18,7 @@ export const appRouter = router({
   track: trackRouter,
   albumAction: albumActionsRouter,
   spotify: spotifyRouter,
+  review: reviewRouter,
 });
 
 // export type definition of API

@@ -14,18 +14,23 @@ export default async function handle(
 
   if (external_accounts && external_accounts.length > 0) {
     const externalAccount = external_accounts[0];
-    img = externalAccount.picture;
-    if (img === "") {
-      img = profile_image_url;
+    const externalImg = externalAccount.picture;
+
+    if (
+      profile_image_url === "https://www.gravatar.com/avatar?d=mp" &&
+      externalImg
+    ) {
+      img = externalImg;
     }
   } else {
     img = profile_image_url;
   }
 
-  const user = await prisma.user.create({
-    data: {
+  const user = await prisma.user.update({
+    where: {
       id: id,
-      username: username,
+    },
+    data: {
       profileImage: img,
     },
   });

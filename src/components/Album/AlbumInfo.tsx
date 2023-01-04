@@ -1,12 +1,14 @@
 import Image from "next/image";
 import type { AlbumInfoRoot } from "@utils/types/albumInfo";
 import dayjs from "dayjs";
+import Link from "next/link";
+
 type Props = {
   album: AlbumInfoRoot;
 };
 
 function AlbumInfo({ album }: Props) {
-  const imageURL = album?.images.filter((image) => image.height === 640)[0]
+  const imageURL = album?.images.filter((image) => image.height === 300)[0]
     ?.url;
 
   if (!imageURL) {
@@ -17,82 +19,41 @@ function AlbumInfo({ album }: Props) {
   return (
     <>
       <div className="mt-24 mb-8  w-full justify-center border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
-        <div className="flex flex-row justify-between">
-          <div>
-            <div className="p-4">
-              <h1 className="text-5xl font-bold">{album.name}</h1>
-              <h3 className="text-3xl ">{artists}</h3>
-              <h5 className="text-xl">{album.label}</h5>
-              <span>{dayjs(album.release_date).format("MM-YYYY")}</span>
-              <span>{album.total_tracks} songs</span>
-            </div>
-          </div>
-          <div className="h-96 w-96">
+        <div className="flex flex-row justify-start">
+          <div className="">
             {imageURL && (
-              <picture className="lazyPicture aspect-ratio">
-                <Image
-                  src={imageURL}
-                  alt={album.name}
-                  className="asset"
-                  fill
-                  quality={100}
-                />
-              </picture>
+              <Image
+                src={imageURL}
+                alt={album.name}
+                height={300}
+                width={300}
+                quality={100}
+              />
             )}
           </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row ">
-          <div>
-            <div className="m-2 flex justify-between ">
-              <div className="space-y-2">
-                <div className="i flex flex-row items-center space-x-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 384 512"
-                    className="h-4 w-4 fill-current"
-                  >
-                    <path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" />
-                  </svg>
-                  {/* <NumericFormat
-                    value={album.playcount}
-                    displayType="text"
-                    thousandSeparator={true}
-                  /> */}
-                </div>
-
-                <div className="flex flex-row items-center space-x-1 ">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 640 512"
-                    className="h-4 w-4 fill-current"
-                  >
-                    <path d="M144 160c-44.2 0-80-35.8-80-80S99.8 0 144 0s80 35.8 80 80s-35.8 80-80 80zm368 0c-44.2 0-80-35.8-80-80s35.8-80 80-80s80 35.8 80 80s-35.8 80-80 80zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM416 224c0 53-43 96-96 96s-96-43-96-96s43-96 96-96s96 43 96 96zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z" />
-                  </svg>
-                  {/* <NumericFormat
-                    value={album.listeners}
-                    displayType="text"
-                    thousandSeparator={true}
-                  /> */}
-                </div>
-              </div>
+          <div className="flex flex-col justify-between p-4">
+            <div>
+              <h1 className="text-3xl font-bold md:text-5xl">{album.name}</h1>
+              <h3 className="text-xl md:text-3xl ">{artists}</h3>
+              <span>{dayjs(album.release_date).format("MM-YYYY")}</span>
             </div>
-            {/* {album?.tags?.tag && (
-              <div className="ml-2  flex flex-row flex-wrap ">
-                {album?.tags?.tag.map((tag) => (
-                  <div key={tag.name} className="group  m-1  ">
-                    <span className="group-hover:shadow-highlight-blurple italic">
-                      {" "}
-                      {tag.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )} */}
-          </div>
+            <div className="">
+              <Link href={album.external_urls.spotify}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 496 512"
+                  className="h-6 w-6 fill-white"
+                >
+                  <path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-4.2 0-6.8-1.3-10.7-3.6-62.4-37.6-135-39.2-206.7-24.5-3.9 1-9 2.6-11.9 2.6-9.7 0-15.8-7.7-15.8-15.8 0-10.3 6.1-15.2 13.6-16.8 81.9-18.1 165.6-16.5 237 26.2 6.1 3.9 9.7 7.4 9.7 16.5s-7.1 15.4-15.2 15.4zm26.9-65.6c-5.2 0-8.7-2.3-12.3-4.2-62.5-37-155.7-51.9-238.6-29.4-4.8 1.3-7.4 2.6-11.9 2.6-10.7 0-19.4-8.7-19.4-19.4s5.2-17.8 15.5-20.7c27.8-7.8 56.2-13.6 97.8-13.6 64.9 0 127.6 16.1 177 45.5 8.1 4.8 11.3 11 11.3 19.7-.1 10.8-8.5 19.5-19.4 19.5zm31-76.2c-5.2 0-8.4-1.3-12.9-3.9-71.2-42.5-198.5-52.7-280.9-29.7-3.6 1-8.1 2.6-12.9 2.6-13.2 0-23.3-10.3-23.3-23.6 0-13.6 8.4-21.3 17.4-23.9 35.2-10.3 74.6-15.2 117.5-15.2 73 0 149.5 15.2 205.4 47.8 7.8 4.5 12.9 10.7 12.9 22.6 0 13.6-11 23.3-23.2 23.3z" />
+                </svg>
+              </Link>
+              <span>{album.total_tracks} songs</span>
+            </div>
 
-          <div className="mx-2">
-            {/* <p>{album.cleanedHTML?.content}</p> */}
+            <div>
+              <span className="text-sm text-gray-500">Label</span>
+              <h5>{album.label}</h5>
+            </div>
           </div>
         </div>
       </div>

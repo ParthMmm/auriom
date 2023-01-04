@@ -3,65 +3,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @font-face {
-  font-family: "GTAmerica";
-  src: url("/fonts/GTAmerica-Regular.otf") format("otf");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "GTAmerica";
-  src: url("/fonts/GTAmerica-Bold.otf") format("otf");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "ObjectSans";
-  src: url("/fonts/PPObjectSans-Regular.otf") format("otf");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "ObjectSans";
-  src: url("/fonts/PPObjectSans-Heavy.otf") format("otf");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "ObjectSans";
-  src: url("/fonts/PPObjectSans-Slanted.otf") format("otf");
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "ObjectSans";
-  src: url("/fonts/PPObjectSans-HeavySlanted.otf") format("otf");
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
-} */
-
 @layer base {
-  html {
+  html,
+  body {
     /* font-family: [ "Object Sans", sans-serif]; */
     @apply font-sans subpixel-antialiased;
   }
-  /* body {
-    @apply antialiased;
-    font-family: [ "Object Sans", sans-serif];
-  } */
 }
 
 .cl-internal-b3fm6y {
   background-color: #1e9306;
+}
+
+.empty-icons {
+  display: flex !important;
+}
+.filled-icons {
+  display: -webkit-inline-box !important;
 }
 
 :root {

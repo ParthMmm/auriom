@@ -35,9 +35,9 @@ function SpotifyCard({ album }: Props) {
                 src={imageURL}
                 alt={"album cover"}
                 className="asset"
-                // fill
-                height={640}
-                width={640}
+                fill
+                // height={640}
+                // width={640}
                 // height={300}
                 // width={456}
                 quality={100}

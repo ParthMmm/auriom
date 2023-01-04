@@ -71,10 +71,10 @@ function Layout({ children }: Props) {
         />
       </Head>
       <div
-        className={`min-h-screen ${objectSans.variable} bg-white font-sans text-black dark:bg-black dark:text-white`}
+        className={`min-h-screen ${objectSans.variable} bg-black font-sans text-white`}
       >
         <Navbar />
-        <div className="pt-32">{children}</div>
+        <div className="bg-black pt-32">{children}</div>
       </div>
     </>
   );
