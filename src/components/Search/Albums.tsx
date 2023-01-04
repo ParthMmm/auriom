@@ -37,7 +37,13 @@ function Albums({}) {
           <div className="grid-playlists-container">
             {data?.pages.map((page) =>
               page?.items.map((album: AlbumItem) => (
-                <SpotifyCard key={album.uri} album={album} />
+                <SpotifyCard
+                  key={album.uri}
+                  title={album.name}
+                  artist={album.artists}
+                  uri={album.uri}
+                  images={album.images}
+                />
               ))
             )}
           </div>

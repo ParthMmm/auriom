@@ -11,6 +11,8 @@ function Reviews({ album }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const artists = album.artists.map((artist) => artist.name).join(", ");
 
+  const [newReview, setNewReview] = useState(false);
+
   return (
     <div className="mb-12 w-full md:mb-24 ">
       <div className="flex flex-row items-center justify-between align-middle">
@@ -25,8 +27,8 @@ function Reviews({ album }: Props) {
           </svg>
         </button>
       </div>
-      <div className=" border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
-        <ReviewsList uri={album.uri} />
+      <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
+        <ReviewsList uri={album.uri} newReview={newReview} />
       </div>
 
       <CreateReviewModal
@@ -35,6 +37,7 @@ function Reviews({ album }: Props) {
         title={album.name}
         uri={album.uri}
         artist={artists}
+        setNewReview={setNewReview}
       />
     </div>
   );

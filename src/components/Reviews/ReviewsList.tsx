@@ -1,12 +1,13 @@
 import { trpc } from "@utils/trpc";
-import React from "react";
+import React, { useEffect } from "react";
 import Review from "./Review";
 
 type Props = {
   uri: string;
+  newReview: boolean;
 };
 
-function ReviewsList({ uri }: Props) {
+function ReviewsList({ uri, newReview }: Props) {
   const review = trpc.review.getReviewsForAlbum.useQuery(
     { uri },
     {
@@ -14,11 +15,23 @@ function ReviewsList({ uri }: Props) {
     }
   );
 
+  useEffect(() => {
+    review.refetch();
+  }, [newReview]);
+
   if (review.isLoading) {
-    return <div>loading...</div>;
+    return (
+      <div className="flex flex-row justify-between space-x-2 space-y-2 ">
+        <div className="m-4 space-x-1">loading</div>
+      </div>
+    );
   }
   if (review.error || !review.data) {
-    return <div>error</div>;
+    return (
+      <div className="flex flex-row justify-between space-x-2 space-y-2 ">
+        <div className="m-4 space-x-1">error</div>
+      </div>
+    );
   }
 
   if (review.data.length === 0) {
@@ -30,7 +43,7 @@ function ReviewsList({ uri }: Props) {
   }
 
   return (
-    <div className="flex flex-col justify-between space-x-2 space-y-2 divide-y-2">
+    <div className="flex flex-col justify-between  space-y-2 divide-y-2">
       {review.data.map((review) => (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

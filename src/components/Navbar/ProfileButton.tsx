@@ -46,7 +46,7 @@ function ProfileButton({}) {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-violet-500 text-white" : "text-gray-500"
+                        active ? " text-harlequin-500" : "text-white"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       onClick={() => router.push(`/${user?.username}`)}
                     >
@@ -61,7 +61,7 @@ function ProfileButton({}) {
                     <button
                       onClick={() => router.push("/auth/settings")}
                       className={`${
-                        active ? "bg-violet-500 text-white" : "text-gray-500"
+                        active ? " text-harlequin-500" : "text-white"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       Settings
@@ -74,7 +74,7 @@ function ProfileButton({}) {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? "bg-violet-500 text-white" : "text-gray-500"
+                        active ? " text-harlequin-500" : "text-white"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       onClick={() => signOut()}
                     >

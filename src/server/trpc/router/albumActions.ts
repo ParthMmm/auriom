@@ -29,17 +29,38 @@ export const albumActionsRouter = router({
         where: {
           userId: user_id,
         },
+        include: {
+          Album: {
+            include: {
+              images: true,
+            },
+          },
+        },
       });
 
       const listening = await ctx.prisma.listening.findMany({
         where: {
           userId: user_id,
         },
+        include: {
+          Album: {
+            include: {
+              images: true,
+            },
+          },
+        },
       });
 
       const wantToListen = await ctx.prisma.wantToListen.findMany({
         where: {
           userId: user_id,
+        },
+        include: {
+          Album: {
+            include: {
+              images: true,
+            },
+          },
         },
       });
 

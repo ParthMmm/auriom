@@ -16,6 +16,7 @@ type Props = {
   title: string;
   uri: string;
   artist: string;
+  setNewReview: (newReview: boolean) => void;
 };
 
 export default function CreateReviewModal({
@@ -24,6 +25,7 @@ export default function CreateReviewModal({
   title,
   uri,
   artist,
+  setNewReview,
 }: Props) {
   const { user } = useUser();
   const [rating, setRating] = useState(0);
@@ -41,8 +43,8 @@ export default function CreateReviewModal({
     setRating(rate);
   };
 
-  const onPointerEnter = () => console.log("Enter");
   const onPointerLeave = () => {
+    console.log(rating);
     if (rating === 0) {
       setRating(0);
     }
@@ -51,10 +53,8 @@ export default function CreateReviewModal({
 
   const createReviewMutation = trpc.review.createReview.useMutation();
   const submitHandler = async (data: UserInputReview) => {
-    console.log(data);
-    console.log(userInputReviewSchema.parse(data));
     if (!user) return;
-    await createReviewMutation.mutateAsync({
+    const res = await createReviewMutation.mutateAsync({
       ...data,
       rating,
       title,
@@ -63,10 +63,100 @@ export default function CreateReviewModal({
       userId: user?.id,
     });
 
-    if (createReviewMutation.isSuccess) {
-      setIsOpen(false);
-      reset();
+    if (res) {
+      setNewReview(true);
+      resetForm();
+      onClose();
+      setRating(0);
     }
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+    reset();
+    // setRating(0);
+  };
+
+  const resetForm = () => {
+    reset();
+    // setRating(0);
+  };
+
+  const modalState = () => {
+    if (createReviewMutation.isSuccess) {
+      // resetForm();
+
+      return (
+        <div className="flex flex-col items-center justify-center text-white">
+          <div className="text-2xl font-bold">Review created!</div>
+          {/* <div className="text-xl font-bold">Thanks for your feedback!</div>
+          <div className="text-xl font-bold">
+            You can edit your review at any time.
+          </div> */}
+        </div>
+      );
+    }
+    if (createReviewMutation.isError) {
+      return (
+        <div className="flex flex-col items-center justify-center text-white">
+          <div className="text-2xl font-bold">Error creating review</div>
+          <div className="text-xl font-bold">Please try again later.</div>
+        </div>
+      );
+    }
+    if (createReviewMutation.isLoading) {
+      return (
+        <div className="flex flex-col items-center justify-center text-white">
+          <div className="text-2xl font-bold">Creating review...</div>
+        </div>
+      );
+    }
+    return (
+      <>
+        <Dialog.Title
+          as="h3"
+          className="mb-12 -mt-12 text-center text-4xl font-medium leading-6 text-white"
+        >
+          Reviewing {title}
+        </Dialog.Title>
+        <form onSubmit={handleSubmit(submitHandler)}>
+          <div className="mt-2 p-4">
+            <div className="mb-4 flex flex-row items-center justify-between align-middle transition-all">
+              <Rating
+                onClick={handleRating}
+                onPointerLeave={onPointerLeave}
+                onPointerMove={onPointerMove}
+                size={40}
+                transition
+                allowFraction
+                fillColor="#3AF613"
+                emptyColor="white"
+              />
+              {rating === 0 ? (
+                <div className="text-gray-700">No rating</div>
+              ) : (
+                <div className="text-harlequin-500">{rating}</div>
+              )}
+            </div>
+            <textarea
+              {...register("body")}
+              placeholder={`What did you think about ${title}?`}
+              className="h-72 w-full resize-none border-[1px] border-gray-800 bg-black p-2 text-white transition-all  focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700   "
+            />
+          </div>
+
+          <div className="mt-12 -mb-8 text-right">
+            <button
+              disabled={rating === 0}
+              type="submit"
+              className={` rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-black disabled:cursor-not-allowed`}
+            >
+              Post Review
+            </button>
+          </div>
+        </form>
+      </>
+    );
   };
 
   return (
@@ -75,7 +165,7 @@ export default function CreateReviewModal({
         <Dialog
           as="div"
           className={`relative z-20 font-sans ${objectSans.variable}`}
-          onClose={() => setIsOpen(false)}
+          onClose={() => onClose()}
         >
           <Transition.Child
             as={Fragment}
@@ -91,6 +181,15 @@ export default function CreateReviewModal({
 
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <button onClick={() => onClose()}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 384 512"
+                  className="absolute top-12 right-1/4 h-6 w-6 cursor-pointer fill-white"
+                >
+                  <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z" />
+                </svg>
+              </button>
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -101,49 +200,7 @@ export default function CreateReviewModal({
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl  border-2 border-white bg-black p-8  py-24   align-middle shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="mb-12 -mt-12 text-center text-4xl font-medium leading-6 text-white"
-                  >
-                    Reviewing {title}
-                  </Dialog.Title>
-                  <form onSubmit={handleSubmit(submitHandler)}>
-                    <div className="mt-2 p-4">
-                      <div className="mb-4 flex flex-row items-center justify-between align-middle transition-all">
-                        <Rating
-                          onClick={handleRating}
-                          onPointerEnter={onPointerEnter}
-                          onPointerLeave={onPointerLeave}
-                          onPointerMove={onPointerMove}
-                          size={40}
-                          transition
-                          allowFraction
-                          fillColor="#3AF613"
-                          emptyColor="white"
-                        />
-                        {rating === 0 ? (
-                          <div className="text-gray-700">No rating</div>
-                        ) : (
-                          <div className="text-harlequin-500">{rating}</div>
-                        )}
-                      </div>
-                      <textarea
-                        {...register("body")}
-                        placeholder={`What did you think about ${title}?`}
-                        className="h-72 w-full resize-none border-[1px] border-gray-800 bg-black p-2 text-white transition-all  focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700   "
-                      />
-                    </div>
-
-                    <div className="mt-12 -mb-8 text-right">
-                      <button
-                        disabled={rating === 0}
-                        type="submit"
-                        className={` rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-black  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed`}
-                      >
-                        Post Review
-                      </button>
-                    </div>
-                  </form>
+                  {modalState()}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

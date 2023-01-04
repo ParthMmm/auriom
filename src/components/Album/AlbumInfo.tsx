@@ -18,15 +18,16 @@ function AlbumInfo({ album }: Props) {
   const artists = album.artists.map((artist) => artist.name).join(", ");
   return (
     <>
-      <div className="mt-24 mb-8  w-full justify-center border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
+      <div className="mt-24 mb-8  w-full justify-center rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
         <div className="flex flex-row justify-start">
-          <div className="">
+          <div className="rounded-tl-2xl rounded-bl-2xl">
             {imageURL && (
               <Image
                 src={imageURL}
                 alt={album.name}
                 height={300}
                 width={300}
+                className="rounded-tl-2xl rounded-bl-2xl"
                 quality={100}
               />
             )}

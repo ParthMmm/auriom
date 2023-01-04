@@ -7,8 +7,6 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(req);
-
   const { id, username, external_accounts, profile_image_url } = req.body.data;
   let img = "";
 

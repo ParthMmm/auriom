@@ -1,7 +1,11 @@
 import { UserProfile } from "@clerk/nextjs";
+import Link from "next/link";
 
 const UserProfilePage = () => (
-  <div className="dark flex min-h-screen items-center justify-center bg-white py-24  dark:bg-black">
+  <div className="dark flex min-h-screen flex-col items-center justify-center bg-white py-24  dark:bg-black">
+    <h1 className=" mb-24 text-4xl font-black tracking-tight text-white md:text-6xl">
+      <Link href="/">albus</Link>
+    </h1>
     <UserProfile
       path="/auth/settings"
       routing="path"

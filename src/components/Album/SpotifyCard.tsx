@@ -1,28 +1,41 @@
-import type { AlbumItem } from "@utils/types/spotify";
+import type { Artist } from "@utils/types/spotify";
 import Image from "next/image";
 import Link from "next/link";
+
+type AlbumItem = {
+  title: string;
+  artist: string | Artist[];
+  uri: string;
+  images: {
+    height: number;
+    width: number;
+    url: string;
+  }[];
+};
+
 type Props = {
   album: AlbumItem;
 };
 
-function SpotifyCard({ album }: Props) {
-  const imageURL = album?.images.filter((image) => image.height === 640)[0]
-    ?.url;
+function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
+  const imageURL = images.filter((image) => image.height === 300)[0]?.url;
 
   if (!imageURL) {
     return null;
   }
 
-  const artists = album.artists.map((artist) => artist.name).join(", ");
+  if (typeof artist === "object") {
+    artist = artist.map((a) => a.name).join(", ");
+  }
 
   return (
     <Link
       href={{
         pathname: `/album/[album]/[artist]`,
         query: {
-          artist: artists,
-          album: album.name,
-          uri: album.uri,
+          artist: artist,
+          album: title,
+          uri: uri,
         },
       }}
       // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
@@ -36,12 +49,7 @@ function SpotifyCard({ album }: Props) {
                 alt={"album cover"}
                 className="asset"
                 fill
-                // height={640}
-                // width={640}
-                // height={300}
-                // width={456}
                 quality={100}
-                // unoptimized={true}
               />
             </picture>
           )}
@@ -50,11 +58,11 @@ function SpotifyCard({ album }: Props) {
           <div className="">
             <div className="">
               <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
-                {album.name}
+                {title}
               </span>
             </div>
             <div className="">
-              <span className="text-sm md:text-lg">{artists}</span>
+              <span className="text-sm md:text-lg">{artist}</span>
             </div>
           </div>
         </div>

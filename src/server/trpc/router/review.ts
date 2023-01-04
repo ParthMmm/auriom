@@ -55,4 +55,27 @@ export const reviewRouter = router({
 
       return reviews;
     }),
+
+  getReviewsForUser: publicProcedure
+    .input(z.object({ username: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const { username } = input;
+
+      const reviews = await ctx.prisma.review.findMany({
+        where: {
+          user: {
+            username: username,
+          },
+        },
+        include: {
+          Album: {
+            include: {
+              images: true,
+            },
+          },
+        },
+      });
+
+      return reviews;
+    }),
 });

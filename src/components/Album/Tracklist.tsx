@@ -10,7 +10,7 @@ function Tracklist({ albumTracks }: Props) {
     <div className="mb-12 w-full md:mb-24">
       <h2 className="text-4xl font-bold">tracklist</h2>
 
-      <div className=" border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
+      <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
         <div className=" ">
           {albumTracks?.map((track) => (
             <div key={track.name} className="group p-2">

@@ -24,7 +24,6 @@ export const spotifyRouter = trpc.router({
       const { query, type, cursor } = input;
 
       // console.log(ctx);
-      console.log(ctx.spotifyToken);
 
       if (ctx.spotifyToken) {
         const token = ctx.spotifyToken.access_token;
@@ -36,8 +35,6 @@ export const spotifyRouter = trpc.router({
         };
 
         const offset = cursor ? cursor : 0;
-
-        console.log({ offset, cursor });
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
@@ -55,9 +52,6 @@ export const spotifyRouter = trpc.router({
     .query(async ({ input, ctx }) => {
       const { query, type, cursor } = input;
 
-      // console.log(ctx);
-      console.log(ctx.spotifyToken);
-
       if (ctx.spotifyToken) {
         const token = ctx.spotifyToken.access_token;
 
@@ -68,8 +62,6 @@ export const spotifyRouter = trpc.router({
         };
 
         const offset = cursor ? cursor : 0;
-
-        console.log({ offset, cursor });
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
@@ -87,8 +79,6 @@ export const spotifyRouter = trpc.router({
     .query(async ({ input, ctx }) => {
       const { query, type, cursor } = input;
 
-      console.log(ctx.spotifyToken);
-
       if (ctx.spotifyToken) {
         const token = ctx.spotifyToken.access_token;
 
@@ -100,16 +90,12 @@ export const spotifyRouter = trpc.router({
 
         const offset = cursor ? cursor : 0;
 
-        console.log({ offset, cursor });
-
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
           config
         );
 
         const data: Pick<Root, "tracks"> = res.data;
-
-        console.log(data.tracks);
 
         return data.tracks;
       }
