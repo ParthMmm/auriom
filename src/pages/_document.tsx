@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <meta name="description" content="albus" />
+        <meta name="description" content="auriom" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>

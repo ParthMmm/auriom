@@ -21,7 +21,7 @@ export default async function handler() {
         }}
       >
         <h1 tw=" text-4xl font-sans font-black tracking-tight text-white md:text-6xl">
-          albus
+          auriom
         </h1>
       </div>
     ),
