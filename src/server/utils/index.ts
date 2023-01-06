@@ -1,8 +1,12 @@
 import { getAlbum } from '@utils/queries/getAlbum';
+import { getAlbumTracklist } from '@utils/queries/getAlbumTracklist';
 import { stripURI } from '@utils/stripURI';
 import type { AlbumInfoRoot, Artist, Image } from '@utils/types/albumInfo';
 
-import type { AlbumTracksItem } from './../../utils/types/albumTracks';
+import type {
+  AlbumTracksItem,
+  TracksRoot,
+} from './../../utils/types/albumTracks';
 import type { Context } from './../trpc/context';
 
 // function to take spotify uri, call spotify api, get data and add album, artist, and tracks to db
@@ -21,6 +25,7 @@ export const addAlbumToDb = async (ctx: Context, uri: string) => {
   }
 
   const album = (await getAlbum(ctx, uri)) as AlbumInfoRoot;
+  const tracklist = (await getAlbumTracklist(ctx, uri)) as TracksRoot;
 
   if (!album) {
     return;
@@ -34,7 +39,7 @@ export const addAlbumToDb = async (ctx: Context, uri: string) => {
 
   const albumImages = albumData.images;
 
-  const albumTracks = albumData.tracks.items;
+  const albumTracks = tracklist.items;
 
   const albumUri = albumData.uri;
 
@@ -45,7 +50,7 @@ export const addAlbumToDb = async (ctx: Context, uri: string) => {
     data: {
       uri: albumUri,
       title: albumTitle,
-      id: albumId,
+      spotifyId: albumId,
     },
   });
 
@@ -95,7 +100,7 @@ export const artistHelper = async (
     if (!artistExists) {
       await ctx.prisma.artist.create({
         data: {
-          id: artistId,
+          spotifyId: artistId,
           uri: artist.uri,
           name: artist.name,
           albums: {
@@ -120,14 +125,16 @@ export const trackHelper = async (
 
     const trackExists = await ctx.prisma.track.findUnique({
       where: {
-        uri: track.uri,
+        spotifyId: trackId,
       },
     });
 
     if (!trackExists) {
-      await ctx.prisma.track.create({
+      console.log({ trackId }, track.uri);
+
+      const a = await ctx.prisma.track.create({
         data: {
-          id: trackId,
+          spotifyId: trackId,
           uri: track.uri,
           title: track.name,
           trackNum: track.track_number,
@@ -144,7 +151,7 @@ export const trackHelper = async (
                 uri: artist.uri,
               },
               create: {
-                id: artist.id,
+                spotifyId: artist.id,
                 uri: artist.uri,
                 name: artist.name,
               },
@@ -152,6 +159,7 @@ export const trackHelper = async (
           },
         },
       });
+      console.log({ a });
     }
   });
 

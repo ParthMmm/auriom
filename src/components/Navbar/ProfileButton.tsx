@@ -5,10 +5,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 
+import { trpc } from '@utils/trpc';
+
 function ProfileButton({}) {
   const { user } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
+
+  const deleteMutation = trpc.auth.deleteAll.useMutation();
 
   return (
     <div>
@@ -83,6 +87,20 @@ function ProfileButton({}) {
                   )}
                 </Menu.Item>
               </div>
+              {/* <div className="px-1 py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={`${
+                        active ? ' text-harlequin-500' : 'text-white'
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      onClick={() => deleteMutation.mutate()}
+                    >
+                      delete DB
+                    </button>
+                  )}
+                </Menu.Item>
+              </div> */}
             </Menu.Items>
           </Transition>
         </Menu>

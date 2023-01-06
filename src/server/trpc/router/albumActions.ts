@@ -131,7 +131,7 @@ export const albumActionsRouter = router({
                 },
                 album: {
                   connect: {
-                    id: albumId,
+                    spotifyId: albumId,
                   },
                 },
               },
@@ -153,7 +153,7 @@ export const albumActionsRouter = router({
                 },
                 album: {
                   connect: {
-                    id: albumId,
+                    spotifyId: albumId,
                   },
                 },
               },
@@ -175,7 +175,7 @@ export const albumActionsRouter = router({
                 },
                 album: {
                   connect: {
-                    id: albumId,
+                    spotifyId: albumId,
                   },
                 },
               },

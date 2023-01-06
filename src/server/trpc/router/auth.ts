@@ -19,4 +19,28 @@ export const authRouter = router({
 
     return 'not signed in';
   }),
+
+  deleteAll: protectedProcedure.mutation(async ({ ctx }) => {
+    //delete everything in db except users
+
+    const deleteListend = ctx.prisma.listened.deleteMany();
+    const deleteWantToListen = ctx.prisma.wantToListen.deleteMany();
+    const deleteListening = ctx.prisma.listening.deleteMany();
+    const deleteArtist = ctx.prisma.artist.deleteMany();
+    const deleteImage = ctx.prisma.image.deleteMany();
+    const deleteReview = ctx.prisma.review.deleteMany();
+    const deleteTrack = ctx.prisma.track.deleteMany();
+    const deleteAlbum = ctx.prisma.album.deleteMany();
+
+    await ctx.prisma.$transaction([
+      deleteListend,
+      deleteWantToListen,
+      deleteListening,
+      deleteArtist,
+      deleteImage,
+      deleteReview,
+      deleteTrack,
+      deleteAlbum,
+    ]);
+  }),
 });

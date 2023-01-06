@@ -10,6 +10,7 @@ import type { TracksRoot } from '@utils/types/albumTracks';
 import type { Root } from '@utils/types/spotify';
 
 import * as trpc from '../trpc';
+import { getAlbumTracklist } from './../../../utils/queries/getAlbumTracklist';
 import { getAlbumTracksSchema } from './../../../utils/schemas/searchSchema';
 
 // const error: TRPCError = {
@@ -141,38 +142,15 @@ export const spotifyRouter = trpc.router({
       // return { offset: 0, items: [], total: 0, limit: 0 };
     }),
 
-  albumTracks: trpc.publicProcedure
+  getAlbumTracklist: trpc.publicProcedure
     .input(getAlbumTracksSchema)
     .query(async ({ input, ctx }) => {
       const { uri } = input;
 
-      const id = stripURI(uri);
-
-      // if (!id) {
-      //   return { offset: 0, items: [], total: 0, limit: 0 };
-      // }
-
       // const id = id3[1];
+      const tracklist = await getAlbumTracklist(ctx, uri);
 
-      if (ctx.spotifyToken && id) {
-        const token = ctx.spotifyToken.access_token;
-
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        const res = await axios.get(
-          `https://api.spotify.com/v1/albums/${id}/tracks?limit=50`,
-          config,
-        );
-
-        const data: TracksRoot = res.data;
-
-        return data;
-      }
-      return { offset: 0, items: [], total: 0, limit: 0 };
+      return tracklist;
     }),
   getMultipleAlbumImages: trpc.publicProcedure
     .input(z.object({ uri: z.string() }))

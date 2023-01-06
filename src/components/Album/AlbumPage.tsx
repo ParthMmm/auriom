@@ -24,7 +24,7 @@ function AlbumPage({}) {
   const album = router.query.album as string;
   const uri = router.query.uri as string;
 
-  const albumTracks = trpc.spotify.albumTracks.useQuery(
+  const albumTracks = trpc.spotify.getAlbumTracklist.useQuery(
     { uri },
     {
       enabled: !!uri,
