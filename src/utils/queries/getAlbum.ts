@@ -1,7 +1,10 @@
-import type { Context } from "./../../server/trpc/context";
-import type { AlbumInfoRoot } from "@utils/types/albumInfo";
-import axios from "axios";
-import { stripURI } from "./../stripURI";
+import axios from 'axios';
+
+import type { AlbumInfoRoot } from '@utils/types/albumInfo';
+
+import type { Context } from './../../server/trpc/context';
+import { stripURI } from './../stripURI';
+
 export const getAlbum = async (ctx: Context, uri: string) => {
   const album = await ctx.prisma.album.findUnique({
     where: {
@@ -33,7 +36,7 @@ export const getAlbum = async (ctx: Context, uri: string) => {
 
     const res = await axios.get(
       `https://api.spotify.com/v1/albums/${id}`,
-      config
+      config,
     );
 
     const data = res.data as AlbumInfoRoot;

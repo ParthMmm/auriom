@@ -1,14 +1,16 @@
-import { getAlbumTracksSchema } from "./../../../utils/schemas/searchSchema";
-import { getSearchSchema } from "@utils/schemas/searchSchema";
-import axios from "axios";
-import * as trpc from "../trpc";
+import axios from 'axios';
+import { z } from 'zod';
+
+import { getSearchSchema } from '@utils/schemas/searchSchema';
 // import { getHTTPStatusCodeFromError } from "@trpc/server/http";
 // import type { TRPCError } from "@trpc/server";
-import type { Root } from "@utils/types/spotify";
-import type { TracksRoot } from "@utils/types/albumTracks";
-import type { AlbumInfoRoot } from "@utils/types/albumInfo";
-import { stripURI } from "@utils/stripURI";
-import { z } from "zod";
+import { stripURI } from '@utils/stripURI';
+import type { AlbumInfoRoot } from '@utils/types/albumInfo';
+import type { TracksRoot } from '@utils/types/albumTracks';
+import type { Root } from '@utils/types/spotify';
+
+import * as trpc from '../trpc';
+import { getAlbumTracksSchema } from './../../../utils/schemas/searchSchema';
 
 // const error: TRPCError = {
 //   name: "TRPCError",
@@ -38,10 +40,10 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config
+          config,
         );
 
-        const data: Pick<Root, "albums"> = res.data;
+        const data: Pick<Root, 'albums'> = res.data;
 
         return data.albums;
       }
@@ -65,10 +67,10 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config
+          config,
         );
 
-        const data: Pick<Root, "artists"> = res.data;
+        const data: Pick<Root, 'artists'> = res.data;
 
         return data.artists;
       }
@@ -92,10 +94,10 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config
+          config,
         );
 
-        const data: Pick<Root, "tracks"> = res.data;
+        const data: Pick<Root, 'tracks'> = res.data;
 
         return data.tracks;
       }
@@ -107,7 +109,7 @@ export const spotifyRouter = trpc.router({
     .query(async ({ input, ctx }) => {
       const { uri } = input;
 
-      const re = new RegExp(":([^:]*)$");
+      const re = new RegExp(':([^:]*)$');
 
       const id3 = uri.match(re);
       // const id3 = id2[0].match(re);
@@ -129,7 +131,7 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/albums/${id}`,
-          config
+          config,
         );
 
         const data: AlbumInfoRoot = res.data;
@@ -163,7 +165,7 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/albums/${id}/tracks?limit=50`,
-          config
+          config,
         );
 
         const data: TracksRoot = res.data;
@@ -186,7 +188,7 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/albums/${input.uri}/tracks?limit=50`,
-          config
+          config,
         );
 
         const data: TracksRoot = res.data;

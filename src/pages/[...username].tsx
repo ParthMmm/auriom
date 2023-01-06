@@ -1,5 +1,6 @@
-import ProfilePage from "@components/Profile/ProfilePage";
-import React from "react";
+import React from 'react';
+
+import ProfilePage from '@components/Profile/ProfilePage';
 
 function index({}) {
   return (

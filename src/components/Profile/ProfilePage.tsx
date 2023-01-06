@@ -1,10 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/router';
 
-import { useUser } from "@clerk/nextjs";
-import SpotifyCard from "@components/Album/SpotifyCard";
-import { trpc } from "@utils/trpc";
-import { useRouter } from "next/router";
+import SpotifyCard from '@components/Album/SpotifyCard';
+
+import { trpc } from '@utils/trpc';
 
 function ProfilePage({}) {
   const router = useRouter();
@@ -21,7 +22,7 @@ function ProfilePage({}) {
     },
     {
       enabled: !!username,
-    }
+    },
   );
 
   const reviews = trpc.review.getReviewsForUser.useQuery(
@@ -30,7 +31,7 @@ function ProfilePage({}) {
     },
     {
       enabled: !!username,
-    }
+    },
   );
 
   const listening = data.data?.listening;

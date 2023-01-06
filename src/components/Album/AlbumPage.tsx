@@ -1,18 +1,19 @@
-import { useRouter } from "next/router";
-import Spinner from "../Spinner";
-import { trpc } from "../../utils/trpc";
-import dynamic from "next/dynamic";
-import ActionButtons from "./ActionButtons";
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
-const AlbumInfo = dynamic(() => import("./AlbumInfo"), {
+import { trpc } from '../../utils/trpc';
+import Spinner from '../Spinner';
+import ActionButtons from './ActionButtons';
+
+const AlbumInfo = dynamic(() => import('./AlbumInfo'), {
   suspense: true,
 });
 
-const Reviews = dynamic(() => import("../Reviews"), {
+const Reviews = dynamic(() => import('../Reviews'), {
   suspense: true,
 });
 
-const Tracklist = dynamic(() => import("./Tracklist"), {
+const Tracklist = dynamic(() => import('./Tracklist'), {
   suspense: true,
 });
 
@@ -27,14 +28,14 @@ function AlbumPage({}) {
     { uri },
     {
       enabled: !!uri,
-    }
+    },
   );
 
   const albumInfo = trpc.spotify.getAlbum.useQuery(
     { uri },
     {
       enabled: !!uri,
-    }
+    },
   );
 
   if (albumTracks.isLoading || albumInfo.isLoading) {

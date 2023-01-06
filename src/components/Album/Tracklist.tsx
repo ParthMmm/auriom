@@ -1,7 +1,9 @@
-import { msToTime } from "@utils/convertTime";
-import type { AlbumTracksItem } from "@utils/types/albumTracks";
-import { useStore } from "@store/app";
-import { useEffect } from "react";
+import { useEffect } from 'react';
+
+import { msToTime } from '@utils/convertTime';
+import type { AlbumTracksItem } from '@utils/types/albumTracks';
+
+import { useStore } from '@store/app';
 
 type Props = {
   albumTracks: AlbumTracksItem[];

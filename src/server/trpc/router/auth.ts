@@ -1,9 +1,7 @@
-import { router, publicProcedure, protectedProcedure } from "../trpc";
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const authRouter = router({
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.user.findMany();
-  }),
+  getAll: publicProcedure.query(({ ctx }) => ctx.prisma.user.findMany()),
 
   testAuth: publicProcedure.query(({ ctx }) => {
     if (ctx.user) {
@@ -11,7 +9,7 @@ export const authRouter = router({
       return ctx.user;
     }
 
-    return "not signed in";
+    return 'not signed in';
   }),
 
   testProtected: protectedProcedure.query(({ ctx }) => {
@@ -19,6 +17,6 @@ export const authRouter = router({
       return { greeting: `hello ${ctx.user?.username}` };
     }
 
-    return "not signed in";
+    return 'not signed in';
   }),
 });

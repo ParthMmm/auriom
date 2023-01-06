@@ -1,13 +1,15 @@
-import type { Album, Image } from "@utils/types/index";
-import { router, publicProcedure } from "../trpc";
-import axios from "axios";
-import { albumInfoFetch, albumSearchFetch } from "@utils/urls";
-import type { AlbumInfo } from "@utils/types";
-import { cleanHTML } from "@utils/cleanHTML";
+import axios from 'axios';
+
+import { cleanHTML } from '@utils/cleanHTML';
 import {
   getAlbumInfoSchema,
   getAlbumSearchSchema,
-} from "@utils/schemas/albumSchema";
+} from '@utils/schemas/albumSchema';
+import type { AlbumInfo } from '@utils/types';
+import type { Album, Image } from '@utils/types/index';
+import { albumInfoFetch, albumSearchFetch } from '@utils/urls';
+
+import { publicProcedure, router } from '../trpc';
 
 export const albumRouter = router({
   getAlbumInfo: publicProcedure
@@ -30,7 +32,7 @@ export const albumRouter = router({
 
       if (input?.album && input?.artist) {
         const res = await axios.get(
-          albumInfoFetch + `&album=${input.album} + &artist=${input.artist}`
+          albumInfoFetch + `&album=${input.album} + &artist=${input.artist}`,
         );
         const data = await res.data.album;
 
@@ -58,7 +60,7 @@ export const albumRouter = router({
 
       const cleanedData = data.map((album: Album) => {
         const hasImage = album.image.map((image: Image) => {
-          if (image["#text"].length === 0) {
+          if (image['#text'].length === 0) {
             return false;
           }
           return true;
@@ -71,7 +73,7 @@ export const albumRouter = router({
       });
 
       const filteredData: Album[] = cleanedData.filter(
-        (album: Album) => album !== null
+        (album: Album) => album !== null,
       );
 
       return filteredData;

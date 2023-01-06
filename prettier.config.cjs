@@ -5,8 +5,17 @@ module.exports = {
   trailingComma: 'all',
   singleQuote: true,
   semi: true,
-  importOrder: ['^@components/(.*)$', '^@utils/(.*)$', '^@ui/(.*)$', '^[./]'],
+  importOrder: [
+    '^@components/(.*)$',
+    '^@utils/(.*)$',
+    '^@types/(.*)$',
+    '^@store/(.*)$',
+    '^[./]',
+  ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
-  plugins: [require.resolve('prettier-plugin-tailwindcss')],
+  plugins: [
+    require.resolve('prettier-plugin-tailwindcss'),
+    require.resolve('@trivago/prettier-plugin-sort-imports'),
+  ],
 };

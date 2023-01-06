@@ -1,14 +1,13 @@
-import { trackRouter } from "./track";
-import { artistRouter } from "./artist";
 // src/server/router/_app.ts
-import { router } from "../trpc";
-import { albumRouter } from "./album";
-import { authRouter } from "./auth";
-import { albumActionsRouter } from "./albumActions";
-
-import { exampleRouter } from "./example";
-import { spotifyRouter } from "./spotify";
-import { reviewRouter } from "./review";
+import { router } from '../trpc';
+import { albumRouter } from './album';
+import { albumActionsRouter } from './albumActions';
+import { artistRouter } from './artist';
+import { authRouter } from './auth';
+import { exampleRouter } from './example';
+import { reviewRouter } from './review';
+import { spotifyRouter } from './spotify';
+import { trackRouter } from './track';
 
 export const appRouter = router({
   example: exampleRouter,

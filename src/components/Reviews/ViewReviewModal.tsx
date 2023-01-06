@@ -1,10 +1,12 @@
-import { objectSans } from "@components/Layout";
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import dayjs from "dayjs";
-import Image from "next/image";
-import Link from "next/link";
-import type { ReviewWithUserWithAlbum } from "@utils/types/review";
+import { Dialog, Transition } from '@headlessui/react';
+import dayjs from 'dayjs';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Fragment, useState } from 'react';
+
+import { objectSans } from '@components/Layout';
+
+import type { ReviewWithUserWithAlbum } from '@utils/types/review';
 
 type Props = {
   isOpen: boolean;
@@ -88,12 +90,12 @@ function ViewReviewModal({ isOpen, setIsOpen, review }: Props) {
                           </div>
 
                           <div className="text-gray-500">
-                            {dayjs(review.createdAt).format("MMM D, YYYY")}
+                            {dayjs(review.createdAt).format('MMM D, YYYY')}
                           </div>
                         </div>
                         <div className="">
                           <div className=" text-right text-harlequin-500">
-                            {review.rating}{" "}
+                            {review.rating}{' '}
                             <span className="text-gray-600">/ 5</span>
                           </div>
                         </div>

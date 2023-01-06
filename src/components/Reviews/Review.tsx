@@ -1,9 +1,11 @@
-import type { ReviewWithUserWithAlbum } from "@utils/types/review";
-import dayjs from "dayjs";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import ViewReviewModal from "./ViewReviewModal";
+import dayjs from 'dayjs';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+import type { ReviewWithUserWithAlbum } from '@utils/types/review';
+
+import ViewReviewModal from './ViewReviewModal';
 
 type Props = {
   review: ReviewWithUserWithAlbum;
@@ -20,7 +22,7 @@ function Review({ review }: Props) {
   let body = review.body;
   if (review.body.length > 400) {
     showMore = true;
-    body = review.body.slice(0, 400) + "...";
+    body = review.body.slice(0, 400) + '...';
   }
 
   // useEffect(() => {
@@ -55,7 +57,7 @@ function Review({ review }: Props) {
             </div>
 
             <div className="text-gray-500">
-              {dayjs(review.createdAt).format("MMM D, YYYY")}
+              {dayjs(review.createdAt).format('MMM D, YYYY')}
             </div>
           </div>
           <div className="">

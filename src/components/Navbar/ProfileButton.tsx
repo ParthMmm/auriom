@@ -1,9 +1,9 @@
-import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useUser, useClerk } from "@clerk/nextjs";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import { useClerk, useUser } from '@clerk/nextjs';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { Fragment } from 'react';
 
 function ProfileButton({}) {
   const { user } = useUser();
@@ -46,7 +46,7 @@ function ProfileButton({}) {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? " text-harlequin-500" : "text-white"
+                        active ? ' text-harlequin-500' : 'text-white'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       onClick={() => router.push(`/${user?.username}`)}
                     >
@@ -59,9 +59,9 @@ function ProfileButton({}) {
                 <Menu.Item>
                   {({ active }) => (
                     <button
-                      onClick={() => router.push("/auth/settings")}
+                      onClick={() => router.push('/auth/settings')}
                       className={`${
-                        active ? " text-harlequin-500" : "text-white"
+                        active ? ' text-harlequin-500' : 'text-white'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       Settings
@@ -74,7 +74,7 @@ function ProfileButton({}) {
                   {({ active }) => (
                     <button
                       className={`${
-                        active ? " text-harlequin-500" : "text-white"
+                        active ? ' text-harlequin-500' : 'text-white'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       onClick={() => signOut()}
                     >

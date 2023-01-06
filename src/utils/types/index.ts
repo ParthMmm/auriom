@@ -1,4 +1,4 @@
-import type { EmailAddress } from "@clerk/nextjs/dist/api";
+import type { EmailAddress } from '@clerk/nextjs/dist/api';
 
 export type Album = {
   name: string;
@@ -10,7 +10,7 @@ export type Album = {
 };
 
 export type Image = {
-  "#text": string;
+  '#text': string;
   size: string;
 };
 
@@ -60,14 +60,14 @@ export type Track = {
   duration: number;
   url: string;
   name: string;
-  "@attr": AttrTrack;
+  '@attr': AttrTrack;
   artist: Artist;
   image?: Image[];
   listeners?: string;
   mbid?: string;
 };
 
-export type TrackSearch = Omit<Track, "artist"> & {
+export type TrackSearch = Omit<Track, 'artist'> & {
   artist: string;
 };
 
@@ -77,7 +77,7 @@ export type AttrTrack = {
 
 export type Streamable = {
   fulltrack: string;
-  "#text": string;
+  '#text': string;
 };
 
 export type TrackListAttr = {

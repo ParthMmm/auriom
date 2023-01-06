@@ -1,8 +1,10 @@
-import { trackSearchFetch } from "@utils/urls/index";
-import type { Image, Track, TrackSearch } from "@utils/types/index";
-import { router, publicProcedure } from "../trpc";
-import axios from "axios";
-import { getTrackSearchSchema } from "@utils/schemas/albumSchema";
+import axios from 'axios';
+
+import { getTrackSearchSchema } from '@utils/schemas/albumSchema';
+import type { Image, Track, TrackSearch } from '@utils/types/index';
+import { trackSearchFetch } from '@utils/urls/index';
+
+import { publicProcedure, router } from '../trpc';
 
 export const trackRouter = router({
   getTrackSearch: publicProcedure
@@ -17,7 +19,7 @@ export const trackRouter = router({
         }
 
         const hasImage = track.image.map((image: Image) => {
-          if (image["#text"].length === 0) {
+          if (image['#text'].length === 0) {
             return false;
           }
           return true;
@@ -30,7 +32,7 @@ export const trackRouter = router({
       });
 
       const filteredData: TrackSearch[] = cleanedData.filter(
-        (track: TrackSearch) => track !== null
+        (track: TrackSearch) => track !== null,
       );
 
       return filteredData;

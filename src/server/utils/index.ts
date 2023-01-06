@@ -1,8 +1,9 @@
-import type { Context } from "./../trpc/context";
-import type { AlbumTracksItem } from "./../../utils/types/albumTracks";
-import { getAlbum } from "@utils/queries/getAlbum";
-import { stripURI } from "@utils/stripURI";
-import type { AlbumInfoRoot, Artist, Image } from "@utils/types/albumInfo";
+import { getAlbum } from '@utils/queries/getAlbum';
+import { stripURI } from '@utils/stripURI';
+import type { AlbumInfoRoot, Artist, Image } from '@utils/types/albumInfo';
+
+import type { AlbumTracksItem } from './../../utils/types/albumTracks';
+import type { Context } from './../trpc/context';
 
 // function to take spotify uri, call spotify api, get data and add album, artist, and tracks to db
 export const addAlbumToDb = async (ctx: Context, uri: string) => {
@@ -63,9 +64,9 @@ export const addAlbumToDb = async (ctx: Context, uri: string) => {
 export const artistHelper = async (
   ctx: Context,
   artists: Artist[],
-  uri: string
-) => {
-  return artists.forEach(async (artist: Artist) => {
+  uri: string,
+) =>
+  artists.forEach(async (artist: Artist) => {
     const artistId = stripURI(uri);
 
     if (!artistId) return;
@@ -106,14 +107,13 @@ export const artistHelper = async (
       });
     }
   });
-};
 
 export const trackHelper = async (
   ctx: Context,
   tracks: AlbumTracksItem[],
-  uri: string
-) => {
-  return tracks.forEach(async (track: AlbumTracksItem) => {
+  uri: string,
+) =>
+  tracks.forEach(async (track: AlbumTracksItem) => {
     const trackId = stripURI(track.uri);
 
     if (!trackId) return;
@@ -139,31 +139,24 @@ export const trackHelper = async (
             },
           },
           artists: {
-            connectOrCreate: track.artists.map((artist) => {
-              return {
-                where: {
-                  uri: artist.uri,
-                },
-                create: {
-                  id: artist.id,
-                  uri: artist.uri,
-                  name: artist.name,
-                },
-              };
-            }),
+            connectOrCreate: track.artists.map((artist) => ({
+              where: {
+                uri: artist.uri,
+              },
+              create: {
+                id: artist.id,
+                uri: artist.uri,
+                name: artist.name,
+              },
+            })),
           },
         },
       });
     }
   });
-};
 
-export const imageHelper = async (
-  ctx: Context,
-  images: Image[],
-  uri: string
-) => {
-  return images.map(async (image: Image) => {
+export const imageHelper = async (ctx: Context, images: Image[], uri: string) =>
+  images.map(async (image: Image) => {
     const imageExists = await ctx.prisma.image.findFirst({
       where: {
         url: image.url,
@@ -186,4 +179,3 @@ export const imageHelper = async (
       });
     }
   });
-};

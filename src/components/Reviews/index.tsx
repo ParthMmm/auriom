@@ -1,7 +1,9 @@
-import type { AlbumInfoRoot } from "@utils/types/albumInfo";
-import { useState } from "react";
-import CreateReviewModal from "./CreateReviewModal";
-import ReviewsList from "./ReviewsList";
+import { useState } from 'react';
+
+import type { AlbumInfoRoot } from '@utils/types/albumInfo';
+
+import CreateReviewModal from './CreateReviewModal';
+import ReviewsList from './ReviewsList';
 
 type Props = {
   album: AlbumInfoRoot;
@@ -9,7 +11,7 @@ type Props = {
 
 function Reviews({ album }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const artists = album.artists.map((artist) => artist.name).join(", ");
+  const artists = album.artists.map((artist) => artist.name).join(', ');
 
   const [newReview, setNewReview] = useState(false);
 

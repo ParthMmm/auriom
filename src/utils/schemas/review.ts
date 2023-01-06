@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const userInputReviewSchema = z.object({
   // rating: z.number().min(1).max(5),
@@ -24,9 +24,9 @@ export const reviewSchema = z.object({
             uri: z.string(),
             id: z.string(),
             name: z.string(),
-          })
+          }),
         ),
-      })
+      }),
     )
     .optional(),
 });
@@ -43,13 +43,13 @@ export const favoriteTracklistSchema = z.array(
         uri: z.string(),
         id: z.string(),
         name: z.string(),
-      })
+      }),
     ),
-  })
+  }),
 );
 
 export type Review = z.infer<typeof reviewSchema>;
 export type UserInputReview = z.infer<typeof userInputReviewSchema>;
 
 // export type Images = z.infer<typeof reviewSchema>["images"];
-export type FavoriteTracklist = z.infer<typeof reviewSchema>["favoriteTracks"];
+export type FavoriteTracklist = z.infer<typeof reviewSchema>['favoriteTracks'];

@@ -1,3 +1,3 @@
-import AlbumPage from "../../../../components/Album/AlbumPage";
+import AlbumPage from '../../../../components/Album/AlbumPage';
 
 export default AlbumPage;

@@ -1,10 +1,11 @@
-import type { TrackSearch } from "@utils/types";
-import React from "react";
+import React from 'react';
+
+import type { TrackSearch } from '@utils/types';
 
 function TrackCard({ track }: { track: TrackSearch }) {
   return (
     <div>
-      {" "}
+      {' '}
       <div>
         <div className="grid-playlist-info-container mb-8  lg:mb-0">
           <div className="">

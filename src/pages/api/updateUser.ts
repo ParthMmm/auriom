@@ -1,20 +1,20 @@
-import { PrismaClient } from "@prisma/client";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from '@prisma/client';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
 
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { id, username, external_accounts, profile_image_url } = req.body.data;
-  let img = "";
+  let img = '';
 
   if (external_accounts && external_accounts.length > 0) {
     const externalAccount = external_accounts[0];
     const externalImg = externalAccount.picture;
 
-    if (profile_image_url === "https://www.gravatar.com/avatar?d=mp") {
+    if (profile_image_url === 'https://www.gravatar.com/avatar?d=mp') {
       img = externalImg;
     } else {
       img = profile_image_url;
@@ -33,6 +33,6 @@ export default async function handle(
   });
 
   if (user) {
-    res.status(200).json({ message: "User updated", user });
+    res.status(200).json({ message: 'User updated', user });
   }
 }

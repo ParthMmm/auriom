@@ -1,11 +1,12 @@
-import React from "react";
-import { useStore } from "@store/app";
+import React from 'react';
+
+import { useStore } from '@store/app';
 
 function Filter({}) {
   const setSearchFilter = useStore((state) => state.setSearchFilter);
   const searchFilter = useStore((state) => state.searchFilter);
 
-  const filters = ["artist", "track", "album"];
+  const filters = ['artist', 'track', 'album'];
 
   return (
     <div>
@@ -15,7 +16,7 @@ function Filter({}) {
             key={filter}
             onClick={() => setSearchFilter(filter)}
             className={`${
-              searchFilter === filter ? "text-harlequin-500" : "text-white"
+              searchFilter === filter ? 'text-harlequin-500' : 'text-white'
             }`}
           >
             {filter}

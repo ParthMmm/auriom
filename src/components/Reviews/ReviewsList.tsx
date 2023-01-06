@@ -1,6 +1,8 @@
-import { trpc } from "@utils/trpc";
-import React, { useEffect } from "react";
-import Review from "./Review";
+import React, { useEffect } from 'react';
+
+import { trpc } from '@utils/trpc';
+
+import Review from './Review';
 
 type Props = {
   uri: string;
@@ -12,7 +14,7 @@ function ReviewsList({ uri, newReview }: Props) {
     { uri },
     {
       enabled: !!uri,
-    }
+    },
   );
 
   useEffect(() => {

@@ -1,8 +1,10 @@
-import SpotifyCard from "@components/Album/SpotifyCard";
-import { trpc } from "@utils/trpc";
-import type { AlbumItem } from "@utils/types/spotify";
-import { useRouter } from "next/router";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useRouter } from 'next/router';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import SpotifyCard from '@components/Album/SpotifyCard';
+
+import { trpc } from '@utils/trpc';
+import type { AlbumItem } from '@utils/types/spotify';
 
 function Albums({}) {
   const router = useRouter();
@@ -10,11 +12,11 @@ function Albums({}) {
 
   const { data, fetchNextPage, isLoading, error } =
     trpc.spotify.albumSearch.useInfiniteQuery(
-      { query: query, type: "album" },
+      { query: query, type: 'album' },
       {
         enabled: !!query,
         getNextPageParam: (lastPage) => lastPage?.offset + lastPage?.limit,
-      }
+      },
     );
 
   if (isLoading) {
@@ -44,7 +46,7 @@ function Albums({}) {
                   uri={album.uri}
                   images={album.images}
                 />
-              ))
+              )),
             )}
           </div>
         </InfiniteScroll>

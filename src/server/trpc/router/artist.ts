@@ -1,9 +1,10 @@
-import { artistInfoFetch, artistSearchFetch } from "@utils/urls/index";
-import type { Album, Artist, Image } from "@utils/types/index";
-import { router, publicProcedure } from "../trpc";
-import axios from "axios";
+import axios from 'axios';
 
-import { getArtistSearchSchema } from "@utils/schemas/albumSchema";
+import { getArtistSearchSchema } from '@utils/schemas/albumSchema';
+import type { Album, Artist, Image } from '@utils/types/index';
+import { artistInfoFetch, artistSearchFetch } from '@utils/urls/index';
+
+import { publicProcedure, router } from '../trpc';
 
 export const artistRouter = router({
   getArtistSearch: publicProcedure
@@ -17,7 +18,7 @@ export const artistRouter = router({
           return null;
         }
         const hasImage = artist?.image.map((image: Image) => {
-          if (image["#text"].length === 0) {
+          if (image['#text'].length === 0) {
             return false;
           }
           return true;
@@ -30,7 +31,7 @@ export const artistRouter = router({
       });
 
       const filteredData: Artist[] = cleanedData.filter(
-        (artist: Artist) => artist !== null
+        (artist: Artist) => artist !== null,
       );
 
       return filteredData;

@@ -1,11 +1,11 @@
-import dynamic from "next/dynamic";
-import Link from "next/link";
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
-const Search = dynamic(() => import("./Search"), {
+const Search = dynamic(() => import('./Search'), {
   suspense: true,
 });
 
-const AuthButtons = dynamic(() => import("./AuthButtons"), {
+const AuthButtons = dynamic(() => import('./AuthButtons'), {
   suspense: true,
 });
 

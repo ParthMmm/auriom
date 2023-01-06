@@ -1,12 +1,14 @@
+import { addAlbumToDb } from 'src/server/utils';
+
 import {
-  logSchema,
   getLogSchema,
   getLogUserSchema,
-} from "@utils/schemas/logSchema";
-import { router, publicProcedure, protectedProcedure } from "../trpc";
-import { addAlbumToDb } from "src/server/utils";
-import { stripURI } from "@utils/stripURI";
-import type { Context } from "../context";
+  logSchema,
+} from '@utils/schemas/logSchema';
+import { stripURI } from '@utils/stripURI';
+
+import type { Context } from '../context';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 // const actions = [
 //   { name: "currently listening" },
@@ -119,7 +121,7 @@ export const albumActionsRouter = router({
         const res = await helper(ctx, user_id, albumId, action);
 
         if (res) {
-          if (action === "listened") {
+          if (action === 'listened') {
             const action = await ctx.prisma.listened.create({
               data: {
                 user: {
@@ -141,7 +143,7 @@ export const albumActionsRouter = router({
             return action;
           }
 
-          if (action === "listening") {
+          if (action === 'listening') {
             const action = await ctx.prisma.listening.create({
               data: {
                 user: {
@@ -163,7 +165,7 @@ export const albumActionsRouter = router({
             return action;
           }
 
-          if (action === "wantToListen") {
+          if (action === 'wantToListen') {
             const action = await ctx.prisma.wantToListen.create({
               data: {
                 user: {
@@ -186,7 +188,7 @@ export const albumActionsRouter = router({
           }
         }
       } else {
-        return "not auth";
+        return 'not auth';
       }
     }),
 });
@@ -196,7 +198,7 @@ const helper = async (
   ctx: Context,
   user_id: string,
   albumId: string,
-  action: string
+  action: string,
 ) => {
   const isListened = await ctx.prisma.listened.findFirst({
     where: {
@@ -223,7 +225,7 @@ const helper = async (
     return action;
   }
 
-  if (isListened && action != "listened") {
+  if (isListened && action != 'listened') {
     await ctx.prisma.listened.delete({
       where: {
         id: isListened.id,
@@ -231,7 +233,7 @@ const helper = async (
     });
   }
 
-  if (isListening && action != "listening") {
+  if (isListening && action != 'listening') {
     await ctx.prisma.listening.delete({
       where: {
         id: isListening.id,
@@ -239,7 +241,7 @@ const helper = async (
     });
   }
 
-  if (ifWantToListen && action != "wantToListen") {
+  if (ifWantToListen && action != 'wantToListen') {
     await ctx.prisma.wantToListen.delete({
       where: {
         id: ifWantToListen.id,

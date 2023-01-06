@@ -1,6 +1,7 @@
-import type { Artist } from "@utils/types/spotify";
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { Artist } from '@utils/types/spotify';
 
 type AlbumItem = {
   title: string;
@@ -24,8 +25,8 @@ function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
     return null;
   }
 
-  if (typeof artist === "object") {
-    artist = artist.map((a) => a.name).join(", ");
+  if (typeof artist === 'object') {
+    artist = artist.map((a) => a.name).join(', ');
   }
 
   return (
@@ -46,7 +47,7 @@ function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
             <picture className="lazyPicture aspect-ratio ">
               <Image
                 src={imageURL}
-                alt={"album cover"}
+                alt={'album cover'}
                 className="asset"
                 fill
                 quality={100}

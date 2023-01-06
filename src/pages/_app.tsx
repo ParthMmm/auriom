@@ -1,19 +1,22 @@
 // src/pages/_app.tsx
-import "../styles/globals.css";
-import { trpc } from "@utils/trpc";
-import { Suspense } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import type { AppProps } from "next/app";
-import { ClerkProvider } from "@clerk/nextjs";
-import Spinner from "@components/Spinner";
-import dynamic from "next/dynamic";
-import { dark } from "@clerk/themes";
-import ErrorBoundary from "@components/ErrorBoundary";
-import { objectSans } from "@components/Layout";
-import { Analytics } from "@vercel/analytics/react";
+import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Analytics } from '@vercel/analytics/react';
+import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
-const Layout = dynamic(() => import("@components/Layout"), {
+import ErrorBoundary from '@components/ErrorBoundary';
+import { objectSans } from '@components/Layout';
+import Spinner from '@components/Spinner';
+
+import { trpc } from '@utils/trpc';
+
+import '../styles/globals.css';
+
+const Layout = dynamic(() => import('@components/Layout'), {
   suspense: true,
 });
 
@@ -47,7 +50,7 @@ const frontendApi = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API;
 
 const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
   const getContent = () => {
-    if (appProps.router.pathname.includes("/auth")) {
+    if (appProps.router.pathname.includes('/auth')) {
       return (
         <div className={`${objectSans.variable} font-sans `}>
           <Component {...pageProps} />

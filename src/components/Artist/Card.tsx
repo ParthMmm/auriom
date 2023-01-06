@@ -1,13 +1,14 @@
-import type { Artist } from "@utils/types";
-import Link from "next/link";
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { Artist } from '@utils/types';
 
 function ArtistCard({ artist }: { artist: Artist }) {
-  const image = artist?.image.filter((image) => image.size === "extralarge")[0];
+  const image = artist?.image.filter((image) => image.size === 'extralarge')[0];
   if (!image) {
     return null;
   }
-  const imageURL = image["#text"];
+  const imageURL = image['#text'];
   return (
     <Link
       href={{
@@ -26,7 +27,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
             <picture className="lazyPicture aspect-ratio ">
               <Image
                 src={imageURL}
-                alt={"album cover"}
+                alt={'album cover'}
                 className="asset"
                 fill
                 // height={300}

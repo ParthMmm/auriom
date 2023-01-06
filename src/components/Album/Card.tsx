@@ -1,18 +1,19 @@
-import type { Album } from "@utils/types";
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { Album } from '@utils/types';
 
 type Props = {
   album: Album;
 };
 
 function AlbumCard({ album }: Props) {
-  const image = album?.image.filter((image) => image.size === "extralarge")[0];
+  const image = album?.image.filter((image) => image.size === 'extralarge')[0];
 
   if (!image) {
     return null;
   }
-  const imageURL = image["#text"];
+  const imageURL = image['#text'];
 
   return (
     <Link
@@ -32,7 +33,7 @@ function AlbumCard({ album }: Props) {
             <picture className="lazyPicture aspect-ratio ">
               <Image
                 src={imageURL}
-                alt={"album cover"}
+                alt={'album cover'}
                 className="asset"
                 fill
                 // height={300}

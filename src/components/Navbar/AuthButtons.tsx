@@ -1,8 +1,8 @@
-import LogInButton from "../Auth/LogInButton";
-import SignUpButton from "../Auth/SignUpButton";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from '@clerk/nextjs';
 
-import ProfileButton from "./ProfileButton";
+import LogInButton from '../Auth/LogInButton';
+import SignUpButton from '../Auth/SignUpButton';
+import ProfileButton from './ProfileButton';
 
 function AuthButtons({}) {
   const { isLoaded, isSignedIn, user } = useUser();

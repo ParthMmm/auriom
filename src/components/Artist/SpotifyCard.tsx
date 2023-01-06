@@ -1,6 +1,7 @@
-import type { ArtistItem } from "@utils/types/spotify";
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { ArtistItem } from '@utils/types/spotify';
 
 type Props = {
   artist: ArtistItem;
@@ -32,7 +33,7 @@ function SpotifyCard({ artist }: Props) {
           <picture className="lazyPicture aspect-ratio ">
             <Image
               src={imageURL}
-              alt={"album cover"}
+              alt={'album cover'}
               className="asset"
               fill
               // height={300}
