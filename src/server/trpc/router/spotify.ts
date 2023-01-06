@@ -2,19 +2,19 @@ import { getAlbumTracksSchema } from "./../../../utils/schemas/searchSchema";
 import { getSearchSchema } from "@utils/schemas/searchSchema";
 import axios from "axios";
 import * as trpc from "../trpc";
-import { getHTTPStatusCodeFromError } from "@trpc/server/http";
-import type { TRPCError } from "@trpc/server";
+// import { getHTTPStatusCodeFromError } from "@trpc/server/http";
+// import type { TRPCError } from "@trpc/server";
 import type { Root } from "@utils/types/spotify";
-import { TracksRoot } from "@utils/types/albumTracks";
-import { AlbumInfoRoot } from "@utils/types/albumInfo";
+import type { TracksRoot } from "@utils/types/albumTracks";
+import type { AlbumInfoRoot } from "@utils/types/albumInfo";
 import { stripURI } from "@utils/stripURI";
 import { z } from "zod";
 
-const error: TRPCError = {
-  name: "TRPCError",
-  code: "UNAUTHORIZED",
-  message: '"spotify auth broken',
-};
+// const error: TRPCError = {
+//   name: "TRPCError",
+//   code: "UNAUTHORIZED",
+//   message: '"spotify auth broken',
+// };
 
 export const spotifyRouter = trpc.router({
   //public procedure to search for item with spotify web api based on input
@@ -144,15 +144,15 @@ export const spotifyRouter = trpc.router({
     .query(async ({ input, ctx }) => {
       const { uri } = input;
 
-      const id3 = stripURI(uri);
+      const id = stripURI(uri);
 
-      if (!id3) {
-        return { offset: 0, items: [], total: 0, limit: 0 };
-      }
+      // if (!id) {
+      //   return { offset: 0, items: [], total: 0, limit: 0 };
+      // }
 
-      const id = id3[1];
+      // const id = id3[1];
 
-      if (ctx.spotifyToken) {
+      if (ctx.spotifyToken && id) {
         const token = ctx.spotifyToken.access_token;
 
         const config = {

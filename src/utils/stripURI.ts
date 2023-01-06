@@ -3,5 +3,8 @@ export const stripURI = (uri: string) => {
 
   const strippedURI = uri.match(re);
 
-  return strippedURI;
+  if (!strippedURI) {
+    return null;
+  }
+  return strippedURI[1];
 };

@@ -1,27 +1,31 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { z } from "zod";
-import { reviewSchema } from "../schemas/review";
+import { reviewSchema } from "../../../utils/schemas/review";
+import { addAlbumToDb } from "src/server/utils";
 
 export const reviewRouter = router({
-  createReview: publicProcedure
+  createReview: protectedProcedure
     .input(reviewSchema)
     .mutation(async ({ input, ctx }) => {
-      const { uri, artist, title, userId, rating, body } = input;
+      const {
+        uri,
+        userId,
+        rating,
+        body,
+        // favoriteTracks,
+      } = input;
 
       if (ctx.user.id) {
+        console.log(ctx.user);
+
+        await addAlbumToDb(ctx, uri);
+
         //create review and connect to user and album
         const review = await ctx.prisma.review.create({
           data: {
             Album: {
-              connectOrCreate: {
-                where: {
-                  uri: uri,
-                },
-                create: {
-                  uri: uri,
-                  artist: artist,
-                  title: title,
-                },
+              connect: {
+                uri: uri,
               },
             },
             user: {
@@ -50,6 +54,7 @@ export const reviewRouter = router({
         },
         include: {
           user: true,
+          Album: true,
         },
       });
 

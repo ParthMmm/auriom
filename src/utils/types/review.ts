@@ -21,3 +21,11 @@ export type UserInputReview = {
 export type ReviewWithUser = Review & {
   user: User;
 };
+
+export type ReviewWithUserWithAlbum = ReviewWithUser & {
+  Album: {
+    uri: string;
+    title: string;
+    artist: string;
+  };
+};

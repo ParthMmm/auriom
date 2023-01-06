@@ -1,6 +1,6 @@
 import { useUser } from "@clerk/nextjs";
 import { trpc } from "@utils/trpc";
-import { AlbumInfoRoot } from "@utils/types/albumInfo";
+import type { AlbumInfoRoot } from "@utils/types/albumInfo";
 import { useEffect, useState } from "react";
 
 const actions = [
@@ -47,12 +47,9 @@ function ActionButtons({ album }: Props) {
       setSelected(action);
 
       await actionMutation.mutateAsync({
-        title: album?.name,
-        artist: artists,
         uri: album?.uri,
         user_id: user?.id,
         action,
-        images: album?.images,
       });
     }
   };

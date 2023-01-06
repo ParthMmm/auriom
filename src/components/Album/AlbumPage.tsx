@@ -23,13 +23,6 @@ function AlbumPage({}) {
   const album = router.query.album as string;
   const uri = router.query.uri as string;
 
-  // const albumInfo = trpc.album.getAlbumInfo.useQuery(
-  //   { artist, album, mbid },
-  //   {
-  //     enabled: !!artist && !!album,
-  //   }
-  // );
-
   const albumTracks = trpc.spotify.albumTracks.useQuery(
     { uri },
     {

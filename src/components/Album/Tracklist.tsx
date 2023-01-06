@@ -1,11 +1,19 @@
 import { msToTime } from "@utils/convertTime";
 import type { AlbumTracksItem } from "@utils/types/albumTracks";
+import { useStore } from "@store/app";
+import { useEffect } from "react";
 
 type Props = {
   albumTracks: AlbumTracksItem[];
 };
 
 function Tracklist({ albumTracks }: Props) {
+  const setCurrentTracklist = useStore((state) => state.setCurrentTracklist);
+
+  useEffect(() => {
+    setCurrentTracklist(albumTracks);
+  }, [albumTracks]);
+
   return (
     <div className="mb-12 w-full md:mb-24">
       <h2 className="text-4xl font-bold">tracklist</h2>

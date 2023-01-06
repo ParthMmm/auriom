@@ -11,31 +11,44 @@ datasource db {
 }
 
 model User {
-  id           String         @id @unique
-  username     String         @unique
-  createdAt    DateTime       @default(now())
-  profileImage String
-  reviews      Review[]
-  listening    Listening[]
-  listened     Listened[]
-  wantToListen WantToListen[]
+  id             String          @id @unique
+  username       String          @unique
+  createdAt      DateTime        @default(now())
+  profileImage   String
+  reviews        Review[]
+  listening      Listening[]
+  listened       Listened[]
+  wantToListen   WantToListen[]
+  favoriteTracks FavoriteTrack[]
 }
 
 model Review {
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  body           String?
+  user           User            @relation(fields: [userId], references: [id])
+  userId         String
+  Album          Album           @relation(fields: [albumId], references: [uri])
+  albumId        String
+  rating         Float
+  favoriteTracks FavoriteTrack[]
+}
+
+model FavoriteTrack {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  body      String?
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  Album     Album    @relation(fields: [albumId], references: [uri])
-  albumId   String
-  rating    Float
+  track     Track    @relation(fields: [trackId], references: [uri])
+  trackId   String
+  Review    Review?  @relation(fields: [reviewId], references: [id])
+  reviewId  Int?
 }
 
 model Album {
-  uri          String         @id @unique
+  id           String         @id @unique
+  uri          String         @unique
   title        String
-  artist       String
   genre        String?
   year         Int?
   reviews      Review[]
@@ -43,6 +56,29 @@ model Album {
   listened     Listened[]
   wantToListen WantToListen[]
   images       Image[]
+  tracks       Track[]
+  artists      Artist[]
+}
+
+model Artist {
+  id     String  @id @unique
+  uri    String  @unique
+  name   String
+  albums Album[]
+  tracks Track[]
+}
+
+model Track {
+  id         String          @id @unique
+  uri        String          @unique
+  title      String
+  trackNum   Int
+  duration   Int
+  previewUrl String
+  album      Album?          @relation(fields: [albumId], references: [id])
+  albumId    String?
+  favorites  FavoriteTrack[]
+  artists    Artist[]
 }
 
 model Image {
@@ -50,39 +86,33 @@ model Image {
   url     String
   height  Int
   width   Int
-  Album   Album  @relation(fields: [albumId], references: [uri])
+  album   Album  @relation(fields: [albumId], references: [id])
   albumId String
 }
 
 model Listening {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  artist    String
-  album     String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  Album     Album?   @relation(fields: [albumUri], references: [uri])
-  albumUri  String?
+  album     Album    @relation(fields: [albumId], references: [id])
+  albumId   String
 }
 
 model Listened {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  artist    String
-  album     String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  Album     Album?   @relation(fields: [albumUri], references: [uri])
-  albumUri  String?
+  album     Album    @relation(fields: [albumId], references: [id])
+  albumId   String
 }
 
 model WantToListen {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  artist    String
-  album     String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  Album     Album?   @relation(fields: [albumUri], references: [uri])
-  albumUri  String?
+  album     Album    @relation(fields: [albumId], references: [id])
+  albumId   String
 }

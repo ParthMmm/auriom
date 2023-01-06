@@ -1,14 +1,15 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
-import { objectSans } from "@components/Layout";
-import { Rating } from "react-simple-star-rating";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { UserInputReview } from "src/server/trpc/schemas/review";
-import { userInputReviewSchema } from "src/server/trpc/schemas/review";
-import { trpc } from "@utils/trpc";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from '@clerk/nextjs';
+import { objectSans } from '@components/Layout';
+import TracklistSelect from '@components/Track/TracklistSelect';
+import { Dialog, Transition } from '@headlessui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useStore } from '@store/app';
+import type { UserInputReview } from '@utils/schemas/review';
+import { userInputReviewSchema } from '@utils/schemas/review';
+import { trpc } from '@utils/trpc';
+import { Fragment, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Rating } from 'react-simple-star-rating';
 
 type Props = {
   isOpen: boolean;
@@ -23,8 +24,8 @@ export default function CreateReviewModal({
   isOpen,
   setIsOpen,
   title,
-  uri,
   artist,
+  uri,
   setNewReview,
 }: Props) {
   const { user } = useUser();
@@ -38,7 +39,8 @@ export default function CreateReviewModal({
   } = useForm<UserInputReview>({
     resolver: zodResolver(userInputReviewSchema),
   });
-
+  const favoriteTracks = useStore((state) => state.favoriteTracks);
+  const currentTracklist = useStore((state) => state.currentTracklist);
   const handleRating = (rate: number) => {
     setRating(rate);
   };
@@ -54,13 +56,14 @@ export default function CreateReviewModal({
   const createReviewMutation = trpc.review.createReview.useMutation();
   const submitHandler = async (data: UserInputReview) => {
     if (!user) return;
+    console.log(userInputReviewSchema.parse(data));
+
     const res = await createReviewMutation.mutateAsync({
       ...data,
       rating,
-      title,
-      artist,
       uri,
       userId: user?.id,
+      // favoriteTracks,
     });
 
     if (res) {
@@ -139,10 +142,11 @@ export default function CreateReviewModal({
               )}
             </div>
             <textarea
-              {...register("body")}
+              {...register('body')}
               placeholder={`What did you think about ${title}?`}
               className="h-72 w-full resize-none border-[1px] border-gray-800 bg-black p-2 text-white transition-all  focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700   "
             />
+            <TracklistSelect />
           </div>
 
           <div className="mt-12 -mb-8 text-right">
@@ -179,7 +183,7 @@ export default function CreateReviewModal({
             <div className="fixed inset-0 bg-black bg-opacity-90 " />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 ">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <button onClick={() => onClose()}>
                 <svg
@@ -199,7 +203,7 @@ export default function CreateReviewModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl  border-2 border-white bg-black p-8  py-24   align-middle shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll   rounded-2xl  border-2 border-white bg-black p-8  py-24   align-middle shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
                   {modalState()}
                 </Dialog.Panel>
               </Transition.Child>

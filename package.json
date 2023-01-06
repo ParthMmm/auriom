@@ -7,7 +7,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "format": "pnpm lint --fix & pnpm prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.6.13",
@@ -43,6 +44,7 @@
     "zustand": "^4.1.5"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/bcrypt": "^5.0.0",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
@@ -52,6 +54,8 @@
     "autoprefixer": "^10.4.13",
     "eslint": "8.22.0",
     "eslint-config-next": "12.3.1",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-autofix": "^1.1.0",
     "postcss": "^8.4.20",
     "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
