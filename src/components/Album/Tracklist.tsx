@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { msToTime } from '@utils/convertTime';
-import type { AlbumTracksItem } from '@utils/types/albumTracks';
+import type { AlbumTracksItem } from '@utils/types/spotify/albumTracks';
 
 import { useStore } from '@store/app';
 

@@ -9,5 +9,5 @@ export const getSearchSchema = z.object({
 });
 
 export const getAlbumTracksSchema = z.object({
-  uri: z.string(),
+  spotifyId: z.string(),
 });

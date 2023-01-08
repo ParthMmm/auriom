@@ -3,9 +3,11 @@
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
 
-import SpotifyCard from '@components/Album/SpotifyCard';
+import Card from '@components/Album/Card';
 
 import { trpc } from '@utils/trpc';
+
+import List from './List';
 
 function ProfilePage({}) {
   const router = useRouter();
@@ -45,46 +47,20 @@ function ProfilePage({}) {
       </div>
       <div className="mt-24 flex flex-col gap-11 ">
         <div className="px-4">
-          <h2 className=" text-2xl font-black">currently listening</h2>
-          <div className=" flex flex-row gap-8  border-2 border-gray-700 p-4">
-            {listening?.map((album) => (
-              <SpotifyCard
-                title={album?.Album?.title}
-                uri={album?.Album?.uri}
-                artist={album?.Album?.artist}
-                images={album?.Album?.images}
-                key={album.id}
-              />
-            ))}
-          </div>
+          {data.isLoading && <div>loading...</div>}
+          {data.isSuccess && (
+            <List data={listening} title={'currently listening'} />
+          )}
         </div>
         <div className="px-4">
-          <h2 className=" text-2xl font-black"> listened</h2>
-          <div className="flex flex-row gap-8 border-2 border-gray-700 p-4">
-            {listened?.map((album) => (
-              <SpotifyCard
-                title={album?.Album?.title}
-                uri={album?.Album?.uri}
-                artist={album?.Album?.artist}
-                images={album?.Album?.images}
-                key={album.id}
-              />
-            ))}
-          </div>
+          {data.isLoading && <div>loading...</div>}
+          {data.isSuccess && <List data={listened} title={'listened'} />}
         </div>
         <div className="px-4">
-          <h2 className=" text-2xl font-black">want to listen</h2>
-          <div className="flex flex-row gap-8 border-2 border-gray-700 p-4">
-            {wantToListen?.map((album) => (
-              <SpotifyCard
-                title={album?.Album?.title}
-                uri={album?.Album?.uri}
-                artist={album?.Album?.artist}
-                images={album?.Album?.images}
-                key={album.id}
-              />
-            ))}
-          </div>
+          {data.isLoading && <div>loading...</div>}
+          {data.isSuccess && (
+            <List data={wantToListen} title={'want to listen'} />
+          )}
         </div>
         <div className="px-4">
           <h2 className=" text-2xl font-black">reviews</h2>

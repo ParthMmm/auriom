@@ -1,19 +1,23 @@
 import { getAlbum } from '@utils/queries/getAlbum';
 import { getAlbumTracklist } from '@utils/queries/getAlbumTracklist';
 import { stripURI } from '@utils/stripURI';
-import type { AlbumInfoRoot, Artist, Image } from '@utils/types/albumInfo';
+import type {
+  AlbumInfoRoot,
+  Artist,
+  Image,
+} from '@utils/types/spotify/albumInfo';
 
 import type {
   AlbumTracksItem,
   TracksRoot,
-} from './../../utils/types/albumTracks';
+} from './../../utils/types/spotify/albumTracks';
 import type { Context } from './../trpc/context';
 
 // function to take spotify uri, call spotify api, get data and add album, artist, and tracks to db
-export const addAlbumToDb = async (ctx: Context, uri: string) => {
+export const addAlbumToDb = async (ctx: Context, spotifyId: string) => {
   const albumExists = await ctx.prisma.album.findUnique({
     where: {
-      uri: uri,
+      spotifyId: spotifyId,
     },
     include: {
       images: true,
@@ -24,8 +28,8 @@ export const addAlbumToDb = async (ctx: Context, uri: string) => {
     return;
   }
 
-  const album = (await getAlbum(ctx, uri)) as AlbumInfoRoot;
-  const tracklist = (await getAlbumTracklist(ctx, uri)) as TracksRoot;
+  const album = (await getAlbum(ctx, spotifyId)) as AlbumInfoRoot;
+  const tracklist = (await getAlbumTracklist(ctx, spotifyId)) as TracksRoot;
 
   if (!album) {
     return;
@@ -54,25 +58,31 @@ export const addAlbumToDb = async (ctx: Context, uri: string) => {
     },
   });
 
-  // add artist to db
-  await artistHelper(ctx, albumArtist, uri);
+  const albumSpotifyId = albumId;
 
-  // add images to db
-  await imageHelper(ctx, albumImages, uri);
+  if (newAlbum && albumSpotifyId) {
+    // add artist to db
+    await artistHelper(ctx, albumArtist, albumSpotifyId).then(() => {
+      // add images to db
+      imageHelper(ctx, albumImages, albumSpotifyId).then(() => {
+        // add tracks to db
+        trackHelper(ctx, albumTracks, albumId).then(() => newAlbum);
+      });
+    });
+  }
 
-  // add tracks to db
-  await trackHelper(ctx, albumTracks, uri);
-
-  return newAlbum;
+  return null;
 };
 // function to add artist to db
 export const artistHelper = async (
   ctx: Context,
   artists: Artist[],
-  uri: string,
+  albumSpotifyId: string,
 ) =>
   artists.forEach(async (artist: Artist) => {
-    const artistId = stripURI(uri);
+    const artistId = stripURI(artist.uri);
+
+    const id = artist.uri.split(':')[2];
 
     if (!artistId) return;
 
@@ -90,7 +100,7 @@ export const artistHelper = async (
         data: {
           albums: {
             connect: {
-              uri: uri,
+              spotifyId: albumSpotifyId,
             },
           },
         },
@@ -105,7 +115,7 @@ export const artistHelper = async (
           name: artist.name,
           albums: {
             connect: {
-              uri: uri,
+              spotifyId: albumSpotifyId,
             },
           },
         },
@@ -116,7 +126,7 @@ export const artistHelper = async (
 export const trackHelper = async (
   ctx: Context,
   tracks: AlbumTracksItem[],
-  uri: string,
+  id: string,
 ) =>
   tracks.forEach(async (track: AlbumTracksItem) => {
     const trackId = stripURI(track.uri);
@@ -130,21 +140,39 @@ export const trackHelper = async (
     });
 
     if (!trackExists) {
-      console.log({ trackId }, track.uri);
-
       const a = await ctx.prisma.track.create({
         data: {
-          spotifyId: trackId,
           uri: track.uri,
+          spotifyId: trackId,
           title: track.name,
           trackNum: track.track_number,
           duration: track.duration_ms,
           previewUrl: track.preview_url,
           album: {
             connect: {
-              uri: uri,
+              spotifyId: id,
             },
           },
+          // artists: {
+          //   connectOrCreate: track.artists.map((artist) => ({
+          //     where: {
+          //       uri: artist.uri,
+          //     },
+          //     create: {
+          //       spotifyId: artist.id,
+          //       uri: artist.uri,
+          //       name: artist.name,
+          //     },
+          //   })),
+          // },
+        },
+      });
+
+      const b = await ctx.prisma.track.update({
+        where: {
+          id: a.id,
+        },
+        data: {
           artists: {
             connectOrCreate: track.artists.map((artist) => ({
               where: {
@@ -159,11 +187,14 @@ export const trackHelper = async (
           },
         },
       });
-      console.log({ a });
     }
   });
 
-export const imageHelper = async (ctx: Context, images: Image[], uri: string) =>
+export const imageHelper = async (
+  ctx: Context,
+  images: Image[],
+  albumSpotifyId: string,
+) =>
   images.map(async (image: Image) => {
     const imageExists = await ctx.prisma.image.findFirst({
       where: {
@@ -180,7 +211,7 @@ export const imageHelper = async (ctx: Context, images: Image[], uri: string) =>
 
           album: {
             connect: {
-              uri: uri,
+              spotifyId: albumSpotifyId,
             },
           },
         },

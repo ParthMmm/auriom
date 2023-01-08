@@ -1,7 +1,7 @@
 import create from 'zustand';
 
 import type { FavoriteTracklist } from '@utils/schemas/review';
-import type { AlbumTracksItem } from '@utils/types/albumTracks';
+import type { AlbumTracksItem } from '@utils/types/spotify';
 
 interface AppState {
   searchFilter: string;

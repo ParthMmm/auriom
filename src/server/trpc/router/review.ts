@@ -9,38 +9,34 @@ export const reviewRouter = router({
     .input(reviewSchema)
     .mutation(async ({ input, ctx }) => {
       const {
-        uri,
+        spotifyId,
         userId,
         rating,
         body,
         // favoriteTracks,
       } = input;
 
-      if (ctx.user.id) {
-        console.log(ctx.user);
+      await addAlbumToDb(ctx, spotifyId);
 
-        await addAlbumToDb(ctx, uri);
-
-        //create review and connect to user and album
-        const review = await ctx.prisma.review.create({
-          data: {
-            Album: {
-              connect: {
-                uri: uri,
-              },
+      //create review and connect to user and album
+      const review = await ctx.prisma.review.create({
+        data: {
+          Album: {
+            connect: {
+              spotifyId: spotifyId,
             },
-            user: {
-              connect: {
-                id: userId,
-              },
-            },
-            rating: rating,
-            body: body,
           },
-        });
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+          rating: rating,
+          body: body,
+        },
+      });
 
-        return review;
-      }
+      return review;
     }),
   getReviewsForAlbum: publicProcedure
     .input(z.object({ uri: z.string() }))

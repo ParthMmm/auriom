@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { AlbumInfoRoot } from '@utils/types/albumInfo';
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 
 import CreateReviewModal from './CreateReviewModal';
 import ReviewsList from './ReviewsList';
@@ -14,6 +14,8 @@ function Reviews({ album }: Props) {
   const artists = album.artists.map((artist) => artist.name).join(', ');
 
   const [newReview, setNewReview] = useState(false);
+
+  const spotifyId = album.id;
 
   return (
     <div className="mb-12 w-full md:mb-24 ">
@@ -37,7 +39,7 @@ function Reviews({ album }: Props) {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         title={album.name}
-        uri={album.uri}
+        spotifyId={spotifyId}
         artist={artists}
         setNewReview={setNewReview}
       />

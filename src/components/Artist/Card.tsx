@@ -1,14 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { Artist } from '@utils/types';
+import type { ArtistItem } from '@utils/types/spotify';
 
-function ArtistCard({ artist }: { artist: Artist }) {
-  const image = artist?.image.filter((image) => image.size === 'extralarge')[0];
-  if (!image) {
-    return null;
-  }
-  const imageURL = image['#text'];
+type Props = {
+  artist: ArtistItem;
+};
+
+function ArtistCard({ artist }: Props) {
+  const imageURL = artist.images?.filter((image) => image.height === 300)[0]
+    ?.url;
+
   return (
     <Link
       href={{
@@ -16,7 +18,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
         query: {
           artist: artist.name,
           // album: album.name,
-          mbid: artist?.mbid,
         },
       }}
       as={`/album/${encodeURIComponent(artist.name)}/${artist}`}

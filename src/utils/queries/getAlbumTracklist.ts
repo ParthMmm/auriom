@@ -1,13 +1,11 @@
 import axios from 'axios';
 
 import { stripURI } from '@utils/stripURI';
-import type { TracksRoot } from '@utils/types/albumTracks';
+import type { TracksRoot } from '@utils/types/spotify/albumTracks';
 
 import type { Context } from './../../server/trpc/context';
 
-export const getAlbumTracklist = async (ctx: Context, uri: string) => {
-  const id = stripURI(uri);
-
+export const getAlbumTracklist = async (ctx: Context, id: string) => {
   if (ctx.spotifyToken && id) {
     const token = ctx.spotifyToken.access_token;
 

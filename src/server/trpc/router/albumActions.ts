@@ -5,7 +5,6 @@ import {
   getLogUserSchema,
   logSchema,
 } from '@utils/schemas/logSchema';
-import { stripURI } from '@utils/stripURI';
 
 import type { Context } from '../context';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
@@ -37,6 +36,7 @@ export const albumActionsRouter = router({
           album: {
             include: {
               images: true,
+              artists: true,
             },
           },
         },
@@ -50,6 +50,7 @@ export const albumActionsRouter = router({
           album: {
             include: {
               images: true,
+              artists: true,
             },
           },
         },
@@ -63,6 +64,7 @@ export const albumActionsRouter = router({
           album: {
             include: {
               images: true,
+              artists: true,
             },
           },
         },
@@ -74,32 +76,25 @@ export const albumActionsRouter = router({
   getUserActionsForAlbum: protectedProcedure
     .input(getLogSchema)
     .query(async ({ input, ctx }) => {
-      const { uri, user_id } = input;
-      console.log(user_id, uri);
-
-      const albumId = stripURI(uri);
-
-      if (!albumId) {
-        return null;
-      }
+      const { spotifyId, user_id } = input;
 
       const ifListened = await ctx.prisma.listened.findFirst({
         where: {
-          albumId: albumId,
+          albumId: spotifyId,
           userId: user_id,
         },
       });
 
       const ifListening = await ctx.prisma.listening.findFirst({
         where: {
-          albumId: albumId,
+          albumId: spotifyId,
           userId: user_id,
         },
       });
 
       const ifWantToListen = await ctx.prisma.wantToListen.findFirst({
         where: {
-          albumId: albumId,
+          albumId: spotifyId,
           userId: user_id,
         },
       });
@@ -110,85 +105,77 @@ export const albumActionsRouter = router({
   handleAction: protectedProcedure
     .input(logSchema)
     .mutation(async ({ input, ctx }) => {
-      const { uri, user_id, action } = input;
-      const albumId = stripURI(uri);
+      const { spotifyId, user_id, action } = input;
 
-      if (!albumId) {
-        return null;
-      }
-      if (ctx.user) {
-        await addAlbumToDb(ctx, uri);
-        const res = await helper(ctx, user_id, albumId, action);
+      await addAlbumToDb(ctx, spotifyId);
+      const res = await helper(ctx, user_id, spotifyId, action);
 
-        if (res) {
-          if (action === 'listened') {
-            const action = await ctx.prisma.listened.create({
-              data: {
-                user: {
-                  connect: {
-                    id: user_id,
-                  },
-                },
-                album: {
-                  connect: {
-                    spotifyId: albumId,
-                  },
+      if (res) {
+        if (action === 'listened') {
+          const action = await ctx.prisma.listened.create({
+            data: {
+              user: {
+                connect: {
+                  id: user_id,
                 },
               },
-              include: {
-                album: true,
-              },
-            });
-
-            return action;
-          }
-
-          if (action === 'listening') {
-            const action = await ctx.prisma.listening.create({
-              data: {
-                user: {
-                  connect: {
-                    id: user_id,
-                  },
-                },
-                album: {
-                  connect: {
-                    spotifyId: albumId,
-                  },
+              album: {
+                connect: {
+                  spotifyId: spotifyId,
                 },
               },
-              include: {
-                album: true,
-              },
-            });
+            },
+            include: {
+              album: true,
+            },
+          });
 
-            return action;
-          }
-
-          if (action === 'wantToListen') {
-            const action = await ctx.prisma.wantToListen.create({
-              data: {
-                user: {
-                  connect: {
-                    id: user_id,
-                  },
-                },
-                album: {
-                  connect: {
-                    spotifyId: albumId,
-                  },
-                },
-              },
-              include: {
-                album: true,
-              },
-            });
-
-            return action;
-          }
+          return action;
         }
-      } else {
-        return 'not auth';
+
+        if (action === 'listening') {
+          const action = await ctx.prisma.listening.create({
+            data: {
+              user: {
+                connect: {
+                  id: user_id,
+                },
+              },
+              album: {
+                connect: {
+                  spotifyId: spotifyId,
+                },
+              },
+            },
+            include: {
+              album: true,
+            },
+          });
+
+          return action;
+        }
+
+        if (action === 'wantToListen') {
+          const action = await ctx.prisma.wantToListen.create({
+            data: {
+              user: {
+                connect: {
+                  id: user_id,
+                },
+              },
+              album: {
+                connect: {
+                  spotifyId: spotifyId,
+                },
+              },
+            },
+            include: {
+              album: true,
+            },
+          });
+
+          return action;
+        }
       }
     }),
 });

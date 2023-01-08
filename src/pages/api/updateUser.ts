@@ -35,4 +35,5 @@ export default async function handle(
   if (user) {
     res.status(200).json({ message: 'User updated', user });
   }
+  return res.status(400).json({ message: 'User not updated' });
 }

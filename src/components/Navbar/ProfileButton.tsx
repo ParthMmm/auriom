@@ -87,7 +87,7 @@ function ProfileButton({}) {
                   )}
                 </Menu.Item>
               </div>
-              {/* <div className="px-1 py-1">
+              <div className="px-1 py-1">
                 <Menu.Item>
                   {({ active }) => (
                     <button
@@ -100,7 +100,7 @@ function ProfileButton({}) {
                     </button>
                   )}
                 </Menu.Item>
-              </div> */}
+              </div>
             </Menu.Items>
           </Transition>
         </Menu>

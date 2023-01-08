@@ -22,24 +22,24 @@ function AlbumPage({}) {
 
   const artist = router.query.artist as string;
   const album = router.query.album as string;
-  const uri = router.query.uri as string;
+  const spotifyId = router.query.id as string;
 
   const albumTracks = trpc.spotify.getAlbumTracklist.useQuery(
-    { uri },
+    { spotifyId },
     {
-      enabled: !!uri,
+      enabled: !!spotifyId,
     },
   );
 
   const albumInfo = trpc.spotify.getAlbum.useQuery(
-    { uri },
+    { spotifyId },
     {
-      enabled: !!uri,
+      enabled: !!spotifyId,
     },
   );
 
   if (albumTracks.isLoading || albumInfo.isLoading) {
-    return <Spinner loadingText={`fetching ${artist} - ${album}`} />;
+    return <Spinner />;
   }
   if (albumInfo.error || !albumInfo.data) {
     return (

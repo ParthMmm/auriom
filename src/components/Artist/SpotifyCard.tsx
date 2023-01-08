@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { ArtistItem } from '@utils/types/spotify';
+import type { ArtistItem } from '@utils/types/spotify/spotify';
 
 type Props = {
   artist: ArtistItem;

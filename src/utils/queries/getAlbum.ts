@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-import type { AlbumInfoRoot } from '@utils/types/albumInfo';
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 
 import type { Context } from './../../server/trpc/context';
 import { stripURI } from './../stripURI';
 
-export const getAlbum = async (ctx: Context, uri: string) => {
+export const getAlbum = async (ctx: Context, spotifyId: string) => {
   const album = await ctx.prisma.album.findUnique({
     where: {
-      uri: uri,
+      spotifyId: spotifyId,
     },
     include: {
       images: true,
@@ -18,12 +18,6 @@ export const getAlbum = async (ctx: Context, uri: string) => {
   if (album) {
     return album;
   }
-
-  console.log({ album });
-
-  const id = stripURI(uri);
-
-  console.log(id, ctx.spotifyToken);
 
   if (ctx.spotifyToken) {
     const token = ctx.spotifyToken.access_token;
@@ -35,7 +29,7 @@ export const getAlbum = async (ctx: Context, uri: string) => {
     };
 
     const res = await axios.get(
-      `https://api.spotify.com/v1/albums/${id}`,
+      `https://api.spotify.com/v1/albums/${spotifyId}`,
       config,
     );
 

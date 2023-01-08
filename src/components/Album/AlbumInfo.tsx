@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { AlbumInfoRoot } from '@utils/types/albumInfo';
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 
 type Props = {
   album: AlbumInfoRoot;

@@ -8,7 +8,7 @@ export const userInputReviewSchema = z.object({
 export const reviewSchema = z.object({
   rating: z.number().min(1).max(5),
   body: z.string().min(0).max(10000).optional(),
-  uri: z.string(),
+  spotifyId: z.string(),
   userId: z.string(),
 
   favoriteTracks: z

@@ -18,7 +18,7 @@ type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title: string;
-  uri: string;
+  spotifyId: string;
   artist: string;
   setNewReview: (newReview: boolean) => void;
 };
@@ -28,7 +28,7 @@ export default function CreateReviewModal({
   setIsOpen,
   title,
   artist,
-  uri,
+  spotifyId,
   setNewReview,
 }: Props) {
   const { user } = useUser();
@@ -59,12 +59,11 @@ export default function CreateReviewModal({
   const createReviewMutation = trpc.review.createReview.useMutation();
   const submitHandler = async (data: UserInputReview) => {
     if (!user) return;
-    console.log(userInputReviewSchema.parse(data));
 
     const res = await createReviewMutation.mutateAsync({
       ...data,
       rating,
-      uri,
+      spotifyId,
       userId: user?.id,
       // favoriteTracks,
     });

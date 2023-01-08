@@ -2,7 +2,7 @@ import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
 import { trpc } from '@utils/trpc';
-import type { AlbumInfoRoot } from '@utils/types/albumInfo';
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 
 const actions = [
   { name: 'currently listening', value: 'listening' },
@@ -22,12 +22,14 @@ function ActionButtons({ album }: Props) {
   const user_id = user?.id;
   const artists = album.artists.map((artist) => artist.name).join(', ');
 
+  const id = album.id;
+
   const getSelected = trpc.albumAction.getUserActionsForAlbum.useQuery(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    { uri: album?.uri, user_id: user_id },
+    { spotifyId: id, user_id: user_id },
     {
-      enabled: !!user_id && !!isSignedIn,
+      enabled: !!id && !!isSignedIn,
     },
   );
 
@@ -48,7 +50,7 @@ function ActionButtons({ album }: Props) {
       setSelected(action);
 
       await actionMutation.mutateAsync({
-        uri: album?.uri,
+        spotifyId: album?.id,
         user_id: user?.id,
         action,
       });

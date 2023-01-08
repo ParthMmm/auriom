@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import SpotifyCard from '@components/Album/SpotifyCard';
 
 import { trpc } from '@utils/trpc';
-import type { AlbumItem } from '@utils/types/spotify';
+import type { AlbumItem } from '@utils/types/spotify/spotify';
 
 function Albums({}) {
   const router = useRouter();

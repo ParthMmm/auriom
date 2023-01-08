@@ -19,24 +19,20 @@ type Props = {
 };
 
 function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
-  const imageURL = images.filter((image) => image.height === 300)[0]?.url;
-
-  if (!imageURL) {
-    return null;
-  }
+  const imageURL = images?.filter((image) => image.height === 300)[0]?.url;
 
   if (typeof artist === 'object') {
     artist = artist.map((a) => a.name).join(', ');
   }
 
+  const id = uri.split(':')[2];
+
   return (
     <Link
       href={{
-        pathname: `/album/[album]/[artist]`,
+        pathname: `/album/[id]`,
         query: {
-          artist: artist,
-          album: title,
-          uri: uri,
+          id: id,
         },
       }}
       // as={`/album/${encodeURIComponent(album.name)}/${artists}`}

@@ -5,9 +5,9 @@ import { getSearchSchema } from '@utils/schemas/searchSchema';
 // import { getHTTPStatusCodeFromError } from "@trpc/server/http";
 // import type { TRPCError } from "@trpc/server";
 import { stripURI } from '@utils/stripURI';
-import type { AlbumInfoRoot } from '@utils/types/albumInfo';
-import type { TracksRoot } from '@utils/types/albumTracks';
-import type { Root } from '@utils/types/spotify';
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
+import type { TracksRoot } from '@utils/types/spotify/albumTracks';
+import type { Root } from '@utils/types/spotify/spotify';
 
 import * as trpc from '../trpc';
 import { getAlbumTracklist } from './../../../utils/queries/getAlbumTracklist';
@@ -25,8 +25,6 @@ export const spotifyRouter = trpc.router({
     .input(getSearchSchema)
     .query(async ({ input, ctx }) => {
       const { query, type, cursor } = input;
-
-      // console.log(ctx);
 
       if (ctx.spotifyToken) {
         const token = ctx.spotifyToken.access_token;
@@ -98,7 +96,8 @@ export const spotifyRouter = trpc.router({
           config,
         );
 
-        const data: Pick<Root, 'tracks'> = res.data;
+        type tracks = Pick<Root, 'tracks'>;
+        const data = res.data as tracks;
 
         return data.tracks;
       }
@@ -108,18 +107,7 @@ export const spotifyRouter = trpc.router({
   getAlbum: trpc.publicProcedure
     .input(getAlbumTracksSchema)
     .query(async ({ input, ctx }) => {
-      const { uri } = input;
-
-      const re = new RegExp(':([^:]*)$');
-
-      const id3 = uri.match(re);
-      // const id3 = id2[0].match(re);
-
-      if (!id3) {
-        return null;
-      }
-
-      const id = id3[1];
+      const { spotifyId } = input;
 
       if (ctx.spotifyToken) {
         const token = ctx.spotifyToken.access_token;
@@ -131,7 +119,7 @@ export const spotifyRouter = trpc.router({
         };
 
         const res = await axios.get(
-          `https://api.spotify.com/v1/albums/${id}`,
+          `https://api.spotify.com/v1/albums/${spotifyId}`,
           config,
         );
 
@@ -145,10 +133,10 @@ export const spotifyRouter = trpc.router({
   getAlbumTracklist: trpc.publicProcedure
     .input(getAlbumTracksSchema)
     .query(async ({ input, ctx }) => {
-      const { uri } = input;
+      const { spotifyId } = input;
 
       // const id = id3[1];
-      const tracklist = await getAlbumTracklist(ctx, uri);
+      const tracklist = await getAlbumTracklist(ctx, spotifyId);
 
       return tracklist;
     }),
