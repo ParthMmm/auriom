@@ -32,7 +32,11 @@ function EditProfileButton({ username }: Props) {
             />
           </svg>
         </button>
-        <SettingsModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <SettingsModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          username={username}
+        />
       </div>
     );
   }

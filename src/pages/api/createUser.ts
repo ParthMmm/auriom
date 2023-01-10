@@ -24,6 +24,15 @@ export default async function handle(
         id: id,
         username: username,
         profileImage: img,
+
+        externalAccounts: {
+          create: {
+            soundCloudAccount: '',
+            spotifyAccount: '',
+            lastFmAccount: '',
+            twitterAccount: '',
+          },
+        },
       },
     });
 

@@ -15,15 +15,28 @@ datasource db {
 }
 
 model User {
-  id             String          @id @unique
-  username       String          @unique
-  createdAt      DateTime        @default(now())
-  profileImage   String
-  reviews        Review[]
-  listening      Listening[]
-  listened       Listened[]
-  wantToListen   WantToListen[]
+  id               String             @id @unique
+  username         String             @unique
+  createdAt        DateTime           @default(now())
+  profileImage     String
+  bio              String?
+  reviews          Review[]
+  listening        Listening[]
+  listened         Listened[]
+  wantToListen     WantToListen[]
+  externalAccounts ExternalAccounts[]
   // favoriteTracks FavoriteTrack[]
+}
+
+model ExternalAccounts {
+  id                String   @id @default(cuid())
+  createdAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id])
+  userId            String
+  spotifyAccount    String?  @default("")
+  lastFmAccount     String?  @default("")
+  soundCloudAccount String?  @default("")
+  twitterAccount    String?  @default("")
 }
 
 model Review {
@@ -77,14 +90,14 @@ model Artist {
 // }
 
 model Track {
-  id         String          @id @default(cuid())
-  uri        String          @unique
-  spotifyId  String          @unique
+  id         String   @id @default(cuid())
+  uri        String   @unique
+  spotifyId  String   @unique
   title      String
   trackNum   Int
   duration   Int
   previewUrl String?
-  album      Album           @relation(fields: [albumId], references: [spotifyId])
+  album      Album    @relation(fields: [albumId], references: [spotifyId])
   albumId    String
   // favorites  FavoriteTrack[]
   artists    Artist[]

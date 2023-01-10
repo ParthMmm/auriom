@@ -29,6 +29,7 @@ export default async function handle(
     },
     data: {
       profileImage: img,
+      username: username,
     },
   });
 
