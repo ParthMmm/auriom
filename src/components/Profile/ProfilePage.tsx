@@ -10,6 +10,7 @@ import { trpc } from '@utils/trpc';
 import EditProfileButton from './EditProfileButton';
 import ExternalAccounts from './ExternalAccounts';
 import UserActionsActivity from './UserActionsActivity';
+import UserReviews from './UserReviews';
 
 function ProfilePage({}) {
   const router = useRouter();
@@ -68,6 +69,7 @@ function ProfilePage({}) {
 
           <EditProfileButton username={username} />
         </div>
+        {/* <UserReviews username={username} /> */}
         <UserActionsActivity username={username} />
       </div>
     </div>

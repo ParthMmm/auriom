@@ -15,23 +15,21 @@ datasource db {
 }
 
 model User {
-  id               String             @id @unique
-  username         String             @unique
-  createdAt        DateTime           @default(now())
-  profileImage     String
-  bio              String?
-  reviews          Review[]
-  listening        Listening[]
-  listened         Listened[]
-  wantToListen     WantToListen[]
-  spotifyAccount    String?  @default("")
-  lastFmAccount     String?  @default("")
-  soundCloudAccount String?  @default("")
-  twitterAccount    String?  @default("")
+  id                String         @id @unique
+  username          String         @unique
+  createdAt         DateTime       @default(now())
+  profileImage       String
+  bio               String?
+  reviews           Review[]
+  listening         Listening[]
+  listened          Listened[]
+  wantToListen      WantToListen[]
+  spotifyAccount    String?        @default("")
+  lastFmAccount     String?        @default("")
+  soundCloudAccount String?        @default("")
+  twitterAccount    String?        @default("")
   // favoriteTracks FavoriteTrack[]
 }
-
-
 
 model Review {
   id        String   @id @default(cuid())

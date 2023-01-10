@@ -157,6 +157,7 @@ export const reviewRouter = router({
               images: true,
             },
           },
+          user: true,
         },
       });
 
