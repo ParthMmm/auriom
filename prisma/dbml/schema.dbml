@@ -1,0 +1,129 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk, unique]
+  username String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  profileImage String [not null]
+  reviews Review [not null]
+  listening Listening [not null]
+  listened Listened [not null]
+  wantToListen WantToListen [not null]
+}
+
+Table Review {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  body String
+  user User [not null]
+  userId String [not null]
+  Album Album [not null]
+  albumId String [not null]
+  rating Float [not null]
+}
+
+Table Album {
+  id String [pk]
+  uri String [unique, not null]
+  spotifyId String [unique, not null]
+  title String [not null]
+  genre String
+  year Int
+  reviews Review [not null]
+  listening Listening [not null]
+  listened Listened [not null]
+  wantToListen WantToListen [not null]
+  images Image [not null]
+  tracks Track [not null]
+  artists Artist [not null]
+}
+
+Table Artist {
+  id String [pk]
+  uri String [unique, not null]
+  spotifyId String [unique, not null]
+  name String [not null]
+  albums Album [not null]
+  tracks Track [not null]
+}
+
+Table Track {
+  id String [pk]
+  uri String [unique, not null]
+  spotifyId String [unique, not null]
+  title String [not null]
+  trackNum Int [not null]
+  duration Int [not null]
+  previewUrl String
+  album Album [not null]
+  albumId String [not null]
+  artists Artist [not null]
+}
+
+Table Image {
+  id String [pk]
+  url String [not null]
+  height Int [not null]
+  width Int [not null]
+  album Album [not null]
+  albumId String [not null]
+}
+
+Table Listening {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  userId String [not null]
+  album Album [not null]
+  albumId String [not null]
+}
+
+Table Listened {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  userId String [not null]
+  album Album [not null]
+  albumId String [not null]
+}
+
+Table WantToListen {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  userId String [not null]
+  album Album [not null]
+  albumId String [not null]
+}
+
+Table AlbumToArtist {
+  artistsId String [ref: > Artist.id]
+  albumsId String [ref: > Album.id]
+}
+
+Table ArtistToTrack {
+  tracksId String [ref: > Track.id]
+  artistsId String [ref: > Artist.id]
+}
+
+Ref: Review.userId > User.id
+
+Ref: Review.albumId > Album.spotifyId
+
+Ref: Track.albumId > Album.spotifyId
+
+Ref: Image.albumId > Album.spotifyId
+
+Ref: Listening.userId > User.id
+
+Ref: Listening.albumId > Album.spotifyId
+
+Ref: Listened.userId > User.id
+
+Ref: Listened.albumId > Album.spotifyId
+
+Ref: WantToListen.userId > User.id
+
+Ref: WantToListen.albumId > Album.spotifyId

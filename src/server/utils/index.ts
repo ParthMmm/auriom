@@ -139,6 +139,8 @@ export const trackHelper = async (
       },
     });
 
+    // create tracks and connect to album
+    // create artists then connect to tracks
     if (!trackExists) {
       const a = await ctx.prisma.track.create({
         data: {
@@ -153,40 +155,33 @@ export const trackHelper = async (
               spotifyId: id,
             },
           },
-          // artists: {
-          //   connectOrCreate: track.artists.map((artist) => ({
-          //     where: {
-          //       uri: artist.uri,
-          //     },
-          //     create: {
-          //       spotifyId: artist.id,
-          //       uri: artist.uri,
-          //       name: artist.name,
-          //     },
-          //   })),
-          // },
         },
       });
 
-      const b = await ctx.prisma.track.update({
+      //create artists for each track
+      const artists = await ctx.prisma.artist.createMany({
+        data: track.artists.map((artist) => ({
+          spotifyId: artist.id,
+          uri: artist.uri,
+          name: artist.name,
+        })),
+        skipDuplicates: true,
+      });
+
+      const tracks = await ctx.prisma.track.update({
         where: {
           id: a.id,
         },
         data: {
           artists: {
-            connectOrCreate: track.artists.map((artist) => ({
-              where: {
-                uri: artist.uri,
-              },
-              create: {
-                spotifyId: artist.id,
-                uri: artist.uri,
-                name: artist.name,
-              },
+            connect: track.artists.map((artist) => ({
+              uri: artist.uri,
             })),
           },
         },
       });
+
+      return tracks;
     }
   });
 

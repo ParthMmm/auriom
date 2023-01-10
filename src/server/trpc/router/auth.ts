@@ -26,6 +26,7 @@ export const authRouter = router({
     const deleteListend = ctx.prisma.listened.deleteMany();
     const deleteWantToListen = ctx.prisma.wantToListen.deleteMany();
     const deleteListening = ctx.prisma.listening.deleteMany();
+    // const deleteFavorites = ctx.prisma.favoriteTrack.deleteMany();
     const deleteArtist = ctx.prisma.artist.deleteMany();
     const deleteImage = ctx.prisma.image.deleteMany();
     const deleteReview = ctx.prisma.review.deleteMany();
@@ -36,6 +37,7 @@ export const authRouter = router({
       deleteListend,
       deleteWantToListen,
       deleteListening,
+      // deleteFavorites,
       deleteArtist,
       deleteImage,
       deleteReview,

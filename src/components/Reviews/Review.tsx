@@ -20,9 +20,10 @@ function Review({ review }: Props) {
   let showMore = false;
 
   let body = review.body;
-  if (review.body.length > 400) {
+
+  if (review.body && review?.body.length > 400) {
     showMore = true;
-    body = review.body.slice(0, 400) + '...';
+    body = review?.body.slice(0, 400) + '...';
   }
 
   // useEffect(() => {
@@ -61,7 +62,7 @@ function Review({ review }: Props) {
             </div>
           </div>
           <div className="">
-            <div className=" text-right text-harlequin-500">
+            <div className=" text-right text-harlequin-500 tabular-nums">
               {review.rating} <span className="text-gray-600">/ 5</span>
             </div>
           </div>

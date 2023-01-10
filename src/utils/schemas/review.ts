@@ -17,7 +17,7 @@ export const reviewSchema = z.object({
         id: z.string(),
         name: z.string(),
         duration_ms: z.number(),
-        preview_url: z.string(),
+        preview_url: z.string().nullable(),
         uri: z.string(),
         artists: z.array(
           z.object({
@@ -36,7 +36,7 @@ export const favoriteTracklistSchema = z.array(
     id: z.string(),
     name: z.string(),
     duration_ms: z.number(),
-    preview_url: z.string(),
+    preview_url: z.string().nullable(),
     uri: z.string(),
     artists: z.array(
       z.object({

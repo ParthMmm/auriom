@@ -1,4 +1,11 @@
-import type { Album, Artist, Image } from '@prisma/client';
+import type {
+  Album,
+  Artist,
+  Image,
+  Listened,
+  Listening,
+  WantToListen,
+} from '@prisma/client';
 
 export type AlbumInfo = Album & {
   artists: Artist | Artist[];
@@ -9,3 +16,9 @@ export type AlbumInfo = Album & {
 // export tyep
 
 export type ArtistInfo = Artist;
+
+export type Action = Listening | WantToListen | Listened;
+
+export type ActionInfo = Action & {
+  album: AlbumInfo;
+};

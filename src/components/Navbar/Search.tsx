@@ -24,7 +24,7 @@ function Search({}) {
   };
 
   return (
-    <div className="group flex w-full flex-row items-center rounded-sm align-middle transition-all focus-within:bg-transparent focus-within:text-harlequin-500 focus-within:outline-none  focus-within:ring focus-within:ring-harlequin-500  ">
+    <div className="group flex w-full flex-row items-center rounded-sm align-middle transition-all  focus-within:text-harlequin-500     ">
       {/* show an x icon to clear search input when value */}
 
       {value ? (

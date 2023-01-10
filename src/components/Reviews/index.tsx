@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useState } from 'react';
 
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
@@ -15,7 +16,9 @@ function Reviews({ album }: Props) {
 
   const [newReview, setNewReview] = useState(false);
 
-  const spotifyId = album.id;
+  const spotifyId = album?.id;
+
+  console.log(spotifyId);
 
   return (
     <div className="mb-12 w-full md:mb-24 ">
@@ -31,9 +34,7 @@ function Reviews({ album }: Props) {
           </svg>
         </button>
       </div>
-      <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
-        <ReviewsList uri={album.uri} newReview={newReview} />
-      </div>
+      <ReviewsList newReview={newReview} spotifyId={spotifyId} />
 
       <CreateReviewModal
         isOpen={isOpen}

@@ -2,6 +2,7 @@ import localFont from '@next/font/local';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import type { ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 type Props = {
   children: ReactNode;
@@ -72,6 +73,7 @@ function Layout({ children }: Props) {
       >
         <Navbar />
         <div className="bg-black pt-32">{children}</div>
+        <Toaster position="bottom-center" gutter={8} />
       </div>
     </>
   );

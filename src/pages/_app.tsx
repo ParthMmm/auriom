@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 import { objectSans } from '@components/Layout';
@@ -76,6 +77,7 @@ const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
       >
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>{getContent()}</ErrorBoundary>
+
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ClerkProvider>

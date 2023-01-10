@@ -1,13 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
 
-import Card from '@components/Album/Card';
-
-import { trpc } from '@utils/trpc';
-
-import List from './List';
+import UserActionsActivity from './UserActionsActivity';
 
 function ProfilePage({}) {
   const router = useRouter();
@@ -18,82 +11,12 @@ function ProfilePage({}) {
 
   const username = router?.query?.username[0] as string;
 
-  const data = trpc.albumAction.getAllUserActions.useQuery(
-    {
-      username,
-    },
-    {
-      enabled: !!username,
-    },
-  );
-
-  const reviews = trpc.review.getReviewsForUser.useQuery(
-    {
-      username,
-    },
-    {
-      enabled: !!username,
-    },
-  );
-
-  const listening = data.data?.listening;
-  const listened = data.data?.listened;
-  const wantToListen = data.data?.wantToListen;
-
   return (
     <div>
       <div className="mt-24 flex flex-row justify-center">
         hi, {router.query.username}
       </div>
-      <div className="mt-24 flex flex-col gap-11 ">
-        <div className="px-4">
-          {data.isLoading && <div>loading...</div>}
-          {data.isSuccess && (
-            <List data={listening} title={'currently listening'} />
-          )}
-        </div>
-        <div className="px-4">
-          {data.isLoading && <div>loading...</div>}
-          {data.isSuccess && <List data={listened} title={'listened'} />}
-        </div>
-        <div className="px-4">
-          {data.isLoading && <div>loading...</div>}
-          {data.isSuccess && (
-            <List data={wantToListen} title={'want to listen'} />
-          )}
-        </div>
-        <div className="px-4">
-          <h2 className=" text-2xl font-black">reviews</h2>
-          <div className="flex flex-row gap-8 border-2 border-gray-700 p-4">
-            {reviews.data?.map((review) => (
-              <div className="gap flex flex-col" key={review.id}>
-                {/* {review.Album.images && (
-                  <picture className="lazyPicture aspect-ratio ">
-                    <Image
-                      src={review.Album.images[0].url}
-                      alt={"album cover"}
-                      className="asset"
-                      fill
-                      quality={100}
-                    />
-                  </picture>
-                )} */}
-                <div className="flex flex-row items-center justify-evenly gap-4 align-middle">
-                  <div className="">
-                    <div className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
-                      {review.Album.title}
-                    </div>
-                    <div className="text-sm md:text-lg">
-                      {review.Album.artist}
-                    </div>
-                  </div>
-                  <div className="text-harlequin-500">{review.rating}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <UserActionsActivity username={username} />
     </div>
   );
 }

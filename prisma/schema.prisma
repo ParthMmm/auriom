@@ -5,6 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -19,30 +23,19 @@ model User {
   listening      Listening[]
   listened       Listened[]
   wantToListen   WantToListen[]
-  favoriteTracks FavoriteTrack[]
+  // favoriteTracks FavoriteTrack[]
 }
 
 model Review {
-  id             String          @id @default(cuid())
-  createdAt      DateTime        @default(now())
-  body           String?
-  user           User            @relation(fields: [userId], references: [id])
-  userId         String
-  Album          Album           @relation(fields: [albumId], references: [uri])
-  albumId        String
-  rating         Float
-  favoriteTracks FavoriteTrack[]
-}
-
-model FavoriteTrack {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
+  body      String?
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  track     Track    @relation(fields: [trackId], references: [id])
-  trackId   String
-  Review    Review?  @relation(fields: [reviewId], references: [id])
-  reviewId  String?
+  Album     Album    @relation(fields: [albumId], references: [spotifyId])
+  albumId   String
+  rating    Float
+  // favoriteTracks FavoriteTrack[]
 }
 
 model Album {
@@ -70,6 +63,19 @@ model Artist {
   tracks    Track[]
 }
 
+// model FavoriteTrack {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now())
+//   track     Track    @relation(fields: [trackId], references: [id])
+//   trackId   String
+//   // user      User     @relation(fields: [userId], references: [id])
+//   // userId    String
+//   Review    Review?  @relation(fields: [reviewId], references: [id])
+//   reviewId  String?
+//   user      User     @relation(fields: [userId], references: [id])
+//   userId    String
+// }
+
 model Track {
   id         String          @id @default(cuid())
   uri        String          @unique
@@ -78,9 +84,9 @@ model Track {
   trackNum   Int
   duration   Int
   previewUrl String?
-  album      Album          @relation(fields: [albumId], references: [uri])
+  album      Album           @relation(fields: [albumId], references: [spotifyId])
   albumId    String
-  favorites  FavoriteTrack[]
+  // favorites  FavoriteTrack[]
   artists    Artist[]
 }
 

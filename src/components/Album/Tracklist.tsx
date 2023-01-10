@@ -24,9 +24,11 @@ function Tracklist({ albumTracks }: Props) {
         <div className=" ">
           {albumTracks?.map((track) => (
             <div key={track.name} className="group p-2">
-              <div className="   flex flex-row justify-between space-x-1">
+              <div className=" flex flex-row justify-between ">
                 <div className="">
-                  <span className="mr-1 font-bold">{track.track_number}.</span>
+                  <span className="mr-1 font-bold tabular-nums">
+                    {track.track_number}.
+                  </span>
 
                   <span className="group-hover:shadow-highlight-blurple">
                     {track.name}
@@ -38,8 +40,8 @@ function Tracklist({ albumTracks }: Props) {
                   )}
                 </div>
 
-                <div>
-                  <span>{msToTime(track.duration_ms)}</span>
+                <div className="flex flex-row justify-end">
+                  <p className="tabular-nums">{msToTime(track.duration_ms)}</p>
                 </div>
               </div>
             </div>

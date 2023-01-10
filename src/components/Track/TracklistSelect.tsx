@@ -11,8 +11,6 @@ function TracklistSelect({}) {
 
   const [tracks, setTracks] = useState([]);
 
-  console.log(tracks);
-
   const setFavoriteTracks = useStore((state) => state.setFavoriteTracks);
 
   setFavoriteTracks(tracks);
