@@ -25,21 +25,22 @@ export default async function handle(
       img = profile_image_url;
     }
 
-    const user = await prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        profileImage: img,
-        username: username,
-      },
-    });
-
-    if (user) {
-      res.status(200).json({ message: 'User updated', user });
-    }
-
-    throw new Error('User not updated');
+    await prisma.user
+      .update({
+        where: {
+          id: id,
+        },
+        data: {
+          profileImage: img,
+          username: username,
+        },
+      })
+      .then((user) => {
+        res.status(200).json({ message: 'User updated', user });
+      })
+      .catch(() => {
+        res.status(500).json({ message: 'user not updated' });
+      });
   } catch (err) {
     res.status(500).json({ message: err });
   }

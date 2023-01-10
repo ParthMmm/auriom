@@ -40,7 +40,6 @@ export default async function handle(
       res.status(200).json({ message: 'User created', user });
       return;
     }
-    throw new Error('User not created');
   } catch (err) {
     res.status(500).json({ message: err });
   }
