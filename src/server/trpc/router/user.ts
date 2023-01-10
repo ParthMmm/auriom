@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { userSchema } from '@utils/schemas/userSchema';
 
 import { protectedProcedure, publicProcedure, router } from '../trpc';
+import { ExternalAccount } from './../../../utils/types/user';
 
 export const userRouter = router({
   getUser: protectedProcedure
@@ -13,9 +14,6 @@ export const userRouter = router({
       const user = await ctx.prisma.user.findUnique({
         where: {
           username: username,
-        },
-        include: {
-          externalAccounts: true,
         },
       });
 
@@ -29,11 +27,20 @@ export const userRouter = router({
   updateUser: protectedProcedure
     .input(userSchema)
     .mutation(async ({ ctx, input }) => {
-      const { username, bio } = input;
+      const {
+        username,
+        bio,
+        spotifyAccount,
+        lastFmAccount,
+        soundCloudAccount,
+        twitterAccount,
+      } = input;
 
       if (ctx.user.username !== username) {
         throw new Error('You can only update your own profile');
       }
+
+      const userId = ctx?.user?.id;
 
       const user = await ctx.prisma.user.update({
         where: {
@@ -41,6 +48,10 @@ export const userRouter = router({
         },
         data: {
           bio: bio,
+          spotifyAccount: spotifyAccount,
+          lastFmAccount: lastFmAccount,
+          soundCloudAccount: soundCloudAccount,
+          twitterAccount: twitterAccount,
         },
       });
 

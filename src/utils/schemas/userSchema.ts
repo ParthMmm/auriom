@@ -2,20 +2,20 @@ import z from 'zod';
 
 export const userBioInputSchema = z.object({
   //   username: z.string(),
-  bio: z.string().optional(),
-  spotifyAccount: z.string().optional(),
-  lastFmAccount: z.string().optional(),
-  soundCloudAccount: z.string().optional(),
-  twitterAccount: z.string().optional(),
+  bio: z.string().nullable(),
+  spotifyAccount: z.string().nullable(),
+  lastFmAccount: z.string().nullable(),
+  soundCloudAccount: z.string().nullable(),
+  twitterAccount: z.string().nullable(),
 });
 
 export const userSchema = z.object({
   username: z.string(),
-  bio: z.string().optional(),
-  spotifyAccount: z.string().optional(),
-  lastFmAccount: z.string().optional(),
-  soundCloudAccount: z.string().optional(),
-  twitterAccount: z.string().optional(),
+  bio: z.string().nullable(),
+  spotifyAccount: z.string().nullable(),
+  lastFmAccount: z.string().nullable(),
+  soundCloudAccount: z.string().nullable(),
+  twitterAccount: z.string().nullable(),
 });
 
 export type userBioInputType = z.infer<typeof userBioInputSchema>;

@@ -24,20 +24,14 @@ model User {
   listening        Listening[]
   listened         Listened[]
   wantToListen     WantToListen[]
-  externalAccounts ExternalAccounts[]
-  // favoriteTracks FavoriteTrack[]
-}
-
-model ExternalAccounts {
-  id                String   @id @default(cuid())
-  createdAt         DateTime @default(now())
-  user              User     @relation(fields: [userId], references: [id])
-  userId            String
   spotifyAccount    String?  @default("")
   lastFmAccount     String?  @default("")
   soundCloudAccount String?  @default("")
   twitterAccount    String?  @default("")
+  // favoriteTracks FavoriteTrack[]
 }
+
+
 
 model Review {
   id        String   @id @default(cuid())

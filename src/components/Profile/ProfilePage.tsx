@@ -1,12 +1,14 @@
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { SpotifyLogo } from 'src/lib/svgs';
 
 import Spinner from '@components/Spinner';
 
 import { trpc } from '@utils/trpc';
 
 import EditProfileButton from './EditProfileButton';
+import ExternalAccounts from './ExternalAccounts';
 import UserActionsActivity from './UserActionsActivity';
 
 function ProfilePage({}) {
@@ -38,21 +40,32 @@ function ProfilePage({}) {
   //button to edit profile if user is signed in and is on their own profile
 
   return (
-    <div className="container mx-auto flex justify-center items-center pb-12">
+    <div className="container px-12 mx-auto flex justify-center items-center pb-12">
       <div className=" mt-12 flex flex-col w-full">
         <div className="flex justify-between">
-          <div className="flex justify-start flex-col items-start pl-2">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <Image
-                src={userInfo.data.profileImage}
-                alt={`${userInfo.data.username}'s profile image`}
-                height={150}
-                width={150}
-                className="rounded-full"
-              />
-              <h1 className="text-3xl font-bold text-white">{username}</h1>
+          <div className="flex flex-row">
+            <div className="flex justify-start flex-col items-start pl-2">
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Image
+                  src={userInfo.data.profileImage}
+                  alt={`${userInfo.data.username}'s profile image`}
+                  height={150}
+                  width={150}
+                  className="rounded-full"
+                />
+                <h1 className="text-3xl font-bold text-white py-4">
+                  {username}
+                </h1>
+              </div>
+              <div>
+                <ExternalAccounts userInfo={userInfo.data} />
+              </div>
+            </div>
+            <div className="m-12 flex justify-start items-start align-middle">
+              <p className="text-white">{userInfo.data.bio}</p>
             </div>
           </div>
+
           <EditProfileButton username={username} />
         </div>
         <UserActionsActivity username={username} />

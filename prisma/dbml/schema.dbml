@@ -12,14 +12,6 @@ Table User {
   listening Listening [not null]
   listened Listened [not null]
   wantToListen WantToListen [not null]
-  externalAccounts ExternalAccounts [not null]
-}
-
-Table ExternalAccounts {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  user User [not null]
-  userId String [not null]
   spotifyAccount String [default: '']
   lastFmAccount String [default: '']
   soundCloudAccount String [default: '']
@@ -120,8 +112,6 @@ Table ArtistToTrack {
   tracksId String [ref: > Track.id]
   artistsId String [ref: > Artist.id]
 }
-
-Ref: ExternalAccounts.userId > User.id
 
 Ref: Review.userId > User.id
 
