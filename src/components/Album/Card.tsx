@@ -24,7 +24,7 @@ function Card({ album }: Props) {
           }}
           key={artist?.id}
         >
-          <span className="text-sm font-normal pr-2 transition-all md:text-2xl">
+          <span className="text-sm font-normal pr-2 transition-all text-gray-500 md:text-md hover:text-harlequin-500">
             {artist?.name}
           </span>
         </Link>
@@ -41,7 +41,7 @@ function Card({ album }: Props) {
           }}
           key={album?.artists?.spotifyId}
         >
-          <span className="text-sm font-normal transition-all  md:text-2xl">
+          <span className="text-sm font-normal transition-all  md:text-md hover:text-harlequin-500">
             {album?.artists?.name}
           </span>
         </Link>
@@ -50,40 +50,53 @@ function Card({ album }: Props) {
   };
 
   return (
-    <Link
-      href={{
-        pathname: `/album/[id]`,
-        query: {
-          id: album?.spotifyId,
-        },
-      }}
-      // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
-    >
-      <div className="grid-playlist group cursor-pointer ">
-        <div className="grid-playlist-hero">
-          {imageURL && (
-            <Image
-              src={imageURL}
-              alt={'album cover'}
-              className="asset"
-              height={300}
-              width={300}
-              quality={100}
-            />
-          )}
-        </div>
-        <div className="grid-playlist-info-container mb-8  lg:mb-0">
-          <div className="">
-            <div className="">
-              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
-                {album?.title}
-              </span>
+    <div className="flex hover:border-gray-500 transition-all  first:border-l-2 border-t-2 border-b-2 border-r-2 border-gray-700">
+      <div className=" ">
+        <div className=" flex flex-col align-center w-full ">
+          <div className=" cursor-pointer flex flex-col gap-4 p-6  ">
+            <Link
+              href={{
+                pathname: `/album/[id]`,
+                query: {
+                  id: album?.spotifyId,
+                },
+              }}
+              // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
+            >
+              <div className=" w-36 h-36">
+                {imageURL && (
+                  <Image
+                    src={imageURL}
+                    alt={'album cover'}
+                    height={150}
+                    width={150}
+                    quality={100}
+                    className="inline-block "
+                  />
+                )}
+              </div>
+            </Link>
+            <div className="flex flex-col justify-center items-center text-center">
+              <Link
+                href={{
+                  pathname: `/album/[id]`,
+                  query: {
+                    id: album?.spotifyId,
+                  },
+                }}
+                // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
+              >
+                <span className="hover:text-harlequin-500 font-normal transition-all text-sm overflow-hidden line-clamp-2 ">
+                  {album?.title}
+                </span>
+              </Link>
+
+              <div className="">{artists()}</div>
             </div>
-            <div className="">{artists()}</div>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

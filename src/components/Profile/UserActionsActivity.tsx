@@ -36,12 +36,12 @@ function UserActionsActivity({ username }: Props) {
   }
 
   if (data.isSuccess) {
-    const listening = data.data?.listening.slice(0, 4);
-    const listened = data.data?.listened.slice(0, 4);
-    const wantToListen = data.data?.wantToListen.slice(0, 4);
+    const listening = data.data?.listening;
+    const listened = data.data?.listened;
+    const wantToListen = data.data?.wantToListen;
 
     return (
-      <div className="mt-24 flex flex-col gap-11 ">
+      <div className="mt-24 flex flex-col gap-11 w-full ">
         <div className="px-4">
           <List data={listening} title={'currently listening'} />
         </div>

@@ -8,12 +8,10 @@ type Props = {
 };
 
 function List({ data, title }: Props) {
-  console.log(data);
-
   return (
-    <div>
-      <h2 className=" text-2xl font-black">{title}</h2>
-      <div className=" flex flex-row gap-8  border-2 border-gray-700 p-4">
+    <div className="  ">
+      <h2 className=" text-2xl py-4 font-black">{title}</h2>
+      <div className=" flex flex-col md:flex-row overflow-x-scroll    ">
         {data?.map((obj) => (
           <Card album={obj?.album} key={obj?.id.toString() + obj?.userId} />
         ))}
