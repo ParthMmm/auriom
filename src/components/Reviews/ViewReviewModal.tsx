@@ -64,7 +64,7 @@ function ViewReviewModal({ isOpen, setIsOpen, review }: Props) {
                   <Dialog.Title className="text-lg font-bold text-white md:text-2xl">
                     {`${review.user.username}'s review of`}
                     <br />
-                    {`${review.Album.title} by ${review.Album.artist}`}
+                    {`${review.Album.title} `}
                   </Dialog.Title>
                   <Dialog.Description>
                     <div className="m-4    space-x-1 overflow-hidden bg-black p-4">
