@@ -1,7 +1,10 @@
-import type { AlbumInfoRoot } from "@utils/types/albumInfo";
-import { useState } from "react";
-import CreateReviewModal from "./CreateReviewModal";
-import ReviewsList from "./ReviewsList";
+import Link from 'next/link';
+import { useState } from 'react';
+
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
+
+import CreateReviewModal from './CreateReviewModal';
+import ReviewsList from './ReviewsList';
 
 type Props = {
   album: AlbumInfoRoot;
@@ -9,9 +12,13 @@ type Props = {
 
 function Reviews({ album }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const artists = album.artists.map((artist) => artist.name).join(", ");
+  const artists = album.artists.map((artist) => artist.name).join(', ');
 
   const [newReview, setNewReview] = useState(false);
+
+  const spotifyId = album?.id;
+
+  console.log(spotifyId);
 
   return (
     <div className="mb-12 w-full md:mb-24 ">
@@ -27,15 +34,13 @@ function Reviews({ album }: Props) {
           </svg>
         </button>
       </div>
-      <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
-        <ReviewsList uri={album.uri} newReview={newReview} />
-      </div>
+      <ReviewsList newReview={newReview} spotifyId={spotifyId} />
 
       <CreateReviewModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         title={album.name}
-        uri={album.uri}
+        spotifyId={spotifyId}
         artist={artists}
         setNewReview={setNewReview}
       />

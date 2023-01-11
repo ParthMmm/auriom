@@ -19,7 +19,7 @@ export type AlbumTracksItem = {
   id: string;
   is_local: boolean;
   name: string;
-  preview_url: any;
+  preview_url: string;
   track_number: number;
   type: string;
   uri: string;

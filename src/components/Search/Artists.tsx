@@ -1,8 +1,10 @@
-import SpotifyCard from "@components/Artist/SpotifyCard";
-import { trpc } from "@utils/trpc";
-import type { ArtistItem } from "@utils/types/spotify";
-import { useRouter } from "next/router";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useRouter } from 'next/router';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import SpotifyCard from '@components/Artist/SpotifyCard';
+
+import { trpc } from '@utils/trpc';
+import type { ArtistItem } from '@utils/types/spotify';
 
 function Artists({}) {
   const router = useRouter();
@@ -10,11 +12,11 @@ function Artists({}) {
 
   const { data, fetchNextPage, isLoading, error } =
     trpc.spotify.artistSearch.useInfiniteQuery(
-      { query: query, type: "artist" },
+      { query: query, type: 'artist' },
       {
         enabled: !!query,
         getNextPageParam: (lastPage) => lastPage?.offset + lastPage?.limit,
-      }
+      },
     );
 
   if (isLoading) {
@@ -37,7 +39,7 @@ function Artists({}) {
           {data?.pages.map((page) =>
             page?.items.map((artist: ArtistItem) => (
               <SpotifyCard key={artist.uri} artist={artist} />
-            ))
+            )),
           )}
         </div>
       </InfiniteScroll>

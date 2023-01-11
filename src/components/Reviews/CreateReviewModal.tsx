@@ -1,21 +1,23 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
-import { objectSans } from "@components/Layout";
-import { Rating } from "react-simple-star-rating";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { UserInputReview } from "src/server/trpc/schemas/review";
-import { userInputReviewSchema } from "src/server/trpc/schemas/review";
-import { trpc } from "@utils/trpc";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from '@clerk/nextjs';
+import { Dialog, Transition } from '@headlessui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Fragment, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { Rating } from 'react-simple-star-rating';
+
+import { objectSans } from '@components/Layout';
+
+import type { UserInputReview } from '@utils/schemas/review';
+import { userInputReviewSchema } from '@utils/schemas/review';
+import { trpc } from '@utils/trpc';
 
 type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title: string;
-  uri: string;
   artist: string;
+  spotifyId: string;
   setNewReview: (newReview: boolean) => void;
 };
 
@@ -23,49 +25,68 @@ export default function CreateReviewModal({
   isOpen,
   setIsOpen,
   title,
-  uri,
+  spotifyId,
   artist,
   setNewReview,
 }: Props) {
   const { user } = useUser();
+
   const [rating, setRating] = useState(0);
   const {
     register,
     handleSubmit,
-    watch,
+
     reset,
     formState: { errors },
   } = useForm<UserInputReview>({
     resolver: zodResolver(userInputReviewSchema),
   });
 
+  let clicked = false;
+
   const handleRating = (rate: number) => {
     setRating(rate);
+    clicked = true;
   };
 
   const onPointerLeave = () => {
-    console.log(rating);
-    if (rating === 0) {
+    if (!clicked) {
       setRating(0);
     }
   };
-  const onPointerMove = (value: number) => setRating(value);
+  const onPointerMove = (value: number) => {
+    setRating(value);
+  };
 
-  const createReviewMutation = trpc.review.createReview.useMutation();
+  const [error, setError] = useState('');
+
+  const createReviewMutation = trpc.review.createReview.useMutation({
+    onError: (error) => {
+      setError(error.message);
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      toast.success('Review created!');
+    },
+  });
   const submitHandler = async (data: UserInputReview) => {
     if (!user) return;
+
+    // if (favoriteTracks.length > 3) {
+    //   toast.error("You can't select more than 3 tracks!");
+    //   return;
+    // }
+
     const res = await createReviewMutation.mutateAsync({
       ...data,
       rating,
-      title,
-      artist,
-      uri,
+      spotifyId,
       userId: user?.id,
     });
 
     if (res) {
+      toast.success('Review created!');
       setNewReview(true);
-      resetForm();
       onClose();
       setRating(0);
     }
@@ -73,19 +94,12 @@ export default function CreateReviewModal({
 
   const onClose = () => {
     setIsOpen(false);
+    createReviewMutation.reset();
     reset();
-    // setRating(0);
-  };
-
-  const resetForm = () => {
-    reset();
-    // setRating(0);
   };
 
   const modalState = () => {
     if (createReviewMutation.isSuccess) {
-      // resetForm();
-
       return (
         <div className="flex flex-col items-center justify-center text-white">
           <div className="text-2xl font-bold">Review created!</div>
@@ -99,8 +113,8 @@ export default function CreateReviewModal({
     if (createReviewMutation.isError) {
       return (
         <div className="flex flex-col items-center justify-center text-white">
-          <div className="text-2xl font-bold">Error creating review</div>
-          <div className="text-xl font-bold">Please try again later.</div>
+          <div className="text-2xl font-bold">{error}</div>
+          {/* <div className="text-xl font-bold">Please try again later.</div> */}
         </div>
       );
     }
@@ -115,7 +129,7 @@ export default function CreateReviewModal({
       <>
         <Dialog.Title
           as="h3"
-          className="mb-12 -mt-12 text-center text-4xl font-medium leading-6 text-white"
+          className="mb-12 -mt-12 text-center text-4xl font-medium  text-white"
         >
           Reviewing {title}
         </Dialog.Title>
@@ -139,10 +153,11 @@ export default function CreateReviewModal({
               )}
             </div>
             <textarea
-              {...register("body")}
+              {...register('body')}
               placeholder={`What did you think about ${title}?`}
               className="h-72 w-full resize-none border-[1px] border-gray-800 bg-black p-2 text-white transition-all  focus:border-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700   "
             />
+            {/* <TracklistSelect /> */}
           </div>
 
           <div className="mt-12 -mb-8 text-right">
@@ -179,15 +194,22 @@ export default function CreateReviewModal({
             <div className="fixed inset-0 bg-black bg-opacity-90 " />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 ">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <button onClick={() => onClose()}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 384 512"
-                  className="absolute top-12 right-1/4 h-6 w-6 cursor-pointer fill-white"
+                  fill="white"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="white"
+                  className="absolute top-12 right-12 h-8 w-8 cursor-pointer fill-white"
                 >
-                  <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
               <Transition.Child
@@ -199,7 +221,7 @@ export default function CreateReviewModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl  border-2 border-white bg-black p-8  py-24   align-middle shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll   rounded-2xl  border-2 border-white bg-black p-8  py-24   align-middle shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
                   {modalState()}
                 </Dialog.Panel>
               </Transition.Child>

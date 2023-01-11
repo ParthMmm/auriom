@@ -1,7 +1,8 @@
-import Image from "next/image";
-import type { AlbumInfoRoot } from "@utils/types/albumInfo";
-import dayjs from "dayjs";
-import Link from "next/link";
+import dayjs from 'dayjs';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 
 type Props = {
   album: AlbumInfoRoot;
@@ -15,7 +16,7 @@ function AlbumInfo({ album }: Props) {
     return null;
   }
 
-  const artists = album.artists.map((artist) => artist.name).join(", ");
+  const artists = album.artists.map((artist) => artist.name).join(', ');
   return (
     <>
       <div className="mt-24 mb-8  w-full justify-center rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
@@ -36,7 +37,7 @@ function AlbumInfo({ album }: Props) {
             <div>
               <h1 className="text-3xl font-bold md:text-5xl">{album.name}</h1>
               <h3 className="text-xl md:text-3xl ">{artists}</h3>
-              <span>{dayjs(album.release_date).format("MM-YYYY")}</span>
+              <span>{dayjs(album.release_date).format('MM-YYYY')}</span>
             </div>
             <div className="">
               <Link href={album.external_urls.spotify}>

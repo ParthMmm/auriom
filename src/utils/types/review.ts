@@ -1,13 +1,8 @@
-import type { User } from "@prisma/client";
+import type { Album, Artist, Image, Review, User } from '@prisma/client';
 
-export type Review = {
-  id: number;
-  rating: number;
-  body: string;
-  createdAt: Date;
-  albumId: number;
-  userId: number;
-};
+import { AlbumInfo } from '@utils/types';
+
+import type { ArtistInfo } from './index';
 
 export type UserInputReview = {
   rating: number;
@@ -18,6 +13,9 @@ export type UserInputReview = {
   userId: string;
 };
 
-export type ReviewWithUser = Review & {
+export type ReviewWithUserWithAlbum = Review & { user: User; Album: Album };
+
+export type ReviewWithEverything = Review & {
   user: User;
+  Album: Album & { images: Image[]; artists: Artist[] };
 };

@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
-import type { KeyboardEvent } from "react";
-import { useState } from "react";
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import type { KeyboardEvent } from 'react';
 
 function Search({}) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const router = useRouter();
 
   const handleChange = (event: {
@@ -12,7 +12,7 @@ function Search({}) {
 
   const searchSubmit = () => {
     router.push({
-      pathname: "/search",
+      pathname: '/search',
       query: { input: value },
     });
   };
@@ -24,7 +24,7 @@ function Search({}) {
   };
 
   return (
-    <div className="group flex w-full flex-row items-center rounded-sm align-middle transition-all focus-within:bg-transparent focus-within:text-harlequin-500 focus-within:outline-none  focus-within:ring focus-within:ring-harlequin-500  ">
+    <div className="group flex w-full flex-row items-center rounded-sm align-middle transition-all  focus-within:text-harlequin-500     ">
       {/* show an x icon to clear search input when value */}
 
       {value ? (
@@ -35,7 +35,7 @@ function Search({}) {
           strokeWidth={1.5}
           stroke="currentColor"
           className=" mx-1   h-6 w-6 group-hover:stroke-harlequin-500 "
-          onClick={() => setValue("")}
+          onClick={() => setValue('')}
         >
           <path
             strokeLinecap="round"

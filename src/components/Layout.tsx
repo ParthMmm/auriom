@@ -1,60 +1,61 @@
-import Head from "next/head";
-import type { ReactNode } from "react";
-import dynamic from "next/dynamic";
-import localFont from "@next/font/local";
+import localFont from '@next/font/local';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import type { ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 type Props = {
   children: ReactNode;
 };
 
-const Navbar = dynamic(() => import("@components/Navbar"), {
+const Navbar = dynamic(() => import('@components/Navbar'), {
   suspense: true,
 });
 
 export const objectSans = localFont({
   src: [
     {
-      path: "../../public/fonts/PPObjectSans-Bold.woff2",
-      weight: "570",
-      style: "normal",
+      path: '../../public/fonts/PPObjectSans-Bold.woff2',
+      weight: '570',
+      style: 'normal',
     },
     {
-      path: "../../public/fonts/PPObjectSans-BoldSlanted.woff2",
-      weight: "570",
-      style: "italic",
+      path: '../../public/fonts/PPObjectSans-BoldSlanted.woff2',
+      weight: '570',
+      style: 'italic',
     },
     {
-      path: "../../public/fonts/PPObjectSans-Heavy.woff2",
-      weight: "730",
-      style: "normal",
+      path: '../../public/fonts/PPObjectSans-Heavy.woff2',
+      weight: '730',
+      style: 'normal',
     },
     {
-      path: "../../public/fonts/PPObjectSans-HeavySlanted.woff2",
-      weight: "730",
-      style: "italic",
+      path: '../../public/fonts/PPObjectSans-HeavySlanted.woff2',
+      weight: '730',
+      style: 'italic',
     },
     {
-      path: "../../public/fonts/PPObjectSans-Regular.woff2",
-      weight: "315",
-      style: "normal",
+      path: '../../public/fonts/PPObjectSans-Regular.woff2',
+      weight: '315',
+      style: 'normal',
     },
     {
-      path: "../../public/fonts/PPObjectSans-Slanted.woff2",
-      weight: "315",
-      style: "italic",
+      path: '../../public/fonts/PPObjectSans-Slanted.woff2',
+      weight: '315',
+      style: 'italic',
     },
     {
-      path: "../../public/fonts/PPObjectSans-Thin.woff2",
-      weight: "140",
-      style: "normal",
+      path: '../../public/fonts/PPObjectSans-Thin.woff2',
+      weight: '140',
+      style: 'normal',
     },
     {
-      path: "../../public/fonts/PPObjectSans-ThinSlanted.woff2",
-      weight: "140",
-      style: "italic",
+      path: '../../public/fonts/PPObjectSans-ThinSlanted.woff2',
+      weight: '140',
+      style: 'italic',
     },
   ],
-  variable: "--font-object-sans",
+  variable: '--font-object-sans',
 });
 
 function Layout({ children }: Props) {
@@ -72,6 +73,7 @@ function Layout({ children }: Props) {
       >
         <Navbar />
         <div className="bg-black pt-32">{children}</div>
+        <Toaster position="bottom-center" gutter={8} />
       </div>
     </>
   );

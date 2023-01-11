@@ -1,20 +1,23 @@
-import { getAlbumTracksSchema } from "./../../../utils/schemas/searchSchema";
-import { getSearchSchema } from "@utils/schemas/searchSchema";
-import axios from "axios";
-import * as trpc from "../trpc";
-import { getHTTPStatusCodeFromError } from "@trpc/server/http";
-import type { TRPCError } from "@trpc/server";
-import type { Root } from "@utils/types/spotify";
-import { TracksRoot } from "@utils/types/albumTracks";
-import { AlbumInfoRoot } from "@utils/types/albumInfo";
-import { stripURI } from "@utils/stripURI";
-import { z } from "zod";
+import axios from 'axios';
+import { z } from 'zod';
 
-const error: TRPCError = {
-  name: "TRPCError",
-  code: "UNAUTHORIZED",
-  message: '"spotify auth broken',
-};
+import { getSearchSchema } from '@utils/schemas/searchSchema';
+// import { getHTTPStatusCodeFromError } from "@trpc/server/http";
+// import type { TRPCError } from "@trpc/server";
+import { stripURI } from '@utils/stripURI';
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
+import type { TracksRoot } from '@utils/types/spotify/albumTracks';
+import type { Root } from '@utils/types/spotify/spotify';
+
+import * as trpc from '../trpc';
+import { getAlbumTracklist } from './../../../utils/queries/getAlbumTracklist';
+import { getAlbumTracksSchema } from './../../../utils/schemas/searchSchema';
+
+// const error: TRPCError = {
+//   name: "TRPCError",
+//   code: "UNAUTHORIZED",
+//   message: '"spotify auth broken',
+// };
 
 export const spotifyRouter = trpc.router({
   //public procedure to search for item with spotify web api based on input
@@ -22,8 +25,6 @@ export const spotifyRouter = trpc.router({
     .input(getSearchSchema)
     .query(async ({ input, ctx }) => {
       const { query, type, cursor } = input;
-
-      // console.log(ctx);
 
       if (ctx.spotifyToken) {
         const token = ctx.spotifyToken.access_token;
@@ -38,10 +39,10 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config
+          config,
         );
 
-        const data: Pick<Root, "albums"> = res.data;
+        const data: Pick<Root, 'albums'> = res.data;
 
         return data.albums;
       }
@@ -65,10 +66,10 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config
+          config,
         );
 
-        const data: Pick<Root, "artists"> = res.data;
+        const data: Pick<Root, 'artists'> = res.data;
 
         return data.artists;
       }
@@ -92,10 +93,11 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config
+          config,
         );
 
-        const data: Pick<Root, "tracks"> = res.data;
+        type tracks = Pick<Root, 'tracks'>;
+        const data = res.data as tracks;
 
         return data.tracks;
       }
@@ -105,18 +107,7 @@ export const spotifyRouter = trpc.router({
   getAlbum: trpc.publicProcedure
     .input(getAlbumTracksSchema)
     .query(async ({ input, ctx }) => {
-      const { uri } = input;
-
-      const re = new RegExp(":([^:]*)$");
-
-      const id3 = uri.match(re);
-      // const id3 = id2[0].match(re);
-
-      if (!id3) {
-        return null;
-      }
-
-      const id = id3[1];
+      const { spotifyId } = input;
 
       if (ctx.spotifyToken) {
         const token = ctx.spotifyToken.access_token;
@@ -128,8 +119,8 @@ export const spotifyRouter = trpc.router({
         };
 
         const res = await axios.get(
-          `https://api.spotify.com/v1/albums/${id}`,
-          config
+          `https://api.spotify.com/v1/albums/${spotifyId}`,
+          config,
         );
 
         const data: AlbumInfoRoot = res.data;
@@ -139,38 +130,15 @@ export const spotifyRouter = trpc.router({
       // return { offset: 0, items: [], total: 0, limit: 0 };
     }),
 
-  albumTracks: trpc.publicProcedure
+  getAlbumTracklist: trpc.publicProcedure
     .input(getAlbumTracksSchema)
     .query(async ({ input, ctx }) => {
-      const { uri } = input;
+      const { spotifyId } = input;
 
-      const id3 = stripURI(uri);
+      // const id = id3[1];
+      const tracklist = await getAlbumTracklist(ctx, spotifyId);
 
-      if (!id3) {
-        return { offset: 0, items: [], total: 0, limit: 0 };
-      }
-
-      const id = id3[1];
-
-      if (ctx.spotifyToken) {
-        const token = ctx.spotifyToken.access_token;
-
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        const res = await axios.get(
-          `https://api.spotify.com/v1/albums/${id}/tracks?limit=50`,
-          config
-        );
-
-        const data: TracksRoot = res.data;
-
-        return data;
-      }
-      return { offset: 0, items: [], total: 0, limit: 0 };
+      return tracklist;
     }),
   getMultipleAlbumImages: trpc.publicProcedure
     .input(z.object({ uri: z.string() }))
@@ -186,7 +154,7 @@ export const spotifyRouter = trpc.router({
 
         const res = await axios.get(
           `https://api.spotify.com/v1/albums/${input.uri}/tracks?limit=50`,
-          config
+          config,
         );
 
         const data: TracksRoot = res.data;

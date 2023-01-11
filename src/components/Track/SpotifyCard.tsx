@@ -1,20 +1,22 @@
-import type { TrackItem } from "@utils/types/spotify";
-import Link from "next/link";
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { TrackItem } from '@utils/types/spotify';
+
 type Props = {
   track: TrackItem;
 };
 
 function SpotifyCard({ track }: Props) {
   const imageURL = track?.album.images.filter(
-    (image) => image.height === 640
+    (image) => image.height === 640,
   )[0]?.url;
 
   if (!imageURL) {
     return null;
   }
 
-  const artists = track.artists.map((artist) => artist.name).join(", ");
+  const artists = track.artists.map((artist) => artist.name).join(', ');
 
   return (
     // <Link
@@ -34,7 +36,7 @@ function SpotifyCard({ track }: Props) {
           <picture className="lazyPicture aspect-ratio ">
             <Image
               src={imageURL}
-              alt={"album cover"}
+              alt={'album cover'}
               className="asset"
               fill
               // height={300}

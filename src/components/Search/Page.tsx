@@ -1,8 +1,9 @@
-import { useStore } from "@store/app";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
-import Controller from "./Controller";
-import Filter from "./Filter";
+import { useStore } from '@store/app';
+
+import Controller from './Controller';
+import Filter from './Filter';
 
 function Page({}) {
   const router = useRouter();

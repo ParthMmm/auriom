@@ -1,11 +1,21 @@
-import { msToTime } from "@utils/convertTime";
-import type { AlbumTracksItem } from "@utils/types/albumTracks";
+import { useEffect } from 'react';
+
+import { msToTime } from '@utils/convertTime';
+import type { AlbumTracksItem } from '@utils/types/spotify/albumTracks';
+
+import { useStore } from '@store/app';
 
 type Props = {
   albumTracks: AlbumTracksItem[];
 };
 
 function Tracklist({ albumTracks }: Props) {
+  const setCurrentTracklist = useStore((state) => state.setCurrentTracklist);
+
+  useEffect(() => {
+    setCurrentTracklist(albumTracks);
+  }, [albumTracks]);
+
   return (
     <div className="mb-12 w-full md:mb-24">
       <h2 className="text-4xl font-bold">tracklist</h2>
@@ -14,9 +24,11 @@ function Tracklist({ albumTracks }: Props) {
         <div className=" ">
           {albumTracks?.map((track) => (
             <div key={track.name} className="group p-2">
-              <div className="   flex flex-row justify-between space-x-1">
+              <div className=" flex flex-row justify-between ">
                 <div className="">
-                  <span className="mr-1 font-bold">{track.track_number}.</span>
+                  <span className="mr-1 font-bold tabular-nums">
+                    {track.track_number}.
+                  </span>
 
                   <span className="group-hover:shadow-highlight-blurple">
                     {track.name}
@@ -28,8 +40,8 @@ function Tracklist({ albumTracks }: Props) {
                   )}
                 </div>
 
-                <div>
-                  <span>{msToTime(track.duration_ms)}</span>
+                <div className="flex flex-row justify-end">
+                  <p className="tabular-nums">{msToTime(track.duration_ms)}</p>
                 </div>
               </div>
             </div>

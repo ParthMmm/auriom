@@ -1,7 +1,7 @@
-import { ImageResponse } from "@vercel/og";
+import { ImageResponse } from '@vercel/og';
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: 'experimental-edge',
 };
 
 export default async function handler() {
@@ -9,15 +9,15 @@ export default async function handler() {
     (
       <div
         style={{
-          display: "flex",
+          display: 'flex',
           fontSize: 40,
-          color: "white",
-          background: "black",
-          width: "100%",
-          height: "100%",
-          textAlign: "center",
-          justifyContent: "center",
-          alignItems: "center",
+          color: 'white',
+          background: 'black',
+          width: '100%',
+          height: '100%',
+          textAlign: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <h1 tw=" text-4xl font-sans font-black tracking-tight text-white md:text-6xl">
@@ -28,6 +28,6 @@ export default async function handler() {
     {
       width: 1200,
       height: 630,
-    }
+    },
   );
 }

@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from 'zod';
 
 export const getSearchSchema = z.object({
   query: z.string(),
@@ -9,5 +9,5 @@ export const getSearchSchema = z.object({
 });
 
 export const getAlbumTracksSchema = z.object({
-  uri: z.string(),
+  spotifyId: z.string(),
 });

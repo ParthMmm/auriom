@@ -1,32 +1,45 @@
-import { trpc } from "@utils/trpc";
-import React, { useEffect } from "react";
-import Review from "./Review";
+import Link from 'next/link';
+import React, { useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import SmallSpinner from '@components/SmallSpinner';
+import Spinner from '@components/Spinner';
+
+import { trpc } from '@utils/trpc';
+
+import Review from './Review';
 
 type Props = {
-  uri: string;
   newReview: boolean;
+  spotifyId: string;
 };
 
-function ReviewsList({ uri, newReview }: Props) {
-  const review = trpc.review.getReviewsForAlbum.useQuery(
-    { uri },
-    {
-      enabled: !!uri,
-    }
-  );
+function ReviewsList({ newReview, spotifyId }: Props) {
+  const { data, isError, isLoading, refetch } =
+    trpc.review.getReviewsForAlbum.useQuery(
+      { spotifyId },
+      {
+        enabled: !!spotifyId,
+        // getNextPageParam: (lastPage) => {
+        //   lastPage?.nextCursor;
+        // },
+      },
+    );
 
   useEffect(() => {
-    review.refetch();
+    refetch();
   }, [newReview]);
 
-  if (review.isLoading) {
+  if (isLoading) {
     return (
       <div className="flex flex-row justify-between space-x-2 space-y-2 ">
-        <div className="m-4 space-x-1">loading</div>
+        <div className="m-4 space-x-1">
+          <Spinner />
+        </div>
       </div>
     );
   }
-  if (review.error || !review.data) {
+  if (isError || !data) {
     return (
       <div className="flex flex-row justify-between space-x-2 space-y-2 ">
         <div className="m-4 space-x-1">error</div>
@@ -34,7 +47,7 @@ function ReviewsList({ uri, newReview }: Props) {
     );
   }
 
-  if (review.data.length === 0) {
+  if (data.reviews.length === 0) {
     return (
       <div className="flex flex-row justify-between space-x-2 space-y-2 ">
         <div className="m-4 space-x-1">no reviews, be the first!</div>
@@ -42,14 +55,26 @@ function ReviewsList({ uri, newReview }: Props) {
     );
   }
 
+  //get cursor from last page
+  // const cursor = data?.pages[data?.pages.length - 1]?.nextCursor;
+
   return (
-    <div className="flex flex-col justify-between  space-y-2 divide-y-2">
-      {review.data.map((review) => (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Review review={review} key={review.id} />
-      ))}
-    </div>
+    <>
+      <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
+        <div className="flex flex-col justify-between  space-y-2 divide-y-2">
+          {data.reviews.map((review) => (
+            <Review key={review.id} review={review} />
+          ))}
+        </div>
+      </div>
+      <div>
+        <Link href={`/album/${spotifyId}/reviews`}>
+          <div className="text-right  text-white rounded-md p-2">
+            view all reviews
+          </div>
+        </Link>
+      </div>
+    </>
   );
 }
 

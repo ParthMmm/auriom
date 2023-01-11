@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from 'zod';
 
 export const getAlbumInfoSchema = z.object({
   album: z.string(),

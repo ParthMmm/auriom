@@ -1,10 +1,15 @@
-import type { TrackSearch } from "@utils/types";
-import React from "react";
+import React from 'react';
 
-function TrackCard({ track }: { track: TrackSearch }) {
+import type { TrackItem } from '@utils/types/spotify';
+
+type Props = {
+  track: TrackItem;
+};
+
+function TrackCard({ track }: Props) {
   return (
     <div>
-      {" "}
+      {' '}
       <div>
         <div className="grid-playlist-info-container mb-8  lg:mb-0">
           <div className="">
@@ -14,7 +19,9 @@ function TrackCard({ track }: { track: TrackSearch }) {
               </span>
             </div>
             <div className="">
-              <span className="text-sm md:text-lg">{track?.artist}</span>
+              <span className="text-sm md:text-lg">
+                {track?.artists[0]?.name}
+              </span>
             </div>
           </div>
         </div>

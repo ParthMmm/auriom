@@ -1,63 +1,103 @@
-import type { Album } from "@utils/types";
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { AlbumInfo } from '@utils/types';
 
 type Props = {
-  album: Album;
+  album: AlbumInfo;
 };
 
-function AlbumCard({ album }: Props) {
-  const image = album?.image.filter((image) => image.size === "extralarge")[0];
+function Card({ album }: Props) {
+  const imageURL = album?.images?.filter((image) => image.height === 300)[0]
+    ?.url;
 
-  if (!image) {
-    return null;
-  }
-  const imageURL = image["#text"];
+  const artists = () => {
+    if (album?.artists instanceof Array) {
+      return album?.artists?.map((artist) => (
+        <Link
+          href={{
+            pathname: `/artist/[id]`,
+            query: {
+              artist: artist.name,
+              id: artist.spotifyId,
+            },
+          }}
+          key={artist?.id}
+        >
+          <span className="text-sm font-normal pr-2 transition-all text-gray-500 md:text-md hover:text-harlequin-500">
+            {artist?.name}
+          </span>
+        </Link>
+      ));
+    } else {
+      return (
+        <Link
+          href={{
+            pathname: `/artist/[id]`,
+            query: {
+              artist: album?.artists?.name,
+              id: album?.artists?.spotifyId,
+            },
+          }}
+          key={album?.artists?.spotifyId}
+        >
+          <span className="text-sm font-normal transition-all  md:text-md hover:text-harlequin-500">
+            {album?.artists?.name}
+          </span>
+        </Link>
+      );
+    }
+  };
 
   return (
-    <Link
-      href={{
-        pathname: `/album/[album]/[artist]`,
-        query: {
-          artist: album.artist,
-          album: album.name,
-          mbid: album?.mbid,
-        },
-      }}
-      as={`/album/${encodeURIComponent(album.name)}/${album.artist}`}
-    >
-      <div className="grid-playlist group cursor-pointer ">
-        <div className="grid-playlist-hero">
-          {imageURL && (
-            <picture className="lazyPicture aspect-ratio ">
-              <Image
-                src={imageURL}
-                alt={"album cover"}
-                className="asset"
-                fill
-                // height={300}
-                // width={456}
-                quality={100}
-                // unoptimized={true}
-              />
-            </picture>
-          )}
-        </div>
-        <div className="grid-playlist-info-container mb-8  lg:mb-0">
-          <div className="">
-            <div className="">
-              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
-                {album.name}
-              </span>
-            </div>
-            <div className="">
-              <span className="text-sm md:text-lg">{album.artist}</span>
+    <div className="flex hover:border-gray-500 transition-all  border-[1px] border-gray-700">
+      <div className=" ">
+        <div className=" flex flex-col align-center w-full ">
+          <div className=" cursor-pointer flex flex-col gap-4 p-6  ">
+            <Link
+              href={{
+                pathname: `/album/[id]`,
+                query: {
+                  id: album?.spotifyId,
+                },
+              }}
+              // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
+            >
+              <div className=" w-36 h-36">
+                {imageURL && (
+                  <Image
+                    src={imageURL}
+                    alt={'album cover'}
+                    height={150}
+                    width={150}
+                    quality={100}
+                    className="inline-block "
+                  />
+                )}
+              </div>
+            </Link>
+            <div className="flex flex-col justify-center items-center text-center">
+              <Link
+                href={{
+                  pathname: `/album/[id]`,
+                  query: {
+                    id: album?.spotifyId,
+                  },
+                }}
+                // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
+              >
+                <span className="hover:text-harlequin-500 font-normal transition-all text-sm overflow-hidden line-clamp-2 ">
+                  {album?.title}
+                </span>
+              </Link>
+
+              <div className="">{artists()}</div>
             </div>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
-export default AlbumCard;
+export default Card;

@@ -1,59 +1,143 @@
-import { router, publicProcedure } from "../trpc";
-import { z } from "zod";
-import { reviewSchema } from "../schemas/review";
+import { addAlbumToDb } from 'src/server/utils';
+import { z } from 'zod';
+
+import { reviewSchema } from '../../../utils/schemas/review';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const reviewRouter = router({
-  createReview: publicProcedure
+  createReview: protectedProcedure
     .input(reviewSchema)
     .mutation(async ({ input, ctx }) => {
-      const { uri, artist, title, userId, rating, body } = input;
+      const { spotifyId, userId, rating, body, favoriteTracks } = input;
 
-      if (ctx.user.id) {
-        //create review and connect to user and album
-        const review = await ctx.prisma.review.create({
-          data: {
-            Album: {
-              connectOrCreate: {
-                where: {
-                  uri: uri,
-                },
-                create: {
-                  uri: uri,
-                  artist: artist,
-                  title: title,
-                },
-              },
-            },
-            user: {
-              connect: {
-                id: userId,
-              },
-            },
-            rating: rating,
-            body: body,
-          },
-        });
+      await addAlbumToDb(ctx, spotifyId);
 
-        return review;
-      }
-    }),
-  getReviewsForAlbum: publicProcedure
-    .input(z.object({ uri: z.string() }))
-    .query(async ({ input, ctx }) => {
-      const { uri } = input;
-
-      const reviews = await ctx.prisma.review.findMany({
+      // find if user has already reviewed album
+      const existingReview = await ctx.prisma.review.findFirst({
         where: {
           Album: {
-            uri: uri,
+            spotifyId: spotifyId,
+          },
+          user: {
+            id: userId,
+          },
+        },
+      });
+
+      // if (existingReview) {
+      //   throw new Error('You have already reviewed this album');
+      // }
+
+      //create review and connect to user and album
+      const review = await ctx.prisma.review.create({
+        data: {
+          Album: {
+            connect: {
+              spotifyId: spotifyId,
+            },
+          },
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+
+          rating: rating,
+          body: body,
+        },
+      });
+
+      // connect favorite tracks to review
+      // if (favoriteTracks) {
+      //   favoriteTracks.forEach(async (track) => {
+      //     if (!track.id) {
+      //       throw new Error('Track id is required');
+      //     }
+
+      //     console.log({ track });
+
+      //     const res = await ctx.prisma.favoriteTrack.create({
+      //       data: {
+      //         // userId: userId,
+      //         // trackId: track.id,
+      //         // reviewId: review.id,
+
+      //         track: {
+      //           connect: {
+      //             spotifyId: track.id,
+      //           },
+      //         },
+      //         user: {
+      //           connect: {
+      //             id: userId,
+      //           },
+      //         },
+      //         Review: {
+      //           connect: {
+      //             id: review.id,
+      //           },
+      //         },
+      //       },
+      //     });
+
+      //     console.log(res);
+      //   });
+      // }
+
+      return review;
+    }),
+  getReviewsForAlbum: publicProcedure
+    .input(z.object({ spotifyId: z.string(), cursor: z.string().nullish() }))
+    .query(async ({ input, ctx }) => {
+      const { spotifyId, cursor } = input;
+
+      console.log({ cursor });
+      // const reviewsA = await ctx.prisma.review.findMany({
+      //   take: 5,
+      //   where: {
+      //     Album: {
+      //       uri: uri,
+      //     },
+      //   },
+      // });
+
+      // const lastPostInResults = reviewsA[reviewsA.length - 1];
+      // const myCursor = lastPostInResults?.id;
+
+      const reviews = await ctx.prisma.review.findMany({
+        take: 5,
+        skip: 1,
+        cursor: cursor ? { id: cursor } : undefined,
+
+        orderBy: {
+          createdAt: 'desc',
+        },
+
+        where: {
+          Album: {
+            spotifyId: spotifyId,
           },
         },
         include: {
           user: true,
+          Album: true,
         },
       });
 
-      return reviews;
+      // console.log(reviews.length);
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (reviews.length > 4) {
+        const nextItem = reviews.pop(); // return the last item from the array
+        nextCursor = nextItem?.id;
+      }
+      // console.log(nextCursor);
+      return {
+        reviews,
+        nextCursor,
+      };
+
+      // return reviews;
     }),
 
   getReviewsForUser: publicProcedure
@@ -71,8 +155,13 @@ export const reviewRouter = router({
           Album: {
             include: {
               images: true,
+              artists: true,
             },
           },
+          user: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       });
 

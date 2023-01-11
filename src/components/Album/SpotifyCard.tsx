@@ -1,6 +1,7 @@
-import type { Artist } from "@utils/types/spotify";
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import type { Artist } from '@utils/types/spotify';
 
 type AlbumItem = {
   title: string;
@@ -18,24 +19,20 @@ type Props = {
 };
 
 function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
-  const imageURL = images.filter((image) => image.height === 300)[0]?.url;
+  const imageURL = images?.filter((image) => image.height === 300)[0]?.url;
 
-  if (!imageURL) {
-    return null;
+  if (typeof artist === 'object') {
+    artist = artist.map((a) => a.name).join(', ');
   }
 
-  if (typeof artist === "object") {
-    artist = artist.map((a) => a.name).join(", ");
-  }
+  const id = uri.split(':')[2];
 
   return (
     <Link
       href={{
-        pathname: `/album/[album]/[artist]`,
+        pathname: `/album/[id]`,
         query: {
-          artist: artist,
-          album: title,
-          uri: uri,
+          id: id,
         },
       }}
       // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
@@ -46,7 +43,7 @@ function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
             <picture className="lazyPicture aspect-ratio ">
               <Image
                 src={imageURL}
-                alt={"album cover"}
+                alt={'album cover'}
                 className="asset"
                 fill
                 quality={100}
@@ -57,7 +54,7 @@ function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
         <div className="grid-playlist-info-container mb-8  lg:mb-0">
           <div className="">
             <div className="">
-              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
+              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl line-clamp-2">
                 {title}
               </span>
             </div>

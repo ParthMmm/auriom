@@ -1,16 +1,19 @@
-import { Image } from "./../../../utils/types/index";
+import { addAlbumToDb } from 'src/server/utils';
+
 import {
-  logSchema,
   getLogSchema,
   getLogUserSchema,
-} from "@utils/schemas/logSchema";
-import { router, publicProcedure } from "../trpc";
+  logSchema,
+} from '@utils/schemas/logSchema';
 
-const actions = [
-  { name: "currently listening" },
-  { name: "listened" },
-  { name: "want to listen" },
-];
+import type { Context } from '../context';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
+
+// const actions = [
+//   { name: "currently listening" },
+//   { name: "listened" },
+//   { name: "want to listen" },
+// ];
 
 export const albumActionsRouter = router({
   getAllUserActions: publicProcedure
@@ -30,11 +33,15 @@ export const albumActionsRouter = router({
           userId: user_id,
         },
         include: {
-          Album: {
+          album: {
             include: {
               images: true,
+              artists: true,
             },
           },
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       });
 
@@ -43,11 +50,15 @@ export const albumActionsRouter = router({
           userId: user_id,
         },
         include: {
-          Album: {
+          album: {
             include: {
               images: true,
+              artists: true,
             },
           },
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       });
 
@@ -56,247 +67,152 @@ export const albumActionsRouter = router({
           userId: user_id,
         },
         include: {
-          Album: {
+          album: {
             include: {
               images: true,
+              artists: true,
             },
           },
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       });
 
       return { listened, listening, wantToListen };
     }),
 
-  getUserActionsForAlbum: publicProcedure
+  getUserActionsForAlbum: protectedProcedure
     .input(getLogSchema)
     .query(async ({ input, ctx }) => {
-      const { uri, user_id } = input;
+      const { spotifyId, user_id } = input;
 
-      if (ctx.user) {
-        const ifListened = await ctx.prisma.listened.findFirst({
-          where: {
-            albumUri: uri,
-            userId: user_id,
-          },
-        });
+      const ifListened = await ctx.prisma.listened.findFirst({
+        where: {
+          albumId: spotifyId,
+          userId: user_id,
+        },
+      });
 
-        const ifListening = await ctx.prisma.listening.findFirst({
-          where: {
-            albumUri: uri,
-            userId: user_id,
-          },
-        });
+      const ifListening = await ctx.prisma.listening.findFirst({
+        where: {
+          albumId: spotifyId,
+          userId: user_id,
+        },
+      });
 
-        const ifWantToListen = await ctx.prisma.wantToListen.findFirst({
-          where: {
-            albumUri: uri,
-            userId: user_id,
-          },
-        });
+      const ifWantToListen = await ctx.prisma.wantToListen.findFirst({
+        where: {
+          albumId: spotifyId,
+          userId: user_id,
+        },
+      });
 
-        return { ifListened, ifListening, ifWantToListen };
-      }
+      return { ifListened, ifListening, ifWantToListen };
     }),
 
-  handleAction: publicProcedure
+  handleAction: protectedProcedure
     .input(logSchema)
     .mutation(async ({ input, ctx }) => {
-      const { uri, artist, title, user_id, action, images } = input;
-      if (ctx.user) {
-        const res = await helper(ctx, user_id, uri, action);
+      const { spotifyId, user_id, action } = input;
 
-        // create album row in db if not already there
-        // const albumExists = await ctx.prisma.album.findFirst({
-        //   where: {
-        //     uri: uri,
-        //   },
-        // });
+      await addAlbumToDb(ctx, spotifyId);
+      const res = await helper(ctx, user_id, spotifyId, action);
 
-        // if (!albumExists) {
-        //   await ctx.prisma.album.create({
-        //     data: {
-        //       uri: uri,
-        //       artist: artist,
-        //       title: album,
-        //     },
-        //   });
-        // }
-
-        if (res) {
-          if (action === "listened") {
-            const action = await ctx.prisma.listened.create({
-              data: {
-                artist: artist,
-                album: title,
-                user: {
-                  connect: {
-                    id: user_id,
-                  },
-                },
-                // connect images to album
-
-                Album: {
-                  connectOrCreate: {
-                    where: {
-                      uri: uri,
-                    },
-                    create: {
-                      uri: uri,
-                      artist: artist,
-                      title: title,
-                    },
-                  },
+      if (res) {
+        if (action === 'listened') {
+          const action = await ctx.prisma.listened.create({
+            data: {
+              user: {
+                connect: {
+                  id: user_id,
                 },
               },
-              include: {
-                Album: true,
-              },
-            });
-
-            await imageHelper(ctx, images, uri);
-
-            return action;
-          }
-
-          if (action === "listening") {
-            const action = await ctx.prisma.listening.create({
-              data: {
-                artist: artist,
-                album: title,
-                user: {
-                  connect: {
-                    id: user_id,
-                  },
-                },
-                Album: {
-                  connectOrCreate: {
-                    where: {
-                      uri: uri,
-                    },
-                    create: {
-                      uri: uri,
-                      artist: artist,
-                      title: title,
-                    },
-                  },
+              album: {
+                connect: {
+                  spotifyId: spotifyId,
                 },
               },
-              include: {
-                Album: true,
-              },
-            });
+            },
+            include: {
+              album: true,
+            },
+          });
 
-            await imageHelper(ctx, images, uri);
-
-            return action;
-          }
-
-          if (action === "wantToListen") {
-            const action = await ctx.prisma.wantToListen.create({
-              data: {
-                artist: artist,
-                album: title,
-                user: {
-                  connect: {
-                    id: user_id,
-                  },
-                },
-                Album: {
-                  connectOrCreate: {
-                    where: {
-                      uri: uri,
-                    },
-                    create: {
-                      uri: uri,
-                      artist: artist,
-                      title: title,
-                    },
-                  },
-                },
-              },
-              include: {
-                Album: true,
-              },
-            });
-
-            await imageHelper(ctx, images, uri);
-
-            return action;
-          }
+          return action;
         }
-      } else {
-        return "not auth";
+
+        if (action === 'listening') {
+          const action = await ctx.prisma.listening.create({
+            data: {
+              user: {
+                connect: {
+                  id: user_id,
+                },
+              },
+              album: {
+                connect: {
+                  spotifyId: spotifyId,
+                },
+              },
+            },
+            include: {
+              album: true,
+            },
+          });
+
+          return action;
+        }
+
+        if (action === 'wantToListen') {
+          const action = await ctx.prisma.wantToListen.create({
+            data: {
+              user: {
+                connect: {
+                  id: user_id,
+                },
+              },
+              album: {
+                connect: {
+                  spotifyId: spotifyId,
+                },
+              },
+            },
+            include: {
+              album: true,
+            },
+          });
+
+          return action;
+        }
       }
     }),
 });
 
 // helper function to check if user has logged listend, listened, or wantToListen
-
-const imageHelper = async (ctx: { prisma: any }, images: any, uri: string) => {
-  if (images[0].url) {
-    const imageExists = await ctx.prisma.image.findFirst({
-      where: {
-        url: images[0].url,
-      },
-    });
-
-    if (imageExists) {
-      return null;
-    }
-  }
-
-  return images.map(
-    async (image: { url: string; height: string; width: string }) => {
-      const imageExists = await ctx.prisma.image.findFirst({
-        where: {
-          url: image.url,
-        },
-      });
-
-      console.log(image.height, image.width, image.url);
-
-      if (!imageExists) {
-        await ctx.prisma.image.create({
-          data: {
-            height: image.height,
-            width: image.width,
-            url: image.url,
-
-            Album: {
-              connect: {
-                uri: uri,
-              },
-            },
-          },
-        });
-      }
-    }
-  );
-};
-
 const helper = async (
-  ctx: { prisma: any; user?: any; spotifyToken?: any },
+  ctx: Context,
   user_id: string,
-  uri: string,
-  action: string
+  albumId: string,
+  action: string,
 ) => {
   const isListened = await ctx.prisma.listened.findFirst({
     where: {
-      albumUri: uri,
+      albumId: albumId,
       userId: user_id,
     },
   });
 
   const isListening = await ctx.prisma.listening.findFirst({
     where: {
-      albumUri: uri,
+      albumId: albumId,
       userId: user_id,
     },
   });
 
   const ifWantToListen = await ctx.prisma.wantToListen.findFirst({
     where: {
-      albumUri: uri,
+      albumId: albumId,
       userId: user_id,
     },
   });
@@ -305,7 +221,7 @@ const helper = async (
     return action;
   }
 
-  if (isListened && action != "listened") {
+  if (isListened && action != 'listened') {
     await ctx.prisma.listened.delete({
       where: {
         id: isListened.id,
@@ -313,7 +229,7 @@ const helper = async (
     });
   }
 
-  if (isListening && action != "listening") {
+  if (isListening && action != 'listening') {
     await ctx.prisma.listening.delete({
       where: {
         id: isListening.id,
@@ -321,7 +237,7 @@ const helper = async (
     });
   }
 
-  if (ifWantToListen && action != "wantToListen") {
+  if (ifWantToListen && action != 'wantToListen') {
     await ctx.prisma.wantToListen.delete({
       where: {
         id: ifWantToListen.id,
