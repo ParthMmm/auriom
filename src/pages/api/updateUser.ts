@@ -12,8 +12,6 @@ export default async function handle(
       req.body.data;
     let img = '';
 
-    console.log(id, username, external_accounts, profile_image_url);
-
     if (external_accounts && external_accounts.length > 0) {
       const externalAccount = external_accounts[0];
       const externalImg = externalAccount.picture;

@@ -40,6 +40,9 @@ export const albumActionsRouter = router({
             },
           },
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
 
       const listening = await ctx.prisma.listening.findMany({
@@ -54,6 +57,9 @@ export const albumActionsRouter = router({
             },
           },
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
 
       const wantToListen = await ctx.prisma.wantToListen.findMany({
@@ -67,6 +73,9 @@ export const albumActionsRouter = router({
               artists: true,
             },
           },
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       });
 

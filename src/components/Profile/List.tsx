@@ -11,7 +11,7 @@ function List({ data, title }: Props) {
   return (
     <div className="  ">
       <h2 className=" text-2xl py-4 font-black">{title}</h2>
-      <div className=" flex flex-col md:flex-row overflow-x-scroll    ">
+      <div className=" flex flex-row  overflow-x-scroll    ">
         {data?.map((obj) => (
           <Card album={obj?.album} key={obj?.id.toString() + obj?.userId} />
         ))}

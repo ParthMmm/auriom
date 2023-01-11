@@ -1,3 +1,7 @@
-import ProfilePage from '@components/Profile/ProfilePage';
+import dynamic from 'next/dynamic';
+
+const ProfilePage = dynamic(() => import('@components/Profile/ProfilePage'), {
+  suspense: true,
+});
 
 export default ProfilePage;

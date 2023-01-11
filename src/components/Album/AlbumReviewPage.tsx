@@ -1,14 +1,23 @@
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-import Review from '@components/Reviews/Review';
 import SmallSpinner from '@components/SmallSpinner';
 
 import { trpc } from '@utils/trpc';
 
-import CondensedAlbumInfo from './CondensedAlbumInfo';
+const Review = dynamic(() => import('@components/Reviews/Review'), {
+  suspense: true,
+});
+
+const CondensedAlbumInfo = dynamic(
+  () => import('@components/Album/CondensedAlbumInfo'),
+  {
+    suspense: true,
+  },
+);
 
 function AlbumReviewPage({}) {
   const router = useRouter();

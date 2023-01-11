@@ -1,9 +1,10 @@
 import React from 'react';
 
-import Review from '@components/Reviews/Review';
 import Spinner from '@components/Spinner';
 
 import { trpc } from '@utils/trpc';
+
+import UserReviewCard from './UserReviewCard';
 
 type Props = {
   username: string;
@@ -17,8 +18,6 @@ function UserReviews({ username }: Props) {
     },
   );
 
-  console.log(userReviews.data);
-
   if (userReviews.isLoading) {
     return <Spinner />;
   }
@@ -29,9 +28,11 @@ function UserReviews({ username }: Props) {
 
   return (
     <div>
-      <div className="flex flex-col justify-between w-1/3  space-y-2 divide-y-2">
+      <h2 className=" text-2xl py-4 font-black">reviews</h2>
+
+      <div className="flex flex-row  overflow-y-scroll   ">
         {userReviews?.data.map((review) => (
-          <Review key={review.id} review={review} />
+          <UserReviewCard key={review.id} review={review} />
         ))}
       </div>
     </div>

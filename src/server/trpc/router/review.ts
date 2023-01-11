@@ -155,9 +155,13 @@ export const reviewRouter = router({
           Album: {
             include: {
               images: true,
+              artists: true,
             },
           },
           user: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       });
 

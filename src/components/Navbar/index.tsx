@@ -16,8 +16,8 @@ function Navbar({}) {
     <nav>
       <div className="fixed top-0 z-20  w-full border-b-[1px] border-gray-50 bg-black  ">
         <div className="flex w-full    ">
-          <div className="flex basis-2/12 items-center justify-center md:py-4 md:px-4  ">
-            <h1 className=" text-2xl  font-black tracking-tight text-white md:text-6xl">
+          <div className="flex basis-2/12 items-center p-2 justify-center md:py-4 md:px-4  ">
+            <h1 className=" text-xl  font-black tracking-tight text-white md:text-5xl">
               <Link href="/">auriom</Link>
             </h1>
           </div>

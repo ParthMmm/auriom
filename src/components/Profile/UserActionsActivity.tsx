@@ -3,6 +3,7 @@ import Spinner from '@components/Spinner';
 import { trpc } from '@utils/trpc';
 
 import List from './List';
+import UserReviews from './UserReviews';
 
 type Props = {
   username: string;
@@ -41,7 +42,7 @@ function UserActionsActivity({ username }: Props) {
     const wantToListen = data.data?.wantToListen;
 
     return (
-      <div className="mt-24 flex flex-col gap-11 w-full ">
+      <div className="mt-24 flex flex-col gap-10 w-full ">
         <div className="px-4">
           <List data={listening} title={'currently listening'} />
         </div>
@@ -50,6 +51,9 @@ function UserActionsActivity({ username }: Props) {
         </div>
         <div className="px-4">
           <List data={wantToListen} title={'want to listen'} />
+        </div>
+        <div className="px-4">
+          <UserReviews username={username} />
         </div>
         {/* <div className="px-4">
           <h2 className=" text-2xl font-black">reviews</h2>

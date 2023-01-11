@@ -50,7 +50,7 @@ function Card({ album }: Props) {
   };
 
   return (
-    <div className="flex hover:border-gray-500 transition-all  first:border-l-2 border-t-2 border-b-2 border-r-2 border-gray-700">
+    <div className="flex hover:border-gray-500 transition-all  border-[1px] border-gray-700">
       <div className=" ">
         <div className=" flex flex-col align-center w-full ">
           <div className=" cursor-pointer flex flex-col gap-4 p-6  ">

@@ -1,4 +1,4 @@
-import type { Album, Artist, Review, User } from '@prisma/client';
+import type { Album, Artist, Image, Review, User } from '@prisma/client';
 
 import { AlbumInfo } from '@utils/types';
 
@@ -14,3 +14,8 @@ export type UserInputReview = {
 };
 
 export type ReviewWithUserWithAlbum = Review & { user: User; Album: Album };
+
+export type ReviewWithEverything = Review & {
+  user: User;
+  Album: Album & { images: Image[]; artists: Artist[] };
+};

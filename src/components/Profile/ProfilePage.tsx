@@ -1,4 +1,5 @@
 import { useUser } from '@clerk/nextjs';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { SpotifyLogo } from 'src/lib/svgs';
@@ -7,10 +8,17 @@ import Spinner from '@components/Spinner';
 
 import { trpc } from '@utils/trpc';
 
-import EditProfileButton from './EditProfileButton';
-import ExternalAccounts from './ExternalAccounts';
-import UserActionsActivity from './UserActionsActivity';
-import UserReviews from './UserReviews';
+const EditProfileButton = dynamic(() => import('./EditProfileButton'), {
+  suspense: true,
+});
+
+const ExternalAccounts = dynamic(() => import('./ExternalAccounts'), {
+  suspense: true,
+});
+
+const UserActionsActivity = dynamic(() => import('./UserActionsActivity'), {
+  suspense: true,
+});
 
 function ProfilePage({}) {
   const router = useRouter();
@@ -41,7 +49,7 @@ function ProfilePage({}) {
   //button to edit profile if user is signed in and is on their own profile
 
   return (
-    <div className="container px-12 mx-auto flex justify-center items-center pb-12">
+    <div className="container px-[4.5rem] mx-auto flex justify-center items-center pb-12">
       <div className=" mt-12 flex flex-col w-full">
         <div className="flex justify-between">
           <div className="flex flex-row">
@@ -69,7 +77,6 @@ function ProfilePage({}) {
 
           <EditProfileButton username={username} />
         </div>
-        {/* <UserReviews username={username} /> */}
         <UserActionsActivity username={username} />
       </div>
     </div>
