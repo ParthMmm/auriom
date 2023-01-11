@@ -92,21 +92,10 @@ export const reviewRouter = router({
       const { spotifyId, cursor } = input;
 
       console.log({ cursor });
-      // const reviewsA = await ctx.prisma.review.findMany({
-      //   take: 5,
-      //   where: {
-      //     Album: {
-      //       uri: uri,
-      //     },
-      //   },
-      // });
-
-      // const lastPostInResults = reviewsA[reviewsA.length - 1];
-      // const myCursor = lastPostInResults?.id;
 
       const reviews = await ctx.prisma.review.findMany({
         take: 5,
-        skip: 1,
+        skip: cursor ? 1 : 0,
         cursor: cursor ? { id: cursor } : undefined,
 
         orderBy: {
@@ -123,8 +112,6 @@ export const reviewRouter = router({
           Album: true,
         },
       });
-
-      // console.log(reviews.length);
 
       let nextCursor: typeof cursor | undefined = undefined;
       if (reviews.length > 4) {
