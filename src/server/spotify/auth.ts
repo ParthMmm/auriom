@@ -26,6 +26,7 @@ const getToken = async () => {
   );
 
   const token = await res.data;
+
   return token;
 
   // axios

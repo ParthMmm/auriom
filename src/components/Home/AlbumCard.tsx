@@ -2,54 +2,39 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import type { AlbumInfo } from '@utils/types';
+import type { AlbumItem } from '@utils/types/spotify';
 
 type Props = {
-  album: AlbumInfo;
+  album: AlbumItem;
 };
 
-function Card({ album }: Props) {
+function AlbumCard({ album }: Props) {
   const imageURL = album?.images?.filter((image) => image.height === 300)[0]
     ?.url;
 
-  const artists = () => {
-    if (album?.artists instanceof Array) {
-      return album?.artists?.map((artist) => (
-        <Link
-          href={{
-            pathname: `/artist/[id]`,
-            query: {
-              artist: artist.name,
-              id: artist.spotifyId,
-            },
-          }}
-          key={artist?.id}
-        >
-          <span className="text-sm font-normal pr-2 transition-all text-gray-500 md:text-md hover:text-harlequin-500 ">
-            {artist?.name}
-          </span>
-        </Link>
-      ));
-    } else {
-      return (
-        <Link
-          href={{
-            pathname: `/artist/[id]`,
-            query: {
-              artist: album?.artists?.name,
-              id: album?.artists?.spotifyId,
-            },
-          }}
-          key={album?.artists?.spotifyId}
-        >
-          <span className="text-sm font-normal transition-all  md:text-md hover:text-harlequin-500">
-            {album?.artists?.name}
-          </span>
-        </Link>
-      );
-    }
-  };
+  const artists = () =>
+    album?.artists?.map((artist) => (
+      //   <Link
+      //     href={{
+      //       pathname: `/artist/[id]`,
+      //       query: {
+      //         artist: artist.name,
+      //         id: artist.id,
+      //       },
+      //     }}
+      //     key={artist?.id}
+      //   >
+      <>
+        <span className="text-sm font-normal pr-2 transition-all text-gray-500 md:text-md hover:text-harlequin-500  ">
+          {artist?.name}
+        </span>
+      </>
+      //   </Link>
+    ));
 
-  const title: string = album?.title.toString();
+  //   const title: string = album?.title.toString();
+
+  if (!imageURL) return null;
 
   return (
     <div className="flex hover:border-gray-500 transition-all  border-[1px] border-gray-700">
@@ -60,7 +45,7 @@ function Card({ album }: Props) {
               href={{
                 pathname: `/album/[id]`,
                 query: {
-                  id: album?.spotifyId,
+                  id: album?.id,
                 },
               }}
 
@@ -84,13 +69,16 @@ function Card({ album }: Props) {
                 href={{
                   pathname: `/album/[id]`,
                   query: {
-                    id: album?.spotifyId,
+                    id: album?.id,
                   },
                 }}
                 // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
               >
-                <span className="hover:text-harlequin-500 font-normal transition-all text-sm overflow-hidden sm:line-clamp-1 md:line-clamp-2  ">
-                  {title.length > 20 ? title.substring(0, 20) + '...' : title}
+                <span className="hover:text-harlequin-500 font-normal transition-all text-sm overflow-hidden sm:line-clamp-1 md:line-clamp-3  ">
+                  {album.name.length > 30
+                    ? album.name.substring(0, 30) + '...'
+                    : album.name}
+                  {/* {album?.name} */}
                 </span>
               </Link>
 
@@ -103,4 +91,4 @@ function Card({ album }: Props) {
   );
 }
 
-export default Card;
+export default AlbumCard;
