@@ -49,8 +49,8 @@ function Search({}) {
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke="currentColor"
-          className=" mx-1  h-6 w-6 group-hover:stroke-harlequin-500 "
+          // stroke="currentColor"
+          className=" ml-2 md:mx-2  h-6 w-6 group-hover:stroke-harlequin-500 stroke-current text-gray-500 "
         >
           <path
             strokeLinecap="round"
@@ -63,11 +63,11 @@ function Search({}) {
       <input
         id="search"
         type="search"
-        placeholder="Search for an album, artist, or song"
+        placeholder="Search for albums, artists, or tracks"
         value={value}
         onKeyPress={(e) => handleKeyPress(e)}
         onChange={handleChange}
-        className="text-md w-full  overflow-visible bg-transparent py-5 text-black placeholder-gray-500 focus:outline-none dark:text-white   "
+        className="text-md w-full  bg-transparent py-5 text-black focus:outline-none dark:text-white placeholder-transparent  md:placeholder-gray-500  "
       />
     </div>
   );

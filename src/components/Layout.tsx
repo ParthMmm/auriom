@@ -72,7 +72,7 @@ function Layout({ children }: Props) {
         className={`min-h-screen ${objectSans.variable} bg-black font-sans text-white`}
       >
         <Navbar />
-        <div className="bg-black pt-32">{children}</div>
+        <div className="bg-black pt-0">{children}</div>
         <Toaster position="bottom-center" gutter={8} />
       </div>
     </>

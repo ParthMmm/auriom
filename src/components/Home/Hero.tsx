@@ -10,16 +10,16 @@ export default function Hero() {
           <span className="block">Keep track of what you like.</span>
           <span className="block">Share your thoughts.</span>
         </h2>
-        {/* <p className="mt-4 text-lg leading-6 text-indigo-200">
-          Discover out new albums, organize them, and give your thoughts on them
-        </p> */}
         <Link
           href="/auth/sign-up"
-          className="mt-8 inline-flex w-full items-center align-middle transition-transform gap-2 justify-center rounded-md border border-transparent bg-harlequin-500 px-5 py-3 text-base font-medium text-black hover:scale-105 sm:w-auto"
+          className="mt-8 inline-flex w-full items-center align-middle transition-all gap-2 justify-center rounded-md border border-transparent bg-harlequin-500 px-5 py-3 text-base font-medium text-black  hover:text-white sm:w-auto"
         >
           Become a tastemaker today
           <ArrowRightIcon className="h-5 w-5" />
         </Link>
+        <p className="mt-6 text-lg leading-6 text-gray-500">
+          The social platform for music lovers.
+        </p>
       </div>
     </div>
   );

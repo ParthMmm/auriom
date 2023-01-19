@@ -1,7 +1,6 @@
 import Marquee from 'react-fast-marquee';
 
 import SmallSpinner from '@components/SmallSpinner';
-import Spinner from '@components/Spinner';
 
 import { trpc } from '@utils/trpc';
 
@@ -21,14 +20,14 @@ function NewReleases({}) {
 
   return (
     <div className="flex flex-col justify-start w-screen bg-black">
-      <h2 className="text-center font-black text-2xl py-4">new releases</h2>
+      <h2 className="text-center font-black text-2xl py-4">hot new releases</h2>
       <Marquee
         pauseOnHover
         gradientColor={[0, 0, 0]}
         speed={40}
         gradientWidth={100}
       >
-        <div className="flex flex-row  overflow-y-scroll">
+        <div className="flex flex-row  overflow-y-scroll pb-4">
           {data?.items.map((album) => (
             <AlbumCard key={album.uri} album={album} />
           ))}

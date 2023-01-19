@@ -4,7 +4,7 @@ function LogInButton({}) {
   const router = useRouter();
 
   return (
-    <div>
+    <div className="hidden md:block">
       <button onClick={() => router.push('/auth/sign-in')}>log in</button>
     </div>
   );
