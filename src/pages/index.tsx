@@ -4,7 +4,7 @@ import Landing from '@components/Home/Landing';
 
 const Home: NextPage = () => (
   <>
-    <main className="h-screen bg-black">
+    <main className="">
       <Landing />
     </main>
   </>

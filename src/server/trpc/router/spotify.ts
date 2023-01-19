@@ -42,7 +42,9 @@ export const spotifyRouter = trpc.router({
           config,
         );
 
-        const data: Pick<Root, 'albums'> = res.data;
+        type Album = Pick<Root, 'albums'>;
+
+        const data: Album = res.data;
 
         return data.albums;
       }
@@ -162,4 +164,27 @@ export const spotifyRouter = trpc.router({
         return data;
       }
     }),
+
+  getNewReleases: trpc.publicProcedure.query(async ({ ctx }) => {
+    if (ctx.spotifyToken) {
+      const token = ctx.spotifyToken.access_token;
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const res = await axios.get(
+        `https://api.spotify.com/v1/browse/new-releases?limit=50`,
+        config,
+      );
+
+      type Album = Pick<Root, 'albums'>;
+
+      const data: Album = res.data;
+
+      return data.albums;
+    }
+  }),
 });
