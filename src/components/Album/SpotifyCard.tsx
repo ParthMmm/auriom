@@ -45,7 +45,8 @@ function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
                 src={imageURL}
                 alt={'album cover'}
                 className="asset"
-                fill
+                height={300}
+                width={300}
                 quality={100}
               />
             </picture>
