@@ -39,14 +39,14 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
     setIsOpen(false);
   };
 
-  const userData = trpc.user.getUser.useQuery(
+  const userData = trpc.users.getUser.useQuery(
     { username },
     {
       enabled: !!username,
     },
   );
 
-  const updateUserMutation = trpc.user.updateUser.useMutation();
+  const updateUserMutation = trpc.users.updateUser.useMutation();
 
   const submitHandler = async (data: userBioInputType) => {
     // console.log(data);

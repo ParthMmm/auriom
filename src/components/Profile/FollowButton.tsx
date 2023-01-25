@@ -21,27 +21,18 @@ function FollowButton({ username }: Props) {
   const followInfo = trpc.users.getFollowInfo.useQuery({ username });
 
   const followMutation = trpc.users.followUser.useMutation({
-    onSuccess: async () => await utils.users.invalidate(),
+    onSuccess: async () => await followInfo.refetch(),
   });
   const unfollowMutation = trpc.users.unfollowUser.useMutation({
-    onSuccess: async () => await utils.users.invalidate(),
+    onSuccess: async () => await followInfo.refetch(),
   });
 
   const unfollow = async () => {
-    const x = await unfollowMutation.mutateAsync({ username });
-    if (x) {
-      utils.users.getFollowInfo.invalidate({ username });
-      setFollowStatus(false);
-    }
+    await unfollowMutation.mutateAsync({ username });
   };
 
   const follow = async () => {
-    const x = await followMutation.mutateAsync({ username });
-
-    if (x) {
-      utils.users.getFollowInfo.invalidate({ username });
-      setFollowStatus(true);
-    }
+    await followMutation.mutateAsync({ username });
   };
 
   if (isOwnProfile) {
@@ -49,11 +40,11 @@ function FollowButton({ username }: Props) {
   }
 
   if (followInfo.isLoading) {
-    return <div>loading</div>;
+    return null;
   }
 
   if (followInfo.isError) {
-    return <div>error</div>;
+    return null;
   }
 
   if (followStatus || followInfo.data?.followerId) {

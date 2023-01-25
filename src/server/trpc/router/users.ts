@@ -121,7 +121,6 @@ export const userRouter = router({
   getFollowInfo: protectedProcedure
     .input(z.object({ username: z.string() }))
     .query(async ({ ctx, input }) => {
-      console.log('i just got called');
       const { username } = input;
 
       const userId = ctx?.user?.id;
