@@ -14,37 +14,40 @@ function Card({ album }: Props) {
   const artists = () => {
     if (album?.artists instanceof Array) {
       return album?.artists?.map((artist) => (
-        <Link
-          href={{
-            pathname: `/artist/[id]`,
-            query: {
-              artist: artist.name,
-              id: artist.spotifyId,
-            },
-          }}
+        // <Link
+        //   href={{
+        //     pathname: `/artist/[id]`,
+        //     query: {
+        //       artist: artist.name,
+        //       id: artist.spotifyId,
+        //     },
+        //   }}
+        //   key={artist?.id}
+        // >
+        <span
           key={artist?.id}
+          className="md:text-md pr-2 text-sm font-normal text-gray-500 transition-all hover:text-harlequin-500 "
         >
-          <span className="md:text-md pr-2 text-sm font-normal text-gray-500 transition-all hover:text-harlequin-500 ">
-            {artist?.name}
-          </span>
-        </Link>
+          {artist?.name}
+        </span>
+        // </Link>
       ));
     } else {
       return (
-        <Link
-          href={{
-            pathname: `/artist/[id]`,
-            query: {
-              artist: album?.artists?.name,
-              id: album?.artists?.spotifyId,
-            },
-          }}
-          key={album?.artists?.spotifyId}
-        >
-          <span className="md:text-md text-sm font-normal  transition-all hover:text-harlequin-500">
-            {album?.artists?.name}
-          </span>
-        </Link>
+        // <Link
+        //   href={{
+        //     pathname: `/artist/[id]`,
+        //     query: {
+        //       artist: album?.artists?.name,
+        //       id: album?.artists?.spotifyId,
+        //     },
+        //   }}
+        //   key={album?.artists?.spotifyId}
+        // >
+        <span className="md:text-md text-sm font-normal  transition-all hover:text-harlequin-500">
+          {album?.artists?.name}
+        </span>
+        // </Link>
       );
     }
   };

@@ -8,23 +8,27 @@ type Props = {
 
 function FollowButton({ username }: Props) {
   const { isSignedIn, user } = useUser();
-  const [followStatus, setFollowStatus] = useState(false);
 
   const isOwnProfile = isSignedIn && user?.username === username;
 
-  const utils = trpc.useContext();
-
-  // console.log(utils.ctx);
-
-  // console.log(utils.user.getFollowInfo.invalidate({ username }));
-
-  const followInfo = trpc.users.getFollowInfo.useQuery({ username });
+  const followInfo = trpc.users.getFollowInfo.useQuery(
+    { username },
+    {
+      enabled: !!username && !!isSignedIn,
+    },
+  );
 
   const followMutation = trpc.users.followUser.useMutation({
-    onSuccess: async () => await followInfo.refetch(),
+    onSettled: async () => {
+      await followInfo.refetch();
+      await followCounts.refetch();
+    },
   });
   const unfollowMutation = trpc.users.unfollowUser.useMutation({
-    onSuccess: async () => await followInfo.refetch(),
+    onSettled: async () => {
+      await followInfo.refetch();
+      await followCounts.refetch();
+    },
   });
 
   const unfollow = async () => {
@@ -35,45 +39,64 @@ function FollowButton({ username }: Props) {
     await followMutation.mutateAsync({ username });
   };
 
-  if (isOwnProfile) {
-    return null;
-  }
+  const followCounts = trpc.users.getFollowCounts.useQuery({ username });
 
-  if (followInfo.isLoading) {
-    return null;
-  }
+  const Button = () => {
+    if (isOwnProfile) {
+      return null;
+    }
 
-  if (followInfo.isError) {
-    return null;
-  }
+    if (followInfo.isLoading) {
+      return null;
+    }
 
-  if (followStatus || followInfo.data?.followerId) {
-    return (
-      <div>
+    if (followInfo.isError) {
+      return null;
+    }
+    if (followInfo.data?.followerId) {
+      return (
         <button
           className="mt-2 w-full rounded-full border-2 border-harlequin-500 py-2 px-3 font-bold text-white transition-colors hover:bg-harlequin-500"
           onClick={unfollow}
         >
           unfollow
         </button>
-      </div>
-    );
-  }
-
-  if (!followStatus || !followInfo.data?.followerId) {
-    return (
-      <div>
+      );
+    }
+    if (!followInfo.data?.followerId) {
+      return (
         <button
           className="mt-2 w-full rounded-full border-2 border-harlequin-500 py-2 px-3 font-bold text-white transition-colors hover:bg-harlequin-500"
           onClick={follow}
         >
           follow
         </button>
-      </div>
-    );
-  }
+      );
+    }
+    return null;
+  };
 
-  return null;
+  return (
+    <div className="flex flex-col items-start justify-start space-y-4 ">
+      <Button />
+      {followCounts.data && (
+        <div className="flex flex-row justify-between  gap-2 ">
+          <div className="flex flex-row-reverse gap-1">
+            <p className="text-sm font-bold text-gray-400">followers</p>
+            <p className="w-2.5 text-sm font-bold tabular-nums text-harlequin-500">
+              {followCounts.data?.followers}
+            </p>
+          </div>
+          <div className="flex flex-row-reverse gap-1">
+            <p className="text-sm font-bold text-gray-400">following</p>
+            <p className="w-2.5 text-sm font-bold tabular-nums text-harlequin-500">
+              {followCounts.data?.following}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default FollowButton;

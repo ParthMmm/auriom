@@ -8,7 +8,6 @@ import { SpotifyLogo } from 'src/lib/svgs';
 import Spinner from '@components/Spinner';
 
 import { trpc } from '@utils/trpc';
-import FollowButton from './FollowButton';
 
 const EditProfileButton = dynamic(() => import('./EditProfileButton'), {
   suspense: true,
@@ -19,6 +18,10 @@ const ExternalAccounts = dynamic(() => import('./ExternalAccounts'), {
 });
 
 const UserActionsActivity = dynamic(() => import('./UserActionsActivity'), {
+  suspense: true,
+});
+
+const FollowButton = dynamic(() => import('./FollowButton'), {
   suspense: true,
 });
 
@@ -55,8 +58,8 @@ function ProfilePage({}) {
       <div className=" mt-12 flex w-full flex-col">
         <div className="flex justify-between">
           <div className="flex flex-row">
-            <div className="flex flex-col items-start justify-start pl-2">
-              <div className="flex flex-col items-center justify-center gap-4">
+            <div className="flex flex-col pl-2">
+              <div className="flex flex-col  gap-4">
                 <Image
                   src={userInfo.data.profileImage}
                   alt={`${userInfo.data.username}'s profile image`}
@@ -64,13 +67,12 @@ function ProfilePage({}) {
                   width={150}
                   className="rounded-full"
                 />
-                <h1 className="py-4 text-3xl font-bold text-white">
+                <h1 className="py-4 text-center text-3xl font-bold text-white">
                   {username}
                 </h1>
 
-                <ExternalAccounts userInfo={userInfo.data} />
-
                 <FollowButton username={username} />
+                <ExternalAccounts userInfo={userInfo.data} />
               </div>
             </div>
             <div className="m-12 flex items-start justify-start align-middle">

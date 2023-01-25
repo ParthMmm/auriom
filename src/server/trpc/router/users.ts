@@ -6,7 +6,7 @@ import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { ExternalAccount } from '../../../utils/types/user';
 
 export const userRouter = router({
-  getUser: protectedProcedure
+  getUser: publicProcedure
     .input(z.object({ username: z.string() }))
     .query(async ({ ctx, input }) => {
       const { username } = input;
@@ -145,5 +145,35 @@ export const userRouter = router({
       });
 
       return follow;
+    }),
+
+  getFollowCounts: publicProcedure
+    .input(z.object({ username: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { username } = input;
+
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+      });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      const followers = await ctx.prisma.follows.count({
+        where: {
+          followingId: user.id,
+        },
+      });
+
+      const following = await ctx.prisma.follows.count({
+        where: {
+          followerId: user.id,
+        },
+      });
+
+      return { followers, following };
     }),
 });
