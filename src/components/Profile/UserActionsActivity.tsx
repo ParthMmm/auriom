@@ -42,7 +42,7 @@ function UserActionsActivity({ username }: Props) {
     const wantToListen = data.data?.wantToListen;
 
     return (
-      <div className="mt-24 flex flex-col gap-10 w-full ">
+      <div className="mt-24 flex w-full flex-col gap-10 ">
         <div className="px-4">
           <List data={listening} title={'currently listening'} />
         </div>

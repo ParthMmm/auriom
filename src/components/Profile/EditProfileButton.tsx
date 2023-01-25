@@ -23,7 +23,7 @@ function EditProfileButton({ username }: Props) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             // stroke="white"
-            className="w-6 h-6 stroke-gray-600 hover:stroke-gray-500"
+            className="h-6 w-6 stroke-gray-600 hover:stroke-gray-500"
           >
             <path
               strokeLinecap="round"

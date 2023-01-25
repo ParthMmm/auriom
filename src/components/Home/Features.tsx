@@ -55,7 +55,7 @@ export default function Features() {
             <dl className="grid grid-cols-1 gap-16 lg:grid lg:grid-cols-3">
               {features.map((feature) => (
                 <div key={feature.name}>
-                  <dt className="flex flex-col items-center text-center md:text-left md:items-start ">
+                  <dt className="flex flex-col items-center text-center md:items-start md:text-left ">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-harlequin-500 text-white">
                       <feature.icon className="h-8 w-8" aria-hidden="true" />
                     </div>
@@ -63,7 +63,7 @@ export default function Features() {
                       {feature.name}
                     </p>
                   </dt>
-                  <dd className="mt-2 text-base leading-7 text-gray-200 text-center md:text-left">
+                  <dd className="mt-2 text-center text-base leading-7 text-gray-200 md:text-left">
                     {feature.description}
                   </dd>
                 </div>

@@ -12,6 +12,9 @@ Table User {
   listening Listening [not null]
   listened Listened [not null]
   wantToListen WantToListen [not null]
+  shelves Shelf [not null]
+  followedBy Follows [not null]
+  following Follows [not null]
   spotifyAccount String [default: '']
   lastFmAccount String [default: '']
   soundCloudAccount String [default: '']
@@ -43,6 +46,7 @@ Table Album {
   images Image [not null]
   tracks Track [not null]
   artists Artist [not null]
+  shelf Shelf [not null]
 }
 
 Table Artist {
@@ -103,6 +107,27 @@ Table WantToListen {
   albumId String [not null]
 }
 
+Table Follows {
+  follower User [not null]
+  followerId String [not null]
+  following User [not null]
+  followingId String [not null]
+
+  indexes {
+    (followerId, followingId) [pk]
+  }
+}
+
+Table Shelf {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  name String [not null]
+  user User [not null]
+  userId String [not null]
+  album Album [not null]
+  albumId String [not null]
+}
+
 Table AlbumToArtist {
   artistsId String [ref: > Artist.id]
   albumsId String [ref: > Album.id]
@@ -132,3 +157,11 @@ Ref: Listened.albumId > Album.spotifyId
 Ref: WantToListen.userId > User.id
 
 Ref: WantToListen.albumId > Album.spotifyId
+
+Ref: Follows.followerId > User.id
+
+Ref: Follows.followingId > User.id
+
+Ref: Shelf.userId > User.id
+
+Ref: Shelf.albumId > Album.spotifyId

@@ -1,4 +1,5 @@
 import { useUser } from '@clerk/nextjs';
+import { PlusIcon } from '@heroicons/react/20/solid';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -7,6 +8,7 @@ import { SpotifyLogo } from 'src/lib/svgs';
 import Spinner from '@components/Spinner';
 
 import { trpc } from '@utils/trpc';
+import FollowButton from './FollowButton';
 
 const EditProfileButton = dynamic(() => import('./EditProfileButton'), {
   suspense: true,
@@ -31,7 +33,7 @@ function ProfilePage({}) {
 
   const username = router?.query?.username[0] as string;
 
-  const userInfo = trpc.user.getUser.useQuery(
+  const userInfo = trpc.users.getUser.useQuery(
     { username },
     {
       enabled: !!username,
@@ -49,11 +51,11 @@ function ProfilePage({}) {
   //button to edit profile if user is signed in and is on their own profile
 
   return (
-    <div className="container px-[4.5rem] mx-auto flex justify-center items-center pb-12">
-      <div className=" mt-12 flex flex-col w-full">
+    <div className="container mx-auto flex items-center justify-center px-[4.5rem] pb-12">
+      <div className=" mt-12 flex w-full flex-col">
         <div className="flex justify-between">
           <div className="flex flex-row">
-            <div className="flex justify-start flex-col items-start pl-2">
+            <div className="flex flex-col items-start justify-start pl-2">
               <div className="flex flex-col items-center justify-center gap-4">
                 <Image
                   src={userInfo.data.profileImage}
@@ -62,15 +64,16 @@ function ProfilePage({}) {
                   width={150}
                   className="rounded-full"
                 />
-                <h1 className="text-3xl font-bold text-white py-4">
+                <h1 className="py-4 text-3xl font-bold text-white">
                   {username}
                 </h1>
-              </div>
-              <div>
+
                 <ExternalAccounts userInfo={userInfo.data} />
+
+                <FollowButton username={username} />
               </div>
             </div>
-            <div className="m-12 flex justify-start items-start align-middle">
+            <div className="m-12 flex items-start justify-start align-middle">
               <p className="text-white">{userInfo.data.bio}</p>
             </div>
           </div>

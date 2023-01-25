@@ -14,11 +14,11 @@ function Navbar({}) {
     <nav className="mx-auto max-w-7xl ">
       <div className=" z-20 border-b-[1px] border-gray-500 bg-black   ">
         <div className="flex  ">
-          <div className="flex basis-2/12 items-center p-2 justify-center md:py-4 md:px-4  ">
+          <div className="flex basis-2/12 items-center justify-center p-2 md:py-4 md:px-4  ">
             <h1 className=" text-xl  font-black tracking-tight text-white md:text-5xl">
               <Link href="/" className="group">
                 <svg
-                  className="w-10 h-10 "
+                  className="h-10 w-10 "
                   viewBox="0 0 108 127"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

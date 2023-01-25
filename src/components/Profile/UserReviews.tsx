@@ -26,9 +26,11 @@ function UserReviews({ username }: Props) {
     return <div>error</div>;
   }
 
+  if (userReviews.data.length === 0) return null;
+
   return (
     <div>
-      <h2 className=" text-2xl py-4 font-black">reviews</h2>
+      <h2 className=" py-4 text-2xl font-black">reviews</h2>
 
       <div className="flex flex-row  overflow-y-scroll   ">
         {userReviews?.data.map((review) => (

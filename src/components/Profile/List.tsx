@@ -8,9 +8,11 @@ type Props = {
 };
 
 function List({ data, title }: Props) {
+  if (data.length === 0) return null;
+
   return (
     <div className="  ">
-      <h2 className=" text-2xl py-4 font-black">{title}</h2>
+      <h2 className=" py-4 text-2xl font-black">{title}</h2>
       <div className=" flex flex-row  overflow-x-scroll    ">
         {data?.map((obj) => (
           <Card album={obj?.album} key={obj?.id.toString() + obj?.userId} />
