@@ -12,7 +12,7 @@ export default function Hero() {
         </h2>
         <Link
           href="/auth/sign-up"
-          className="mt-8 inline-flex w-full items-center align-middle transition-all gap-2 justify-center rounded-md border border-transparent bg-harlequin-500 px-5 py-3 text-base font-medium text-black  hover:text-white sm:w-auto"
+          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md border border-transparent bg-harlequin-500 px-5 py-3 align-middle text-base font-medium text-black transition-all  hover:text-white sm:w-auto"
         >
           Become a tastemaker today
           <ArrowRightIcon className="h-5 w-5" />

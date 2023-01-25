@@ -11,6 +11,7 @@
     "format": "pnpm lint --fix & pnpm prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.6.3",
     "@clerk/nextjs": "^4.6.13",
     "@clerk/themes": "^1.2.36",
     "@headlessui/react": "^1.7.5",

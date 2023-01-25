@@ -69,7 +69,7 @@ function ReviewsList({ newReview, spotifyId }: Props) {
       </div>
       <div>
         <Link href={`/album/${spotifyId}/reviews`}>
-          <div className="text-right  text-white rounded-md p-2">
+          <div className="rounded-md  p-2 text-right text-white">
             view all reviews
           </div>
         </Link>

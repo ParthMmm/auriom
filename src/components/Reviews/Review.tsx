@@ -62,7 +62,7 @@ function Review({ review }: Props) {
             </div>
           </div>
           <div className="">
-            <div className=" text-right text-harlequin-500 tabular-nums">
+            <div className=" text-right tabular-nums text-harlequin-500">
               {review.rating} <span className="text-gray-600">/ 5</span>
             </div>
           </div>

@@ -39,14 +39,14 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
     setIsOpen(false);
   };
 
-  const userData = trpc.user.getUser.useQuery(
+  const userData = trpc.users.getUser.useQuery(
     { username },
     {
       enabled: !!username,
     },
   );
 
-  const updateUserMutation = trpc.user.updateUser.useMutation();
+  const updateUserMutation = trpc.users.updateUser.useMutation();
 
   const submitHandler = async (data: userBioInputType) => {
     // console.log(data);
@@ -109,9 +109,9 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll text-white   rounded-2xl  border-2 border-white bg-black p-8 pb-12   align-middle shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll rounded-2xl   border-2  border-white bg-black p-8 pb-12 align-middle   text-white shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
                   <Dialog.Title>
-                    <h2 className="text-4xl font-bold text-left pb-4">
+                    <h2 className="pb-4 text-left text-4xl font-bold">
                       Settings
                     </h2>
                   </Dialog.Title>
@@ -120,7 +120,7 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                       <div className="mt-2 p-4">
                         {/* <div className="mb-4 flex flex-row items-center justify-between align-middle transition-all"></div> */}
                         <label
-                          className="text-sm font-normal flex p-2"
+                          className="flex p-2 text-sm font-normal"
                           htmlFor="bio"
                         >
                           Bio
@@ -130,13 +130,13 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                           id="bio"
                           {...register('bio')}
                           placeholder={userData.data?.bio || 'Bio'}
-                          className=" w-full  border-[1px] border-gray-800 placeholder-gray-600 bg-black p-2 text-white     focus:outline-gray-700   "
+                          className=" w-full  border-[1px] border-gray-800 bg-black p-2 text-white placeholder-gray-600     focus:outline-gray-700   "
                         />
-                        <div className="w-full bg-gray-600 border-b-[1px] my-8"></div>
-                        <div className="grid  md:grid-rows-2 grid-cols-1 gap-6">
-                          <div className="flex flex-col md:flex-row items-center justify-between gap-4 ">
-                            <div className="flex flex-col align-middle items-start gap-2 basis-0 w-full md:basis-1/2 ">
-                              <div className="flex flex-row gap-2 align-middle items-center">
+                        <div className="my-8 w-full border-b-[1px] bg-gray-600"></div>
+                        <div className="grid  grid-cols-1 gap-6 md:grid-rows-2">
+                          <div className="flex flex-col items-center justify-between gap-4 md:flex-row ">
+                            <div className="flex w-full basis-0 flex-col items-start gap-2 align-middle md:basis-1/2 ">
+                              <div className="flex flex-row items-center gap-2 align-middle">
                                 <SpotifyLogo />
                                 <label
                                   className="text-sm font-normal"
@@ -154,11 +154,11 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="Spotify username"
                                 {...register('spotifyAccount')}
                                 // value={value}
-                                className="text-md w-full  border-gray-800 border-[1px] p-2   bg-black placeholder-gray-600 dark:text-white     focus:outline-gray-700    "
+                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
                               />
                             </div>
-                            <div className="flex flex-col align-middle items-start gap-2 basis-0 w-full md:basis-1/2 ">
-                              <div className="flex flex-row gap-2 align-middle items-center">
+                            <div className="flex w-full basis-0 flex-col items-start gap-2 align-middle md:basis-1/2 ">
+                              <div className="flex flex-row items-center gap-2 align-middle">
                                 <LastFMLogo />
                                 <label
                                   className="text-sm font-normal"
@@ -174,13 +174,13 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="Last.fm username"
                                 {...register('lastFmAccount')}
                                 // value={value}
-                                className="text-md w-full  border-gray-800 border-[1px] p-2   bg-black placeholder-gray-600 dark:text-white     focus:outline-gray-700    "
+                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
                               />
                             </div>
                           </div>
-                          <div className="flex flex-col md:flex-row items-center justify-between gap-4 ">
-                            <div className="flex flex-col align-middle items-start gap-2 basis-0 w-full md:basis-1/2 ">
-                              <div className="flex flex-row gap-2 align-middle items-center">
+                          <div className="flex flex-col items-center justify-between gap-4 md:flex-row ">
+                            <div className="flex w-full basis-0 flex-col items-start gap-2 align-middle md:basis-1/2 ">
+                              <div className="flex flex-row items-center gap-2 align-middle">
                                 <SoundCloudLogo />
                                 <label
                                   className="text-sm font-normal"
@@ -198,11 +198,11 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="SoundCloud username"
                                 {...register('soundCloudAccount')}
                                 // value={value}
-                                className="text-md w-full  border-gray-800 border-[1px] p-2   bg-black placeholder-gray-600 dark:text-white     focus:outline-gray-700    "
+                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
                               />
                             </div>
-                            <div className="flex flex-col align-middle items-start gap-2 basis-0 w-full md:basis-1/2 ">
-                              <div className="flex flex-row gap-2 align-middle items-center">
+                            <div className="flex w-full basis-0 flex-col items-start gap-2 align-middle md:basis-1/2 ">
+                              <div className="flex flex-row items-center gap-2 align-middle">
                                 <TwitterLogo />
                                 <label
                                   className="text-sm font-normal"
@@ -220,7 +220,7 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="Twitter username"
                                 {...register('twitterAccount')}
                                 // value={value}
-                                className="text-md w-full  border-gray-800 border-[1px] p-2   bg-black placeholder-gray-600 dark:text-white     focus:outline-gray-700    "
+                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
                               />
                             </div>
                           </div>

@@ -18,12 +18,15 @@ model User {
   id                String         @id @unique
   username          String         @unique
   createdAt         DateTime       @default(now())
-  profileImage       String
+  profileImage      String
   bio               String?
   reviews           Review[]
   listening         Listening[]
   listened          Listened[]
   wantToListen      WantToListen[]
+  shelves           Shelf[]
+  followedBy        Follows[]      @relation("following")
+  following         Follows[]      @relation("follower")
   spotifyAccount    String?        @default("")
   lastFmAccount     String?        @default("")
   soundCloudAccount String?        @default("")
@@ -57,6 +60,7 @@ model Album {
   images       Image[]
   tracks       Track[]
   artists      Artist[]
+  shelf        Shelf[]
 }
 
 model Artist {
@@ -125,6 +129,25 @@ model Listened {
 model WantToListen {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  album     Album    @relation(fields: [albumId], references: [spotifyId])
+  albumId   String
+}
+
+model Follows {
+  follower    User   @relation("follower", fields: [followerId], references: [id])
+  followerId  String
+  following   User   @relation("following", fields: [followingId], references: [id])
+  followingId String
+
+  @@id([followerId, followingId])
+}
+
+model Shelf {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  name      String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   album     Album    @relation(fields: [albumId], references: [spotifyId])
