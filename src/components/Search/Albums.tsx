@@ -36,7 +36,7 @@ function Albums({}) {
           loader={<div>loading</div>}
           dataLength={data?.pages?.length * 20 || 0}
         >
-          <div className="grid-playlists-container">
+          <div className="grid grid-cols-2  gap-4 md:grid-cols-4 md:gap-12">
             {data?.pages.map((page) =>
               page?.items.map((album: AlbumItem) => (
                 <SpotifyCard

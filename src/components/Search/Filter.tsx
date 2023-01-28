@@ -6,7 +6,8 @@ function Filter({}) {
   const setSearchFilter = useStore((state) => state.setSearchFilter);
   const searchFilter = useStore((state) => state.searchFilter);
 
-  const filters = ['artist', 'track', 'album'];
+  // const filters = ['artist', 'track', 'album'];
+  const filters = ['album'];
 
   return (
     <div>
@@ -23,7 +24,7 @@ function Filter({}) {
           </button>
         ))}
       </div>
-      <div className="relative text-gray-600 ">refine you results</div>
+      {/* <div className="relative text-gray-600 ">refine you results</div> */}
     </div>
   );
 }
