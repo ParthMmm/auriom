@@ -18,64 +18,33 @@ function Navbar({}) {
             <h1 className=" text-xl  font-black tracking-tight text-white md:text-5xl">
               <Link href="/" className="group">
                 <svg
-                  className="h-10 w-10 "
-                  viewBox="0 0 108 127"
+                  className="h-10 w-10"
+                  width="100"
+                  height="100"
+                  viewBox="0 0 100 100"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M45.296 94.248C52.304 94.248 57.968 91.656 61.04 86.76H62V93H76.208V60.552C76.208 49.416 67.28 42.312 53.264 42.312C39.44 42.312 30.512 49.224 30.512 59.976H44.432C44.336 55.08 47.888 52.2 53.072 52.2C58.736 52.2 62 55.368 62 60.072V62.088L51.536 63.336C36.08 65.256 28.304 70.92 28.304 80.136C28.304 88.968 35.216 94.248 45.296 94.248ZM50 84.936C45.104 84.936 42.224 82.632 42.224 78.984C42.224 75.624 44.912 72.84 51.92 71.976L62 70.728V74.184C62 80.328 57.104 84.936 50 84.936Z"
-                    fill="white"
-                  />
-                  <g filter="url(#filter0_d_112_9)">
-                    <rect
-                      x="8"
-                      y="23"
-                      width="92"
-                      height="92"
-                      rx="46"
-                      stroke="white"
-                      strokeWidth="8"
-                      shapeRendering="crispEdges"
-                      className="group-hover:stroke-harlequin-500"
+                  <g clip-path="url(#clip0_112_9)">
+                    <path
+                      d="M42.296 74.248C49.304 74.248 54.968 71.656 58.04 66.76H59V73H73.208V40.552C73.208 29.416 64.28 22.312 50.264 22.312C36.44 22.312 27.512 29.224 27.512 39.976H41.432C41.336 35.08 44.888 32.2 50.072 32.2C55.736 32.2 59 35.368 59 40.072V42.088L48.536 43.336C33.08 45.256 25.304 50.92 25.304 60.136C25.304 68.968 32.216 74.248 42.296 74.248ZM47 64.936C42.104 64.936 39.224 62.632 39.224 58.984C39.224 55.624 41.912 52.84 48.92 51.976L59 50.728V54.184C59 60.328 54.104 64.936 47 64.936Z"
+                      fill="white"
                     />
                   </g>
+                  <rect
+                    x="4"
+                    y="4"
+                    width="92"
+                    height="92"
+                    rx="46"
+                    stroke="white"
+                    strokeWidth="8"
+                    className="group-hover:stroke-harlequin-500"
+                  />
                   <defs>
-                    <filter
-                      id="filter0_d_112_9"
-                      x="0"
-                      y="19"
-                      width="108"
-                      height="108"
-                      filterUnits="userSpaceOnUse"
-                      colorInterpolationFilters="sRGB"
-                    >
-                      <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                      <feColorMatrix
-                        in="SourceAlpha"
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                        result="hardAlpha"
-                      />
-                      <feOffset dy="4" />
-                      <feGaussianBlur stdDeviation="2" />
-                      <feComposite in2="hardAlpha" operator="out" />
-                      <feColorMatrix
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-                      />
-                      <feBlend
-                        mode="normal"
-                        in2="BackgroundImageFix"
-                        result="effect1_dropShadow_112_9"
-                      />
-                      <feBlend
-                        mode="normal"
-                        in="SourceGraphic"
-                        in2="effect1_dropShadow_112_9"
-                        result="shape"
-                      />
-                    </filter>
+                    <clipPath id="clip0_112_9">
+                      <rect width="100" height="100" rx="50" fill="white" />
+                    </clipPath>
                   </defs>
                 </svg>
               </Link>
