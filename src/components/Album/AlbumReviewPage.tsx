@@ -24,8 +24,6 @@ function AlbumReviewPage({}) {
 
   const spotifyId = router.query.id as string;
 
-  console.log(spotifyId);
-
   const { data, fetchNextPage, isError, isLoading } =
     trpc.review.getReviewsForAlbum.useInfiniteQuery(
       { spotifyId },
@@ -82,9 +80,9 @@ function AlbumReviewPage({}) {
   const cursor = data?.pages[data?.pages.length - 1]?.nextCursor;
   return (
     <div className="  ">
-      <div className="0 p-8 text-sm flex flex-row gap-2">
+      <div className="0 flex flex-row gap-2 p-8 text-sm">
         <Link href={`/album/${spotifyId}`}>
-          <div className="transition-all text-gray-500 hover:text-gray-400">
+          <div className="text-gray-500 transition-all hover:text-gray-400">
             {album?.name}
           </div>
         </Link>
@@ -92,11 +90,11 @@ function AlbumReviewPage({}) {
         <span className="text-gray-700">Reviews</span>
       </div>
 
-      <div className=" mt-12 px-24 pb-12 flex flex-row justify-evenly gap-24">
-        <div className=" w-24 flex basis-1/4 ">
+      <div className=" mt-12 flex flex-row justify-evenly gap-24 px-24 pb-12">
+        <div className=" flex w-24 basis-1/4 ">
           <CondensedAlbumInfo spotifyId={spotifyId} />
         </div>
-        <div className="basis-3/4 w-full">
+        <div className="w-full basis-3/4">
           <div className="pb-8">
             <h1 className="text-4xl font-bold">
               Reviews for <br />

@@ -41,7 +41,9 @@ function Tracklist({ albumTracks }: Props) {
                 </div>
 
                 <div className="flex flex-row justify-end">
-                  <p className="tabular-nums">{msToTime(track.duration_ms)}</p>
+                  <p className="w-8 tabular-nums">
+                    {msToTime(track.duration_ms)}
+                  </p>
                 </div>
               </div>
             </div>

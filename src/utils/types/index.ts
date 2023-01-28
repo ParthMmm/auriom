@@ -22,3 +22,8 @@ export type Action = Listening | WantToListen | Listened;
 export type ActionInfo = Action & {
   album: AlbumInfo;
 };
+
+export type ShelfInfo = Album & {
+  images: Image[];
+  artists: Artist | Artist[];
+};

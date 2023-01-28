@@ -37,34 +37,34 @@ function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
       }}
       // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
     >
-      <div className="grid-playlist group cursor-pointer ">
-        <div className="grid-playlist-hero">
-          {imageURL && (
-            <picture className="lazyPicture aspect-ratio ">
-              <Image
-                src={imageURL}
-                alt={'album cover'}
-                className="asset"
-                height={300}
-                width={300}
-                quality={100}
-              />
-            </picture>
-          )}
+      {/* <div className="grid-playlist group cursor-pointer "> */}
+      {/* <div className="grid-playlist-hero"> */}
+      <div className="flex flex-row items-center ">
+        {imageURL && (
+          <Image
+            src={imageURL}
+            alt={'album cover'}
+            height={300}
+            width={300}
+            quality={100}
+            className="inline-block "
+          />
+        )}
+      </div>
+      {/* <div className="grid-playlist-info-container   lg:mb-0"> */}
+      <div className="">
+        <div className="">
+          <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all line-clamp-2 md:text-2xl">
+            {title}
+          </span>
         </div>
-        <div className="grid-playlist-info-container mb-8  lg:mb-0">
-          <div className="">
-            <div className="">
-              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl line-clamp-2">
-                {title}
-              </span>
-            </div>
-            <div className="">
-              <span className="text-sm md:text-lg">{artist}</span>
-            </div>
-          </div>
+        <div className="">
+          <span className="text-sm md:text-lg">{artist}</span>
         </div>
       </div>
+      {/* </div>
+         </div>
+       </div> */}
     </Link>
   );
 }

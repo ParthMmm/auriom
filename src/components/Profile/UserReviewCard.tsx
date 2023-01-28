@@ -50,7 +50,7 @@ function UserReviewCard({ review }: Props) {
           }}
           key={artist?.id}
         >
-          <span className="text-sm font-normal pr-2 transition-all text-gray-500 md:text-md hover:text-harlequin-500">
+          <span className="md:text-md pr-2 text-sm font-normal text-gray-500 transition-all hover:text-harlequin-500">
             {artist?.name}
           </span>
         </Link>
@@ -62,8 +62,8 @@ function UserReviewCard({ review }: Props) {
 
   return (
     <div className=" ">
-      <div className="p-6 hover:border-gray-500 transition-all  border-[1px] border-gray-700 h-full">
-        <div className="flex flex-row gap-4  my-4">
+      <div className="h-full border-[1px] border-gray-700  p-6 transition-all hover:border-gray-500">
+        <div className="my-4 flex flex-row  gap-4">
           <div className="flex flex-row items-start justify-start  align-middle ">
             <Link
               href={{
@@ -74,7 +74,7 @@ function UserReviewCard({ review }: Props) {
               }}
               // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
             >
-              <div className=" w-36 h-36">
+              <div className=" h-36 w-36">
                 {imageURL && (
                   <Image
                     src={imageURL}
@@ -93,7 +93,7 @@ function UserReviewCard({ review }: Props) {
                 </div>
               </Link> */}
           </div>
-          <div className="flex flex-col justify-between w-48">
+          <div className="flex w-48 flex-col justify-between">
             <div className="">
               <Link
                 href={{
@@ -104,27 +104,27 @@ function UserReviewCard({ review }: Props) {
                 }}
                 // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
               >
-                <span className="hover:text-harlequin-500 font-normal transition-all text-sm overflow-hidden line-clamp-2 ">
+                <span className="overflow-hidden text-sm font-normal transition-all line-clamp-2 hover:text-harlequin-500 ">
                   {review?.Album.title}
                 </span>
               </Link>{' '}
               <div className="">{artists()}</div>
-              <div className=" text-left text-harlequin-500 tabular-nums">
+              <div className=" text-left tabular-nums text-harlequin-500">
                 {review.rating} <span className="text-gray-600">/ 5</span>
               </div>
             </div>
-            <div className="text-gray-500 text-sm pt-2">
+            <div className="pt-2 text-sm text-gray-500">
               {dayjs(review.createdAt).format('MMM D, YYYY')}
             </div>
           </div>
         </div>
 
-        <p className=" mt-4 text-white text-sm line-clamp-3">{body}</p>
+        <p className=" mt-4 text-sm text-white line-clamp-3">{body}</p>
 
         {showMore && (
           <div className="text-right">
             <button
-              className="text-harlequin-600 hover:text-harlequin-500 text-sm"
+              className="text-sm text-harlequin-600 hover:text-harlequin-500"
               onClick={() => setIsOpen(true)}
             >
               Read full review

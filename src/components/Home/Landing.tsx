@@ -8,7 +8,7 @@ const Features = dynamic(() => import('./Features'), { suspense: true });
 
 function Landing({}) {
   return (
-    <div className=" flex flex-col items-center justify-start bg-black gap-4">
+    <div className=" flex flex-col items-center justify-start gap-4 bg-black">
       <Hero />
       <NewReleases />
       <Features />

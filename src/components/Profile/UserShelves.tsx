@@ -1,25 +1,23 @@
 import Card from '@components/Album/Card';
-
-import type { ActionInfo } from '@utils/types';
+import type { ShelfInfo } from '@utils/types';
 
 type Props = {
-  data: ActionInfo[];
+  data: ShelfInfo[];
   title: string;
 };
 
-function List({ data, title }: Props) {
+function UserShelves({ title, data }: Props) {
   if (data.length === 0) return null;
-
   return (
     <div className="  ">
       <h2 className=" py-4 text-2xl font-black">{title}</h2>
       <div className=" flex flex-row  overflow-x-scroll    ">
         {data?.map((obj) => (
-          <Card album={obj?.album} key={obj?.id.toString() + obj?.userId} />
+          <Card album={obj} key={obj?.id.toString()} />
         ))}
       </div>
     </div>
   );
 }
 
-export default List;
+export default UserShelves;

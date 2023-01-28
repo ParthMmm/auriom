@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
+import ActionButtons from './ActionButtons';
 
 type Props = {
   album: AlbumInfoRoot;
@@ -15,31 +16,33 @@ function AlbumInfo({ album }: Props) {
   if (!imageURL) {
     return null;
   }
-
+  //border-2 shadow-[6px_6px_0px_rgb(255,255,255)]
   const artists = album.artists.map((artist) => artist.name).join(', ');
   return (
-    <>
-      <div className="mt-24 mb-8  w-full justify-center rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
-        <div className="flex flex-row justify-start">
-          <div className="rounded-tl-2xl rounded-bl-2xl">
+    <div className="container">
+      <div className="mt-24 mb-8 flex flex-col justify-between rounded-2xl   md:flex-row ">
+        <div className="flex flex-col items-center md:flex-row ">
+          <div className="">
             {imageURL && (
               <Image
                 src={imageURL}
                 alt={album.name}
                 height={300}
                 width={300}
-                className="rounded-tl-2xl rounded-bl-2xl"
+                className=""
                 quality={100}
               />
             )}
           </div>
-          <div className="flex flex-col justify-between p-4">
-            <div>
-              <h1 className="text-3xl font-bold md:text-5xl">{album.name}</h1>
-              <h3 className="text-xl md:text-3xl ">{artists}</h3>
+          <div className="flex flex-col items-center gap-4  p-4 md:items-start md:justify-between  ">
+            <div className="flex flex-col items-center md:items-start">
+              <h1 className="text-3xl  font-bold md:w-3/4 md:text-4xl">
+                {album.name}
+              </h1>
+              <h3 className=" text-xl md:text-3xl ">{artists}</h3>
               <span>{dayjs(album.release_date).format('MM-YYYY')}</span>
             </div>
-            <div className="">
+            <div className="flex w-24 grow-0 flex-col items-center justify-center md:items-start md:justify-start">
               <Link href={album.external_urls.spotify}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -52,14 +55,17 @@ function AlbumInfo({ album }: Props) {
               <span>{album.total_tracks} songs</span>
             </div>
 
-            <div>
-              <span className="text-sm text-gray-500">Label</span>
+            <div className="flex flex-col items-center md:items-start">
+              <span className=" text-sm text-gray-500">Label</span>
               <h5>{album.label}</h5>
             </div>
           </div>
         </div>
+        <div className="mx-auto w-1/2 md:mx-0 md:w-2/12">
+          <ActionButtons album={album} />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

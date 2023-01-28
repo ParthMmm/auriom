@@ -4,6 +4,7 @@ import { trpc } from '@utils/trpc';
 
 import List from './List';
 import UserReviews from './UserReviews';
+import UserShelves from './UserShelves';
 
 type Props = {
   username: string;
@@ -28,6 +29,24 @@ function UserActionsActivity({ username }: Props) {
   //   },
   // );
 
+  const getShelves = trpc.shelf.getShelvesForUser.useQuery(
+    {
+      username,
+    },
+    {
+      enabled: !!username,
+    },
+  );
+
+  const Shelves = () => (
+    <div>
+      {getShelves.data?.map((shelf) => (
+        <UserShelves key={shelf.id} title={shelf.name} data={shelf.albums} />
+      ))}
+    </div>
+  );
+  // console.log(getShelves.data[0]?.albums);
+
   if (data.isLoading) {
     return <Spinner />;
   }
@@ -41,8 +60,10 @@ function UserActionsActivity({ username }: Props) {
     const listened = data.data?.listened;
     const wantToListen = data.data?.wantToListen;
 
+    // console.log(listening);
+
     return (
-      <div className="mt-24 flex flex-col gap-10 w-full ">
+      <div className="mt-24 flex w-full flex-col gap-10 ">
         <div className="px-4">
           <List data={listening} title={'currently listening'} />
         </div>
@@ -54,6 +75,10 @@ function UserActionsActivity({ username }: Props) {
         </div>
         <div className="px-4">
           <UserReviews username={username} />
+        </div>
+        <div className="px-4">
+          {' '}
+          <Shelves />{' '}
         </div>
         {/* <div className="px-4">
           <h2 className=" text-2xl font-black">reviews</h2>

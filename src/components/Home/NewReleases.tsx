@@ -19,8 +19,8 @@ function NewReleases({}) {
   }
 
   return (
-    <div className="flex flex-col justify-start w-screen bg-black">
-      <h2 className="text-center font-black text-2xl py-4">hot new releases</h2>
+    <div className="flex w-screen flex-col justify-start bg-black">
+      <h2 className="py-4 text-center text-2xl font-black">hot new releases</h2>
       <Marquee
         pauseOnHover
         gradientColor={[0, 0, 0]}

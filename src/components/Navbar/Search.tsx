@@ -50,7 +50,7 @@ function Search({}) {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           // stroke="currentColor"
-          className=" ml-2 md:mx-2  h-6 w-6 group-hover:stroke-harlequin-500 stroke-current text-gray-500 "
+          className=" ml-2 h-6  w-6 stroke-current text-gray-500 group-hover:stroke-harlequin-500 md:mx-2 "
         >
           <path
             strokeLinecap="round"
@@ -67,7 +67,7 @@ function Search({}) {
         value={value}
         onKeyPress={(e) => handleKeyPress(e)}
         onChange={handleChange}
-        className="text-md w-full  bg-transparent py-5 text-black focus:outline-none dark:text-white placeholder-transparent  md:placeholder-gray-500  "
+        className="text-md w-full  bg-transparent py-5 text-black placeholder-transparent focus:outline-none dark:text-white  md:placeholder-gray-500  "
       />
     </div>
   );

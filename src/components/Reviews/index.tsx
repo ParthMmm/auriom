@@ -18,8 +18,6 @@ function Reviews({ album }: Props) {
 
   const spotifyId = album?.id;
 
-  console.log(spotifyId);
-
   return (
     <div className="mb-12 w-full md:mb-24 ">
       <div className="flex flex-row items-center justify-between align-middle">

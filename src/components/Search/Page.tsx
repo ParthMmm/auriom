@@ -16,16 +16,16 @@ function Page({}) {
   return (
     <div className="grid-view">
       <div className="">
-        <div className="fmt-8 mb-12  flex items-center justify-between align-middle md:mt-16">
+        <div className="container mx-auto mt-8 mb-12 flex   items-center justify-between align-middle md:mt-16 md:max-w-7xl">
           <div className="w-full text-center md:text-left">
             <h1 className="text-2xl font-bold md:text-4xl">{query}</h1>
             <span className=""> results</span>
           </div>
 
-          <Filter />
+          {/* <Filter /> */}
         </div>
 
-        <div>
+        <div className="container mx-auto flex items-center justify-center pb-12 md:max-w-7xl">
           <Controller />
         </div>
       </div>
