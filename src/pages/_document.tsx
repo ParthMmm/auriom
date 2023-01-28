@@ -4,10 +4,14 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <meta name="description" content="auriom" />
+        <meta property="og:title" content="auriom" />
+        <meta
+          name="description"
+          content="The social platform for music lovers."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <body>
+      <body className="bg-black">
         <Main />
         <NextScript />
         <script></script>
