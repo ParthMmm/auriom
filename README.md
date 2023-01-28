@@ -29,4 +29,4 @@
 
 <!-- GETTING STARTED -->
 
-[<img src="https://cal.com/powered-by-vercel.svg">](https://vercel.com/?utm_source=calend-so&utm_campaign=oss)
+[<img src="https://cal.com/powered-by-vercel.svg">](https://vercel.com/)
