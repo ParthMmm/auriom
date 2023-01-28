@@ -124,12 +124,21 @@ Table Shelf {
   name String [not null]
   user User [not null]
   userId String [not null]
-  album Album [not null]
-  albumId String [not null]
+  albums Album [not null]
+  public Boolean [not null, default: true]
+
+  indexes {
+    (name, userId) [unique]
+  }
 }
 
 Table AlbumToArtist {
   artistsId String [ref: > Artist.id]
+  albumsId String [ref: > Album.id]
+}
+
+Table AlbumToShelf {
+  shelfId String [ref: > Shelf.id]
   albumsId String [ref: > Album.id]
 }
 
@@ -163,5 +172,3 @@ Ref: Follows.followerId > User.id
 Ref: Follows.followingId > User.id
 
 Ref: Shelf.userId > User.id
-
-Ref: Shelf.albumId > Album.spotifyId

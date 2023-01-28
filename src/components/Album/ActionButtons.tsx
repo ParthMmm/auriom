@@ -3,24 +3,23 @@ import { useEffect, useState } from 'react';
 
 import { trpc } from '@utils/trpc';
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
-
-const actions = [
-  { name: 'currently listening', value: 'listening' },
-  { name: 'listened', value: 'listened' },
-  { name: 'want to listen', value: 'wantToListen' },
-];
+import ShelvesModal from './ShelvesModal';
+import { PlusIcon } from '@heroicons/react/20/solid';
 
 type Props = {
   album: AlbumInfoRoot;
 };
 
 function ActionButtons({ album }: Props) {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { isSignedIn, user } = useUser();
   const [selected, setSelected] = useState('');
+
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(isOpen);
   // console.log(selected);
 
   const user_id = user?.id;
-  const artists = album.artists.map((artist) => artist.name).join(', ');
+  // const artists = album.artists.map((artist) => artist.name).join(', ');
 
   const id = album.id;
 
@@ -59,43 +58,55 @@ function ActionButtons({ album }: Props) {
 
   //left-[calc(50%-120px)]
   return (
-    <div className="fixed bottom-0 left-2/4 -translate-x-2/4 -translate-y-2/4   ">
-      <div className="flex flex-row rounded-md border-[1px] border-gray-700 bg-black">
-        <button
-          disabled={
-            !user || actionMutation.isLoading || selected === 'listening'
-          }
-          onClick={() => handleClick('listening')}
-          className={`rounded-l-sm border-r-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
-            selected === 'listening' && 'bg-white text-black'
-          }`}
-        >
-          listening
-        </button>
-        <button
-          disabled={
-            !user || actionMutation.isLoading || selected === 'listened'
-          }
-          onClick={() => handleClick('listened')}
-          className={`rounded-l-sm border-r-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
-            selected === 'listened' && 'bg-white text-black'
-          }`}
-        >
-          listened
-        </button>
-        <button
-          disabled={
-            !user || actionMutation.isLoading || selected === 'wantToListen'
-          }
-          onClick={() => handleClick('wantToListen')}
-          className={`rounded-l-sm border-r-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
-            selected === 'wantToListen' && 'bg-white text-black'
-          }`}
-        >
-          want to listen
-        </button>
-      </div>
+    // <div className="fixed bottom-0 left-2/4 -translate-x-2/4 -translate-y-2/4   ">
+    <div className="flex flex-col  rounded-md border-[1px]   bg-black">
+      <button
+        disabled={!user || actionMutation.isLoading || selected === 'listening'}
+        onClick={() => handleClick('listening')}
+        className={`rounded-t-sm  border-b-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
+          selected === 'listening' && 'bg-white text-black'
+        }`}
+      >
+        listening
+      </button>
+      <button
+        disabled={!user || actionMutation.isLoading || selected === 'listened'}
+        onClick={() => handleClick('listened')}
+        className={`  border-b-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
+          selected === 'listened' && 'bg-white text-black'
+        }`}
+      >
+        listened
+      </button>
+      <button
+        disabled={
+          !user || actionMutation.isLoading || selected === 'wantToListen'
+        }
+        onClick={() => handleClick('wantToListen')}
+        className={`  border-b-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
+          selected === 'wantToListen' && 'bg-white text-black'
+        }`}
+      >
+        want to listen
+      </button>
+
+      <button
+        disabled={
+          !user || actionMutation.isLoading || selected === 'wantToListen'
+        }
+        onClick={() => setIsOpen(true)}
+        className={` group relative rounded-b-sm px-4 py-4 transition-all hover:bg-white hover:text-black `}
+      >
+        add to shelf
+        <PlusIcon
+          className="  absolute right-4 top-4 mx-auto my-auto h-6 w-6 text-white  group-hover:text-black    "
+          aria-hidden="true"
+        />
+      </button>
+
+      <ShelvesModal isOpen={isOpen} setIsOpen={setIsOpen} album={album} />
     </div>
+    // </div>
   );
 }
 

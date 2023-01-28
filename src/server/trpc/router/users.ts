@@ -4,6 +4,7 @@ import { userSchema } from '@utils/schemas/userSchema';
 
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { ExternalAccount } from '../../../utils/types/user';
+import type { User } from '@clerk/clerk-sdk-node';
 
 export const userRouter = router({
   getUser: publicProcedure

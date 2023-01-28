@@ -1,3 +1,4 @@
+import { shelfRouter } from './shelf';
 // src/server/router/_app.ts
 import { router } from '../trpc';
 // import { albumRouter } from './album';
@@ -13,6 +14,7 @@ export const appRouter = router({
   spotify: spotifyRouter,
   review: reviewRouter,
   users: userRouter,
+  shelf: shelfRouter,
 });
 
 // export type definition of API

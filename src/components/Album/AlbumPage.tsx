@@ -49,10 +49,10 @@ function AlbumPage({}) {
 
   if (albumInfo.data) {
     return (
-      <>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="h-full pb-24">
-          <ActionButtons album={albumInfo?.data} />
-          <div className=" mx-auto  flex w-3/4  flex-col ">
+          {/* <ActionButtons album={albumInfo?.data} /> */}
+          <div className=" mx-auto  flex  flex-col ">
             <AlbumInfo album={albumInfo?.data} />
             <div className=" flex w-full flex-col gap-8 md:flex-row  ">
               {albumTracks?.data?.items && (
@@ -66,7 +66,7 @@ function AlbumPage({}) {
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
