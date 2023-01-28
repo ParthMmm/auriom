@@ -59,7 +59,7 @@ export default async function handler() {
               fontSize: 20,
               color: 'white',
             }}
-            className="font-sans "
+            tw="font-sans"
           >
             auriom.club
           </span>
@@ -82,7 +82,7 @@ export default async function handler() {
             color: 'white',
             lineHeight: 1.4,
           }}
-          className="font-sans "
+          tw="font-sans"
         >
           The social platform for music lovers.
         </div>

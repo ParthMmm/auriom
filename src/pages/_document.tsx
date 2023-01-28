@@ -9,6 +9,10 @@ export default function Document() {
           name="description"
           content="The social platform for music lovers."
         />
+        <meta
+          property="og:description"
+          content="The social platform for music lovers."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body className="bg-black">
