@@ -15,7 +15,6 @@ function ActionButtons({ album }: Props) {
   const [selected, setSelected] = useState('');
 
   const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
   // console.log(selected);
 
   const user_id = user?.id;

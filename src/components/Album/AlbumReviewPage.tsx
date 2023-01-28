@@ -24,8 +24,6 @@ function AlbumReviewPage({}) {
 
   const spotifyId = router.query.id as string;
 
-  console.log(spotifyId);
-
   const { data, fetchNextPage, isError, isLoading } =
     trpc.review.getReviewsForAlbum.useInfiniteQuery(
       { spotifyId },
