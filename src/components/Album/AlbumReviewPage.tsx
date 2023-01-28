@@ -90,7 +90,7 @@ function AlbumReviewPage({}) {
         <span className="text-gray-700">Reviews</span>
       </div>
 
-      <div className=" mt-12 flex flex-row justify-evenly gap-24 px-24 pb-12">
+      <div className=" mt-12 flex flex-col justify-evenly gap-8 px-8 pb-4 md:flex-row md:gap-24 md:px-24 md:pb-12">
         <div className=" flex w-24 basis-1/4 ">
           <CondensedAlbumInfo spotifyId={spotifyId} />
         </div>

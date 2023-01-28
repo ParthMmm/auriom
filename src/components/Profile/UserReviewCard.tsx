@@ -40,20 +40,22 @@ function UserReviewCard({ review }: Props) {
   const artists = () => {
     if (review.Album?.artists instanceof Array) {
       return review.Album?.artists?.map((artist) => (
-        <Link
-          href={{
-            pathname: `/artist/[id]`,
-            query: {
-              artist: artist.name,
-              id: artist.spotifyId,
-            },
-          }}
-          key={artist?.id}
-        >
+        // <Link
+        //   href={{
+        //     pathname: `/artist/[id]`,
+        //     query: {
+        //       artist: artist.name,
+        //       id: artist.spotifyId,
+        //     },
+        //   }}
+        //   key={artist?.id}
+        // >
+        <>
           <span className="md:text-md pr-2 text-sm font-normal text-gray-500 transition-all hover:text-harlequin-500">
             {artist?.name}
           </span>
-        </Link>
+        </>
+        // </Link>
       ));
     } else {
       return null;

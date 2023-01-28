@@ -31,8 +31,8 @@ function CondensedAlbumInfo({ spotifyId }: Props) {
 
   if (album) {
     return (
-      <div className="flex w-[300px] flex-col items-start justify-start">
-        <div className="">
+      <div className="flex flex-col   md:w-[300px] md:items-start md:justify-start">
+        <div className="h-48 w-48  md:h-72 md:w-72">
           {imageURL && (
             <Image
               src={imageURL}
