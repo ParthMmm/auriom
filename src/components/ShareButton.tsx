@@ -1,11 +1,10 @@
 import { ShareIcon } from '@heroicons/react/20/solid';
 import { useRouter } from 'next/router';
-import React from 'react';
 import { toast } from 'react-hot-toast';
 
 function ShareButton({}) {
   const router = useRouter();
-  const url = `https://www.auriom.club${router.asPath}`;
+  const url = `https://www.auriom.p11a.xyz${router.asPath}`;
 
   async function copyTextToClipboard(url: string) {
     if ('clipboard' in navigator) {

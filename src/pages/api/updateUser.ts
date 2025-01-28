@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   try {
     const { id, username, external_accounts, profile_image_url } =

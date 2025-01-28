@@ -113,7 +113,7 @@ export const reviewRouter = router({
         },
       });
 
-      let nextCursor: typeof cursor | undefined = undefined;
+      let nextCursor: typeof cursor | undefined;
       if (reviews.length > 4) {
         const nextItem = reviews.pop(); // return the last item from the array
         nextCursor = nextItem?.id;

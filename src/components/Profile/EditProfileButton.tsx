@@ -1,5 +1,5 @@
 import { useUser } from '@clerk/nextjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import SettingsModal from '@components/Profile/SettingsModal';
 

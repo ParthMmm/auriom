@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import SpotifyCard from '@components/Album/SpotifyCard';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 import type { AlbumItem } from '@utils/types/spotify/spotify';
 
 function Albums({}) {
@@ -11,12 +11,12 @@ function Albums({}) {
   const query = router.query.input as string;
 
   const { data, fetchNextPage, isLoading, error } =
-    trpc.spotify.albumSearch.useInfiniteQuery(
+    api.spotify.albumSearch.useInfiniteQuery(
       { query: query, type: 'album' },
       {
         enabled: !!query,
         getNextPageParam: (lastPage) => lastPage?.offset + lastPage?.limit,
-      },
+      }
     );
 
   if (isLoading) {
@@ -36,7 +36,7 @@ function Albums({}) {
           loader={<div>loading</div>}
           dataLength={data?.pages?.length * 20 || 0}
         >
-          <div className="grid grid-cols-2  gap-4 md:grid-cols-4 md:gap-12">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-12">
             {data?.pages.map((page) =>
               page?.items.map((album: AlbumItem) => (
                 <SpotifyCard
@@ -46,7 +46,7 @@ function Albums({}) {
                   uri={album.uri}
                   images={album.images}
                 />
-              )),
+              ))
             )}
           </div>
         </InfiniteScroll>

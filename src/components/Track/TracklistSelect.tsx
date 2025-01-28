@@ -1,17 +1,24 @@
 import { Disclosure, Listbox } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 
 import { msToTime } from '@utils/convertTime';
 
 import { useStore } from '@store/app';
+import type { FavoriteTracklist } from '@utils/schemas/review';
+import type { AlbumTracksItem } from '@utils/types/spotify';
 
 function TracklistSelect({}) {
-  const currentTracklist = useStore((state) => state.currentTracklist);
+  const currentTracklist = useStore(
+    (state: { currentTracklist: AlbumTracksItem[] }) => state.currentTracklist
+  );
 
   const [tracks, setTracks] = useState([]);
 
-  const setFavoriteTracks = useStore((state) => state.setFavoriteTracks);
+  const setFavoriteTracks = useStore(
+    (state: { setFavoriteTracks: (tracks: FavoriteTracklist[]) => void }) =>
+      state.setFavoriteTracks
+  );
 
   setFavoriteTracks(tracks);
 
@@ -20,10 +27,10 @@ function TracklistSelect({}) {
       <Disclosure as="div" className="mt-2">
         {({ open }) => (
           <>
-            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left align-middle text-xl  text-white hover:text-parp-500 focus:outline-none focus-visible:text-parp-500 focus-visible:ring focus-visible:ring-opacity-75">
+            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left align-middle text-white text-xl hover:text-parp-500 focus:outline-none focus-visible:text-parp-500 focus-visible:ring focus-visible:ring-opacity-75">
               <div>
                 <div>What were your favorite track(s)?</div>
-                <div className="text-sm text-gray-500">3 max</div>
+                <div className="text-gray-500 text-sm">3 max</div>
               </div>
 
               <ChevronUpIcon
@@ -32,19 +39,19 @@ function TracklistSelect({}) {
                 } h-5 w-5 text-parp-500`}
               />
             </Disclosure.Button>
-            <Disclosure.Panel className="px-4  pb-2 text-sm text-white">
+            <Disclosure.Panel className="px-4 pb-2 text-sm text-white">
               <Listbox value={tracks} onChange={setTracks} multiple>
                 <div className="relative mt-1 ">
                   {true && (
                     <Listbox.Options
                       static
-                      className="absolute mt-1 w-full overflow-scroll rounded-md  py-1  ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                      className="absolute mt-1 w-full overflow-scroll rounded-md py-1 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                     >
                       {currentTracklist.map((track) => (
                         <Listbox.Option
                           key={track.id}
                           className={({ active, disabled, selected }) =>
-                            `relative cursor-pointer select-none py-2  pr-4 ${
+                            `relative cursor-pointer select-none py-2 pr-4 ${
                               active ? ' text-parp-500' : 'text-white'
                             } `
                           }
@@ -55,7 +62,7 @@ function TracklistSelect({}) {
                             <div
                               className={` ${
                                 selected
-                                  ? '  font-black text-parp-500'
+                                  ? ' font-black text-parp-500'
                                   : 'bg-black text-white'
                               } 
                               ${
@@ -67,17 +74,17 @@ function TracklistSelect({}) {
                             >
                               <div className="flex flex-row justify-between">
                                 <div className="flex flex-row items-center justify-start text-left align-middle ">
-                                  <div className="mr-2  font-black">
+                                  <div className="mr-2 font-black">
                                     {track.track_number}.
                                   </div>
                                   <div
-                                    className={` w-60 truncate   ${
+                                    className={` w-60 truncate ${
                                       selected ? 'font-black' : 'font-normal'
                                     }`}
                                   >
                                     {track.name}
                                     {track.explicit && (
-                                      <div className="inline-block pl-2 text-xs text-gray-500">
+                                      <div className="inline-block pl-2 text-gray-500 text-xs">
                                         E
                                       </div>
                                     )}

@@ -26,7 +26,7 @@ function Card({ album }: Props) {
         // >
         <span
           key={artist?.id}
-          className="md:text-md pr-2 text-sm font-normal text-gray-500 transition-all hover:text-harlequin-500 "
+          className="pr-2 font-normal text-gray-500 text-sm transition-all hover:text-harlequin-500 md:text-md "
         >
           {artist?.name}
         </span>
@@ -44,7 +44,7 @@ function Card({ album }: Props) {
         //   }}
         //   key={album?.artists?.spotifyId}
         // >
-        <span className="md:text-md text-sm font-normal  transition-all hover:text-harlequin-500">
+        <span className="font-normal text-sm transition-all hover:text-harlequin-500 md:text-md">
           {album?.artists?.name}
         </span>
         // </Link>
@@ -55,10 +55,10 @@ function Card({ album }: Props) {
   const title: string = album?.title.toString();
 
   return (
-    <div className="flex border-[1px] border-gray-700  transition-all hover:border-gray-500">
+    <div className="flex border-[1px] border-gray-700 transition-all hover:border-gray-500">
       <div className=" ">
-        <div className=" align-center flex w-full flex-col ">
-          <div className=" flex cursor-pointer flex-col items-center gap-4 p-6  ">
+        <div className=" flex w-full flex-col align-center ">
+          <div className=" flex cursor-pointer flex-col items-center gap-4 p-6 ">
             <Link
               href={{
                 pathname: `/album/[id]`,
@@ -82,7 +82,7 @@ function Card({ album }: Props) {
                 )}
               </div>
             </Link>
-            <div className="flex flex-col  items-center justify-center text-center ">
+            <div className="flex flex-col items-center justify-center text-center ">
               <Link
                 href={{
                   pathname: `/album/[id]`,
@@ -92,7 +92,7 @@ function Card({ album }: Props) {
                 }}
                 // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
               >
-                <span className="overflow-hidden text-sm font-normal transition-all hover:text-harlequin-500 sm:line-clamp-1 md:line-clamp-2  ">
+                <span className="overflow-hidden font-normal text-sm transition-all hover:text-harlequin-500 sm:line-clamp-1 md:line-clamp-2 ">
                   {title.length > 20 ? title.substring(0, 20) + '...' : title}
                 </span>
               </Link>

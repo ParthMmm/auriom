@@ -1,28 +1,26 @@
 import { useUser } from '@clerk/nextjs';
-import { PlusIcon } from '@heroicons/react/20/solid';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { SpotifyLogo } from 'src/lib/svgs';
 
 import Spinner from '@components/Spinner';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 const EditProfileButton = dynamic(() => import('./EditProfileButton'), {
-  suspense: true,
+  ssr: false,
 });
 
 const ExternalAccounts = dynamic(() => import('./ExternalAccounts'), {
-  suspense: true,
+  ssr: false,
 });
 
 const UserActionsActivity = dynamic(() => import('./UserActionsActivity'), {
-  suspense: true,
+  ssr: false,
 });
 
 const FollowButton = dynamic(() => import('./FollowButton'), {
-  suspense: true,
+  ssr: false,
 });
 
 function ProfilePage({}) {
@@ -36,11 +34,11 @@ function ProfilePage({}) {
 
   const username = router?.query?.username[0] as string;
 
-  const userInfo = trpc.users.getUser.useQuery(
+  const userInfo = api.users.getUser.useQuery(
     { username },
     {
       enabled: !!username,
-    },
+    }
   );
 
   if (userInfo.isLoading) {
@@ -59,24 +57,23 @@ function ProfilePage({}) {
         <div className="flex justify-between">
           <div className="flex flex-row">
             <div className="flex flex-col pl-2">
-              <div className="flex flex-col  gap-4">
+              <div className="flex flex-col gap-4">
                 <Image
-                  src={userInfo.data.profileImage}
-                  alt={`${userInfo.data.username}'s profile image`}
+                  src={userInfo.data?.profileImage ?? ''}
+                  alt={`${userInfo.data?.username}'s profile image`}
                   height={150}
                   width={150}
                   className="rounded-full"
                 />
-                <h1 className="py-4 text-center text-3xl font-bold text-white">
+                <h1 className="py-4 text-center font-bold text-3xl text-white">
                   {username}
                 </h1>
-
                 <FollowButton username={username} />
-                <ExternalAccounts userInfo={userInfo.data} />
+                {userInfo.data && <ExternalAccounts userInfo={userInfo.data} />}
               </div>
             </div>
             <div className="m-12 flex items-start justify-start align-middle">
-              <p className="text-white">{userInfo.data.bio}</p>
+              <p className="text-white">{userInfo.data?.bio ?? ''}</p>
             </div>
           </div>
 

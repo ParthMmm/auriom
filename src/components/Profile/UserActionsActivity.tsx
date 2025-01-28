@@ -1,6 +1,6 @@
 import Spinner from '@components/Spinner';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 import List from './List';
 import UserReviews from './UserReviews';
@@ -11,13 +11,13 @@ type Props = {
 };
 
 function UserActionsActivity({ username }: Props) {
-  const data = trpc.albumAction.getAllUserActions.useQuery(
+  const data = api.albumAction.getAllUserActions.useQuery(
     {
       username,
     },
     {
       enabled: !!username,
-    },
+    }
   );
 
   // const reviews = trpc.review.getReviewsForUser.useQuery(
@@ -29,13 +29,13 @@ function UserActionsActivity({ username }: Props) {
   //   },
   // );
 
-  const getShelves = trpc.shelf.getShelvesForUser.useQuery(
+  const getShelves = api.shelf.getShelvesForUser.useQuery(
     {
       username,
     },
     {
       enabled: !!username,
-    },
+    }
   );
 
   const Shelves = () => (

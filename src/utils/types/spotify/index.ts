@@ -1,4 +1,4 @@
-import type { EmailAddress } from '@clerk/nextjs/dist/api';
+import type { EmailAddress } from '@utils/types/user';
 
 export type User = {
   id: string;

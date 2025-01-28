@@ -10,8 +10,8 @@ function UserShelves({ title, data }: Props) {
   if (data.length === 0) return null;
   return (
     <div className="  ">
-      <h2 className=" py-4 text-2xl font-black">{title}</h2>
-      <div className=" flex flex-row  overflow-x-scroll    ">
+      <h2 className=" py-4 font-black text-2xl">{title}</h2>
+      <div className=" flex flex-row overflow-x-scroll ">
         {data?.map((obj) => (
           <Card album={obj} key={obj?.id.toString()} />
         ))}

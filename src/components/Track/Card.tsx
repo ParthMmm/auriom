@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { TrackItem } from '@utils/types/spotify';
 
 type Props = {
@@ -11,10 +9,10 @@ function TrackCard({ track }: Props) {
     <div>
       {' '}
       <div>
-        <div className="grid-playlist-info-container mb-8  lg:mb-0">
+        <div className="grid-playlist-info-container mb-8 lg:mb-0">
           <div className="">
             <div className="">
-              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
+              <span className="font-bold text-md transition-all group-hover:shadow-highlight-blurple md:text-2xl">
                 {track?.name}
               </span>
             </div>

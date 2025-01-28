@@ -194,7 +194,7 @@ const helper = async (
   ctx: Context,
   user_id: string,
   albumId: string,
-  action: string,
+  action: string
 ) => {
   const isListened = await ctx.prisma.listened.findFirst({
     where: {

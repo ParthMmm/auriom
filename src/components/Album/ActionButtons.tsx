@@ -1,10 +1,10 @@
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 
-import { trpc } from '@utils/trpc';
+import { PlusIcon } from '@heroicons/react/20/solid';
+import { api } from '@utils/trpc';
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 import ShelvesModal from './ShelvesModal';
-import { PlusIcon } from '@heroicons/react/20/solid';
 
 type Props = {
   album: AlbumInfoRoot;
@@ -22,13 +22,13 @@ function ActionButtons({ album }: Props) {
 
   const id = album.id;
 
-  const getSelected = trpc.albumAction.getUserActionsForAlbum.useQuery(
+  const getSelected = api.albumAction.getUserActionsForAlbum.useQuery(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     { spotifyId: id, user_id: user_id },
     {
       enabled: !!id && !!isSignedIn,
-    },
+    }
   );
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function ActionButtons({ album }: Props) {
     }
   }, [getSelected.data]);
 
-  const actionMutation = trpc.albumAction.handleAction.useMutation();
+  const actionMutation = api.albumAction.handleAction.useMutation();
 
   const handleClick = async (action: string) => {
     if (user) {
@@ -58,20 +58,20 @@ function ActionButtons({ album }: Props) {
   //left-[calc(50%-120px)]
   return (
     // <div className="fixed bottom-0 left-2/4 -translate-x-2/4 -translate-y-2/4   ">
-    <div className="flex flex-col  rounded-md border-[1px]   bg-black">
+    <div className="flex flex-col rounded-md border-[1px] bg-black">
       <button
-        disabled={!user || actionMutation.isLoading || selected === 'listening'}
+        disabled={!user || actionMutation.isPending || selected === 'listening'}
         onClick={() => handleClick('listening')}
-        className={`rounded-t-sm  border-b-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
+        className={`rounded-t-sm border-gray-700 border-b-[1px] px-4 py-4 transition-all hover:bg-white hover:text-black ${
           selected === 'listening' && 'bg-white text-black'
         }`}
       >
         listening
       </button>
       <button
-        disabled={!user || actionMutation.isLoading || selected === 'listened'}
+        disabled={!user || actionMutation.isPending || selected === 'listened'}
         onClick={() => handleClick('listened')}
-        className={`  border-b-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
+        className={` border-gray-700 border-b-[1px] px-4 py-4 transition-all hover:bg-white hover:text-black ${
           selected === 'listened' && 'bg-white text-black'
         }`}
       >
@@ -79,10 +79,10 @@ function ActionButtons({ album }: Props) {
       </button>
       <button
         disabled={
-          !user || actionMutation.isLoading || selected === 'wantToListen'
+          !user || actionMutation.isPending || selected === 'wantToListen'
         }
         onClick={() => handleClick('wantToListen')}
-        className={`  border-b-[1px] border-gray-700 px-4 py-4 transition-all hover:bg-white hover:text-black ${
+        className={` border-gray-700 border-b-[1px] px-4 py-4 transition-all hover:bg-white hover:text-black ${
           selected === 'wantToListen' && 'bg-white text-black'
         }`}
       >
@@ -91,14 +91,14 @@ function ActionButtons({ album }: Props) {
 
       <button
         disabled={
-          !user || actionMutation.isLoading || selected === 'wantToListen'
+          !user || actionMutation.isPending || selected === 'wantToListen'
         }
         onClick={() => setIsOpen(true)}
         className={` group relative rounded-b-sm px-4 py-4 transition-all hover:bg-white hover:text-black `}
       >
         add to shelf
         <PlusIcon
-          className="  absolute right-4 top-4 mx-auto my-auto h-6 w-6 text-white  group-hover:text-black    "
+          className=" absolute top-4 right-4 mx-auto my-auto h-6 w-6 text-white group-hover:text-black "
           aria-hidden="true"
         />
       </button>

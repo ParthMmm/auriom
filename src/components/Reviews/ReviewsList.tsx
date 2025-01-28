@@ -1,11 +1,8 @@
-import Link from 'next/link';
-import React, { useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-
-import SmallSpinner from '@components/SmallSpinner';
 import Spinner from '@components/Spinner';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 import Review from './Review';
 
@@ -16,14 +13,14 @@ type Props = {
 
 function ReviewsList({ newReview, spotifyId }: Props) {
   const { data, isError, isLoading, refetch } =
-    trpc.review.getReviewsForAlbum.useQuery(
+    api.review.getReviewsForAlbum.useQuery(
       { spotifyId },
       {
         enabled: !!spotifyId,
         // getNextPageParam: (lastPage) => {
         //   lastPage?.nextCursor;
         // },
-      },
+      }
     );
 
   useEffect(() => {
@@ -61,7 +58,7 @@ function ReviewsList({ newReview, spotifyId }: Props) {
   return (
     <>
       <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
-        <div className="flex flex-col justify-between  space-y-2 divide-y-2">
+        <div className="flex flex-col justify-between space-y-2 divide-y-2">
           {data.reviews.map((review) => (
             <Review key={review.id} review={review} />
           ))}
@@ -69,7 +66,7 @@ function ReviewsList({ newReview, spotifyId }: Props) {
       </div>
       <div>
         <Link href={`/album/${spotifyId}/reviews`}>
-          <div className="rounded-md  p-2 text-right text-white">
+          <div className="rounded-md p-2 text-right text-white">
             view all reviews
           </div>
         </Link>

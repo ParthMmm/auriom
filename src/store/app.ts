@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 import type { FavoriteTracklist } from '@utils/schemas/review';
 import type { AlbumTracksItem } from '@utils/types/spotify';

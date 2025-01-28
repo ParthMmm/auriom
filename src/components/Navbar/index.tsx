@@ -2,20 +2,20 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const Search = dynamic(() => import('./Search'), {
-  suspense: true,
+  ssr: false,
 });
 
 const AuthButtons = dynamic(() => import('./AuthButtons'), {
-  suspense: true,
+  ssr: false,
 });
 
 function Navbar({}) {
   return (
     <nav className="mx-auto max-w-7xl ">
-      <div className=" z-20 border-b-[1px] border-gray-500 bg-black   ">
-        <div className="flex  ">
-          <div className="flex basis-2/12 items-center justify-center p-2 md:py-4 md:px-4  ">
-            <h1 className=" text-xl  font-black tracking-tight text-white md:text-5xl">
+      <div className=" z-20 border-gray-500 border-b-[1px] bg-black ">
+        <div className="flex ">
+          <div className="flex basis-2/12 items-center justify-center p-2 md:px-4 md:py-4 ">
+            <h1 className=" font-black text-white text-xl tracking-tight md:text-5xl">
               <Link href="/" className="group">
                 <svg
                   className="h-10 w-10"
@@ -50,10 +50,10 @@ function Navbar({}) {
               </Link>
             </h1>
           </div>
-          <div className="flex w-full basis-8/12 items-center justify-start  border-l-[1px] border-gray-700 md:py-4 md:px-4   ">
+          <div className="flex w-full basis-8/12 items-center justify-start border-gray-700 border-l-[1px] md:px-4 md:py-4 ">
             <Search />
           </div>
-          <div className="flex basis-2/12 items-center justify-center  border-l-[1px] border-gray-700 md:py-4 md:px-4  ">
+          <div className="flex basis-2/12 items-center justify-center border-gray-700 border-l-[1px] md:px-4 md:py-4 ">
             <AuthButtons />
           </div>
         </div>

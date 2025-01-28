@@ -3,7 +3,7 @@
 //// ------------------------------------------------------
 
 Table User {
-  id String [pk, unique]
+  id String [pk]
   username String [unique, not null]
   createdAt DateTime [default: `now()`, not null]
   profileImage String [not null]

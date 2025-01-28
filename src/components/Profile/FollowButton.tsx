@@ -1,6 +1,5 @@
 import { useUser } from '@clerk/nextjs';
-import { trpc } from '@utils/trpc';
-import { useState } from 'react';
+import { api } from '@utils/trpc';
 
 type Props = {
   username: string;
@@ -11,20 +10,20 @@ function FollowButton({ username }: Props) {
 
   const isOwnProfile = isSignedIn && user?.username === username;
 
-  const followInfo = trpc.users.getFollowInfo.useQuery(
+  const followInfo = api.users.getFollowInfo.useQuery(
     { username },
     {
       enabled: !!username && !!isSignedIn,
-    },
+    }
   );
 
-  const followMutation = trpc.users.followUser.useMutation({
+  const followMutation = api.users.followUser.useMutation({
     onSettled: async () => {
       await followInfo.refetch();
       await followCounts.refetch();
     },
   });
-  const unfollowMutation = trpc.users.unfollowUser.useMutation({
+  const unfollowMutation = api.users.unfollowUser.useMutation({
     onSettled: async () => {
       await followInfo.refetch();
       await followCounts.refetch();
@@ -39,7 +38,7 @@ function FollowButton({ username }: Props) {
     await followMutation.mutateAsync({ username });
   };
 
-  const followCounts = trpc.users.getFollowCounts.useQuery({ username });
+  const followCounts = api.users.getFollowCounts.useQuery({ username });
 
   const Button = () => {
     if (isOwnProfile) {
@@ -56,7 +55,7 @@ function FollowButton({ username }: Props) {
     if (followInfo.data?.followerId) {
       return (
         <button
-          className="mt-2 w-full rounded-full border-2 border-harlequin-500 py-2 px-3 font-bold text-white transition-colors hover:bg-harlequin-500"
+          className="mt-2 w-full rounded-full border-2 border-harlequin-500 px-3 py-2 font-bold text-white transition-colors hover:bg-harlequin-500"
           onClick={unfollow}
         >
           unfollow
@@ -66,7 +65,7 @@ function FollowButton({ username }: Props) {
     if (!followInfo.data?.followerId) {
       return (
         <button
-          className="mt-2 w-full rounded-full border-2 border-harlequin-500 py-2 px-3 font-bold text-white transition-colors hover:bg-harlequin-500"
+          className="mt-2 w-full rounded-full border-2 border-harlequin-500 px-3 py-2 font-bold text-white transition-colors hover:bg-harlequin-500"
           onClick={follow}
         >
           follow
@@ -80,16 +79,16 @@ function FollowButton({ username }: Props) {
     <div className="flex flex-col items-start justify-start space-y-4 ">
       <Button />
       {followCounts.data && (
-        <div className="flex flex-row justify-between  gap-2 ">
+        <div className="flex flex-row justify-between gap-2 ">
           <div className="flex flex-row-reverse gap-1">
-            <p className="text-sm font-bold text-gray-400">followers</p>
-            <p className="w-2.5 text-sm font-bold tabular-nums text-harlequin-500">
+            <p className="font-bold text-gray-400 text-sm">followers</p>
+            <p className="w-2.5 font-bold text-harlequin-500 text-sm tabular-nums">
               {followCounts.data?.followers}
             </p>
           </div>
           <div className="flex flex-row-reverse gap-1">
-            <p className="text-sm font-bold text-gray-400">following</p>
-            <p className="w-2.5 text-sm font-bold tabular-nums text-harlequin-500">
+            <p className="font-bold text-gray-400 text-sm">following</p>
+            <p className="w-2.5 font-bold text-harlequin-500 text-sm tabular-nums">
               {followCounts.data?.following}
             </p>
           </div>

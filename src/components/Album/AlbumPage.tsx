@@ -1,20 +1,19 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import { trpc } from '../../utils/trpc';
+import { api } from '../../utils/trpc';
 import Spinner from '../Spinner';
-import ActionButtons from './ActionButtons';
 
 const AlbumInfo = dynamic(() => import('./AlbumInfo'), {
-  suspense: true,
+  ssr: false,
 });
 
 const Reviews = dynamic(() => import('../Reviews'), {
-  suspense: true,
+  ssr: false,
 });
 
 const Tracklist = dynamic(() => import('./Tracklist'), {
-  suspense: true,
+  ssr: false,
 });
 
 function AlbumPage({}) {
@@ -24,18 +23,18 @@ function AlbumPage({}) {
   const album = router.query.album as string;
   const spotifyId = router.query.id as string;
 
-  const albumTracks = trpc.spotify.getAlbumTracklist.useQuery(
+  const albumTracks = api.spotify.getAlbumTracklist.useQuery(
     { spotifyId },
     {
       enabled: !!spotifyId,
-    },
+    }
   );
 
-  const albumInfo = trpc.spotify.getAlbum.useQuery(
+  const albumInfo = api.spotify.getAlbum.useQuery(
     { spotifyId },
     {
       enabled: !!spotifyId,
-    },
+    }
   );
 
   if (albumTracks.isLoading || albumInfo.isLoading) {
@@ -52,9 +51,9 @@ function AlbumPage({}) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="h-full pb-24">
           {/* <ActionButtons album={albumInfo?.data} /> */}
-          <div className=" mx-auto  flex  flex-col ">
+          <div className=" mx-auto flex flex-col ">
             <AlbumInfo album={albumInfo?.data} />
-            <div className=" flex w-full flex-col gap-8 md:flex-row  ">
+            <div className=" flex w-full flex-col gap-8 md:flex-row ">
               {albumTracks?.data?.items && (
                 <div className="flex md:basis-5/12">
                   <Tracklist albumTracks={albumTracks?.data?.items} />

@@ -1,21 +1,21 @@
-import React, { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { useUser } from '@clerk/nextjs';
 import { objectSans } from '@components/Layout';
-import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
+import SmallSpinner from '@components/SmallSpinner';
+import Spinner from '@components/Spinner';
+import { Dialog, Transition } from '@headlessui/react';
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
   PlusIcon,
 } from '@heroicons/react/20/solid';
-import { trpc } from '@utils/trpc';
-import { useUser } from '@clerk/nextjs';
-import { toast } from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { createShelfType } from '@utils/schemas/shelfSchema';
 import { createShelfSchema } from '@utils/schemas/shelfSchema';
-import Spinner from '@components/Spinner';
-import SmallSpinner from '@components/SmallSpinner';
+import { api } from '@utils/trpc';
+import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
+import { Fragment, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -44,16 +44,16 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
     return null;
   }
 
-  const utils = trpc.useContext();
+  const utils = api.useUtils();
 
-  const getShelves = trpc.shelf.getShelves.useQuery(
+  const getShelves = api.shelf.getShelves.useQuery(
     { userId: user?.id },
     {
       enabled: !!user?.id,
-    },
+    }
   );
 
-  const createShelfMutation = trpc.shelf.createShelf.useMutation();
+  const createShelfMutation = api.shelf.createShelf.useMutation();
 
   const createShelf = async (data: createShelfType) => {
     const { name } = data;
@@ -77,12 +77,12 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
           onError: (err) => {
             toast.error(err.message);
           },
-        },
+        }
       );
     }
   };
 
-  const addAlbumToShelfMutation = trpc.shelf.addAlbumToShelf.useMutation();
+  const addAlbumToShelfMutation = api.shelf.addAlbumToShelf.useMutation();
 
   const addAlbumToShelf = async (shelfId: string) => {
     if (user) {
@@ -96,10 +96,10 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
           onSuccess: () => {
             toast.success('Album added to shelf');
           },
-          onError: (err) => {
-            toast.error(err.message);
+          onError: (err: unknown) => {
+            toast.error((err as Error).message);
           },
-        },
+        }
       );
     }
   };
@@ -119,7 +119,7 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
             >
               <button
                 type="button"
-                className="group flex w-full px-4 py-2   text-xl text-white hover:text-harlequin-500 focus:outline-none"
+                className="group flex w-full px-4 py-2 text-white text-xl hover:text-harlequin-500 focus:outline-none"
                 onClick={() => addAlbumToShelf(shelf.id)}
               >
                 <span>{shelf.name}</span>
@@ -150,18 +150,18 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
           leaveTo="translate-y-4 opacity-0 sm:translate-y-0 sm:translate-x-4"
         > */}
 
-      <Dialog.Title className="text-lg font-bold text-white md:text-2xl">
+      <Dialog.Title className="font-bold text-lg text-white md:text-2xl">
         {`Add ${album.name} to a shelf`}
       </Dialog.Title>
       <Dialog.Description>
-        <div className="m-4   space-x-1 overflow-hidden bg-black p-4">
-          <div className="flex flex-col items-start justify-between  divide-y-2 divide-gray-600 align-middle">
+        <div className="m-4 space-x-1 overflow-hidden bg-black p-4">
+          <div className="flex flex-col items-start justify-between divide-y-2 divide-gray-600 align-middle">
             <UserShelves />
 
             <div className="group flex w-full items-center justify-between align-middle ">
               <button
                 type="button"
-                className="group flex w-full items-center px-4 py-2 align-middle   text-xl text-white hover:text-harlequin-500 focus:outline-none"
+                className="group flex w-full items-center px-4 py-2 align-middle text-white text-xl hover:text-harlequin-500 focus:outline-none"
                 // onClick={createShelf}
                 onClick={() => setShowCreate(true)}
               >
@@ -193,9 +193,9 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
           leaveTo="translate-y-4 opacity-0 sm:translate-y-0 sm:translate-x-4"
         > */}
       <>
-        <Dialog.Title className="text-lg font-bold text-white md:text-2xl">
+        <Dialog.Title className="font-bold text-lg text-white md:text-2xl">
           <button type="button" onClick={() => setShowCreate(false)}>
-            <ArrowLeftIcon className="absolute left-4 top-4 h-6 w-6 text-gray-400 " />
+            <ArrowLeftIcon className="absolute top-4 left-4 h-6 w-6 text-gray-400 " />
           </button>
           {`Create a new shelf`}
         </Dialog.Title>
@@ -205,7 +205,7 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
               <div className="flex flex-col items-start">
                 <label
                   htmlFor="name"
-                  className="pb-2 text-sm font-medium text-white"
+                  className="pb-2 font-medium text-sm text-white"
                 >
                   Shelf Name
                 </label>
@@ -214,24 +214,24 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
                   type="text"
                   name="name"
                   id="name"
-                  className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
+                  className="w-full border-[1px] border-gray-800 bg-black p-2 text-md placeholder-gray-600 focus:outline-gray-700 dark:text-white "
                   placeholder="Name"
                 />
                 {errors.name && (
-                  <p className="text-sm text-red-500">{errors.name.message}</p>
+                  <p className="text-red-500 text-sm">{errors.name.message}</p>
                 )}
               </div>
 
               <div className="flex flex-row justify-end pt-4">
                 <button
                   type="submit"
-                  disabled={createShelfMutation.isLoading}
-                  className={` rounded-md border border-transparent bg-white px-4 py-2  text-sm font-medium text-black disabled:cursor-not-allowed`}
+                  disabled={createShelfMutation.isPending}
+                  className={` rounded-md border border-transparent bg-white px-4 py-2 font-medium text-black text-sm disabled:cursor-not-allowed`}
                 >
                   Create
                 </button>
               </div>
-              {createShelfMutation.isLoading && <SmallSpinner />}
+              {createShelfMutation.isPending && <SmallSpinner />}
             </form>
           </div>
         </Dialog.Description>
@@ -280,7 +280,7 @@ function ShelvesModal({ isOpen, setIsOpen, album }: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl  border-2 border-white bg-black p-4 align-middle  shadow-[6px_6px_0px_rgb(255,255,255)]   transition-all md:px-8  md:py-8">
+                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl border-2 border-white bg-black p-4 align-middle shadow-[6px_6px_0px_rgb(255,255,255)] transition-all md:px-8 md:py-8">
                   <button
                     onClick={() => onClose()}
                     className="fill-white hover:fill-parp-500"

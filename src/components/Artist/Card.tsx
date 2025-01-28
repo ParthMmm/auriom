@@ -39,10 +39,10 @@ function ArtistCard({ artist }: Props) {
             </picture>
           )}
         </div>
-        <div className="grid-playlist-info-container mb-8  lg:mb-0">
+        <div className="grid-playlist-info-container mb-8 lg:mb-0">
           <div className="">
             <div className="">
-              <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all md:text-2xl">
+              <span className="font-bold text-md transition-all group-hover:shadow-highlight-blurple md:text-2xl">
                 {artist.name}
               </span>
             </div>

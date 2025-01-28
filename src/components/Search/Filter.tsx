@@ -1,10 +1,13 @@
-import React from 'react';
-
 import { useStore } from '@store/app';
 
 function Filter({}) {
-  const setSearchFilter = useStore((state) => state.setSearchFilter);
-  const searchFilter = useStore((state) => state.searchFilter);
+  const setSearchFilter = useStore(
+    (state: { setSearchFilter: (filter: string) => void }) =>
+      state.setSearchFilter
+  );
+  const searchFilter = useStore(
+    (state: { searchFilter: string }) => state.searchFilter
+  );
 
   // const filters = ['artist', 'track', 'album'];
   const filters = ['album'];

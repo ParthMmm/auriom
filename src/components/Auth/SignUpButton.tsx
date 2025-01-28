@@ -7,7 +7,7 @@ function SignUpButton({}) {
     <div>
       <button
         onClick={() => router.push('/auth/sign-up')}
-        className="rounded-md  bg-harlequin-500 px-4 py-2 transition-colors hover:text-black"
+        className="rounded-md bg-harlequin-500 px-4 py-2 transition-colors hover:text-black"
       >
         join
       </button>

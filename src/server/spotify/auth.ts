@@ -22,7 +22,7 @@ const getToken = async () => {
   const res = await axios.post(
     'https://accounts.spotify.com/api/token',
     data,
-    config,
+    config
   );
 
   const token = await res.data;

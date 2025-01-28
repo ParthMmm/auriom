@@ -54,7 +54,7 @@ function SpotifyCard({ title, artist, uri, images }: AlbumItem) {
       {/* <div className="grid-playlist-info-container   lg:mb-0"> */}
       <div className="">
         <div className="">
-          <span className="group-hover:shadow-highlight-blurple text-md font-bold transition-all line-clamp-2 md:text-2xl">
+          <span className="line-clamp-2 font-bold text-md transition-all group-hover:shadow-highlight-blurple md:text-2xl">
             {title}
           </span>
         </div>

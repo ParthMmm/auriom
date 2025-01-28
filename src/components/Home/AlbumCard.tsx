@@ -1,8 +1,6 @@
+import type { AlbumItem } from '@utils/types/spotify';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import type { AlbumInfo } from '@utils/types';
-import type { AlbumItem } from '@utils/types/spotify';
 
 type Props = {
   album: AlbumItem;
@@ -13,23 +11,16 @@ function AlbumCard({ album }: Props) {
     ?.url;
 
   const artists = () =>
-    album?.artists?.map((artist) => (
-      //   <Link
-      //     href={{
-      //       pathname: `/artist/[id]`,
-      //       query: {
-      //         artist: artist.name,
-      //         id: artist.id,
-      //       },
-      //     }}
-      //     key={artist?.id}
-      //   >
+    album?.artists?.map((artist, index) => (
       <>
-        <span className="md:text-md pr-2 text-sm font-normal text-gray-500 transition-all hover:text-harlequin-500  ">
+        <span
+          key={artist?.id}
+          className="truncate font-normal text-gray-500 text-sm transition-all hover:text-harlequin-500"
+        >
           {artist?.name}
+          {index < album.artists.length - 1 ? ', ' : ''}
         </span>
       </>
-      //   </Link>
     ));
 
   //   const title: string = album?.title.toString();
@@ -37,10 +28,10 @@ function AlbumCard({ album }: Props) {
   if (!imageURL) return null;
 
   return (
-    <div className="flex border-[1px] border-gray-700  transition-all hover:border-gray-500">
-      <div className=" ">
-        <div className=" align-center flex w-full flex-col ">
-          <div className=" flex cursor-pointer flex-col items-center gap-4 p-6  ">
+    <div className="flex h-[280px] w-[200px] overflow-clip border-[1px] border-gray-700 transition-all hover:border-gray-500">
+      <div className="w-full">
+        <div className="flex w-full flex-col">
+          <div className="flex h-full cursor-pointer flex-col items-center gap-4 p-6">
             <Link
               href={{
                 pathname: `/album/[id]`,
@@ -48,10 +39,8 @@ function AlbumCard({ album }: Props) {
                   id: album?.id,
                 },
               }}
-
-              // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
             >
-              <div className=" h-36 w-36">
+              <div className="h-36 w-36">
                 {imageURL && (
                   <Image
                     src={imageURL}
@@ -59,12 +48,12 @@ function AlbumCard({ album }: Props) {
                     height={150}
                     width={150}
                     quality={100}
-                    className="inline-block "
+                    className="inline-block"
                   />
                 )}
               </div>
             </Link>
-            <div className="flex flex-col  items-center justify-center text-center ">
+            <div className="flex w-full flex-col items-start justify-center gap-0.5 text-left">
               <Link
                 href={{
                   pathname: `/album/[id]`,
@@ -72,17 +61,15 @@ function AlbumCard({ album }: Props) {
                     id: album?.id,
                   },
                 }}
-                // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
               >
-                <span className="overflow-hidden text-sm font-normal transition-all hover:text-harlequin-500 sm:line-clamp-1 md:line-clamp-3  ">
-                  {album.name.length > 30
-                    ? album.name.substring(0, 30) + '...'
-                    : album.name}
-                  {/* {album?.name} */}
+                <span className="line-clamp-2 w-full max-w-[168px] font-normal text-sm transition-all hover:text-harlequin-500">
+                  {album.name}
                 </span>
               </Link>
 
-              <div className="">{artists()}</div>
+              <div className="w-full max-w-[168px] truncate text-gray-500">
+                {artists()}
+              </div>
             </div>
           </div>
         </div>
