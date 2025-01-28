@@ -174,6 +174,7 @@ export const spotifyRouter = trpc.router({
     const token = ctx.spotifyToken.access_token;
 
     try {
+      console.log('Fetching new releases from Spotify API...');
       const response = await ofetch<{ albums: Albums }>(
         'https://api.spotify.com/v1/browse/new-releases',
         {
@@ -185,12 +186,26 @@ export const spotifyRouter = trpc.router({
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-
-      if (!response || !response.albums) {
+      ).catch((error) => {
+        console.error('Spotify API request failed:', error);
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
-          message: 'Invalid response from Spotify API',
+          message: error.message || 'Failed to fetch new releases from Spotify',
+        });
+      });
+
+      if (!response) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'No response received from Spotify API',
+        });
+      }
+
+      if (!response.albums) {
+        console.error('Invalid response structure:', response);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Invalid response structure from Spotify API',
         });
       }
 
@@ -205,12 +220,12 @@ export const spotifyRouter = trpc.router({
 
       return parsed.data;
     } catch (error) {
-      console.error('Error fetching new releases:', error);
+      console.error('Error in getNewReleases:', error);
       if (error instanceof TRPCError) throw error;
 
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
-        message: 'Failed to fetch new releases from Spotify',
+        message: error instanceof Error ? error.message : 'Failed to fetch new releases from Spotify',
       });
     }
   }),
