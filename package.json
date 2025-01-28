@@ -2,6 +2,7 @@
   "name": "auriom",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.2.1",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
@@ -74,6 +75,5 @@
   },
   "ct3aMetadata": {
     "initVersion": "6.5.0"
-  },
-  "packageManager": "pnpm@9.12.3"
+  }
 }
