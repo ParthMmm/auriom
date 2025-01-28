@@ -8,12 +8,27 @@ const nextConfig: NextConfig = {
     defaultLocale: 'en',
   },
   images: {
-    domains: [
-      'lastfm.freetls.fastly.net',
-      'images.clerk.dev',
-      'www.gravatar.com',
-      'i.scdn.co',
-      'img.clerk.com',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lastfm.freetls.fastly.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.clerk.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.gravatar.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+      },
     ],
   },
 };
