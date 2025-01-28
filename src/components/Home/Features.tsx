@@ -59,11 +59,11 @@ export default function Features() {
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-harlequin-500 text-white">
                       <feature.icon className="h-8 w-8" aria-hidden="true" />
                     </div>
-                    <p className="mt-6 text-lg font-semibold leading-8 tracking-tight text-white">
+                    <p className="mt-6 font-semibold text-lg text-white leading-8 tracking-tight">
                       {feature.name}
                     </p>
                   </dt>
-                  <dd className="mt-2 text-center text-base leading-7 text-gray-200 md:text-left">
+                  <dd className="mt-2 text-center text-base text-gray-200 leading-7 md:text-left">
                     {feature.description}
                   </dd>
                 </div>

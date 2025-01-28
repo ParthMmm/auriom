@@ -1,8 +1,6 @@
-import React from 'react';
-
 import Spinner from '@components/Spinner';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 import UserReviewCard from './UserReviewCard';
 
@@ -11,11 +9,11 @@ type Props = {
 };
 
 function UserReviews({ username }: Props) {
-  const userReviews = trpc.review.getReviewsForUser.useQuery(
+  const userReviews = api.review.getReviewsForUser.useQuery(
     { username },
     {
       enabled: !!username,
-    },
+    }
   );
 
   if (userReviews.isLoading) {
@@ -26,14 +24,14 @@ function UserReviews({ username }: Props) {
     return <div>error</div>;
   }
 
-  if (userReviews.data.length === 0) return null;
+  if (userReviews.data?.length === 0) return null;
 
   return (
     <div>
-      <h2 className=" py-4 text-2xl font-black">reviews</h2>
+      <h2 className=" py-4 font-black text-2xl">reviews</h2>
 
-      <div className="flex flex-row  overflow-y-scroll   ">
-        {userReviews?.data.map((review) => (
+      <div className="flex flex-row overflow-y-scroll ">
+        {userReviews?.data?.map((review) => (
           <UserReviewCard key={review.id} review={review} />
         ))}
       </div>

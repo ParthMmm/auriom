@@ -4,7 +4,7 @@ type Props = {
 
 function SmallSpinner({ loadingText }: Props) {
   return (
-    <div className="flex flex-col items-center justify-center   space-y-2 align-middle">
+    <div className="flex flex-col items-center justify-center space-y-2 align-middle">
       <div role="status">
         <svg
           className="mr-2 inline h-8 w-8 animate-spin fill-parp-500 text-gray-200 dark:text-gray-600"
@@ -22,7 +22,7 @@ function SmallSpinner({ loadingText }: Props) {
           />
         </svg>
       </div>
-      <span className="text-md animate-pulse">{loadingText}</span>
+      <span className="animate-pulse text-md">{loadingText}</span>
     </div>
   );
 }

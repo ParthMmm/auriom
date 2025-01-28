@@ -6,8 +6,6 @@ import { addAlbumToDb } from 'src/server/utils';
 import { z } from 'zod';
 
 import { protectedProcedure, publicProcedure, router } from '../trpc';
-import { getHTTPStatusCodeFromError } from '@trpc/server/http';
-import { TRPCError } from '@trpc/server';
 
 export const shelfRouter = router({
   createShelf: protectedProcedure
@@ -30,7 +28,7 @@ export const shelfRouter = router({
         return shelf;
       } catch (err) {
         throw new Error(
-          'Shelf already exists. Shelves must have unique names.',
+          'Shelf already exists. Shelves must have unique names.'
         );
       }
     }),

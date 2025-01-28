@@ -17,10 +17,11 @@ import getToken from '../spotify/auth';
  *  - testing, where we dont have to Mock Next.js' req/res
  *  - trpc's `createSSGHelpers` where we don't have req/res
  */
-export const createContextInner = async ({ user, spotifyToken }) => ({
+export const createContextInner = async ({ auth, spotifyToken, user }) => ({
   prisma,
-  user,
+  auth,
   spotifyToken,
+  user,
 });
 
 /**
@@ -28,21 +29,14 @@ export const createContextInner = async ({ user, spotifyToken }) => ({
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async (opts: CreateNextContextOptions) => {
-  async function getUser() {
-    // get userId from request
-    const { userId } = getAuth(opts.req);
-    // get full user object
+  const auth = getAuth(opts.req);
+  const client = await clerkClient();
 
-    const user = userId ? await clerkClient.users.getUser(userId) : null;
-
-    return user;
-  }
-
-  const user = await getUser();
+  const user = await client.users.getUser(auth.userId);
 
   const spotifyToken = await getToken();
 
-  return await createContextInner({ user, spotifyToken });
+  return await createContextInner({ auth, spotifyToken, user });
 };
 
 export type Context = inferAsyncReturnType<typeof createContext>;

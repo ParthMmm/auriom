@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 
 import { objectSans } from '@components/Layout';
 
@@ -48,7 +48,7 @@ function ViewReviewModal({ isOpen, setIsOpen, review }: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl  border-2 border-white bg-black p-4 align-middle  shadow-[6px_6px_0px_rgb(255,255,255)]   transition-all md:px-8  md:py-8">
+                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl border-2 border-white bg-black p-4 align-middle shadow-[6px_6px_0px_rgb(255,255,255)] transition-all md:px-8 md:py-8">
                   <button
                     onClick={() => onClose()}
                     className="fill-white hover:fill-parp-500"
@@ -61,14 +61,14 @@ function ViewReviewModal({ isOpen, setIsOpen, review }: Props) {
                       <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z" />
                     </svg>
                   </button>
-                  <Dialog.Title className="text-lg font-bold text-white md:text-2xl">
+                  <Dialog.Title className="font-bold text-lg text-white md:text-2xl">
                     {`${review.user.username}'s review of`}
                     <br />
                     {`${review.Album.title} `}
                   </Dialog.Title>
                   <Dialog.Description>
-                    <div className="m-4    space-x-1 overflow-hidden bg-black p-4">
-                      <div className="flex flex-row items-center justify-between  align-middle">
+                    <div className="m-4 space-x-1 overflow-hidden bg-black p-4">
+                      <div className="flex flex-row items-center justify-between align-middle">
                         <div>
                           <div className="flex flex-row items-center justify-start gap-2 align-middle">
                             {review.user.profileImage ? (

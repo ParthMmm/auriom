@@ -1,5 +1,5 @@
-import localFont from '@next/font/local';
 import dynamic from 'next/dynamic';
+import localFont from 'next/font/local';
 import Head from 'next/head';
 import type { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -9,7 +9,7 @@ type Props = {
 };
 
 const Navbar = dynamic(() => import('@components/Navbar'), {
-  suspense: true,
+  ssr: false,
 });
 
 export const objectSans = localFont({

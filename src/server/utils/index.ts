@@ -77,7 +77,7 @@ export const addAlbumToDb = async (ctx: Context, spotifyId: string) => {
 export const artistHelper = async (
   ctx: Context,
   artists: Artist[],
-  albumSpotifyId: string,
+  albumSpotifyId: string
 ) =>
   artists.forEach(async (artist: Artist) => {
     const artistId = stripURI(artist.uri);
@@ -126,7 +126,7 @@ export const artistHelper = async (
 export const trackHelper = async (
   ctx: Context,
   tracks: AlbumTracksItem[],
-  id: string,
+  id: string
 ) =>
   tracks.forEach(async (track: AlbumTracksItem) => {
     const trackId = stripURI(track.uri);
@@ -188,7 +188,7 @@ export const trackHelper = async (
 export const imageHelper = async (
   ctx: Context,
   images: Image[],
-  albumSpotifyId: string,
+  albumSpotifyId: string
 ) =>
   images.map(async (image: Image) => {
     const imageExists = await ctx.prisma.image.findFirst({

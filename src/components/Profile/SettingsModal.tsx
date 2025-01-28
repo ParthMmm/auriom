@@ -1,8 +1,8 @@
-import { Dialog, Tab, Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { Fragment, useState } from 'react';
-import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
+import { Fragment } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { LastFMLogo, SoundCloudLogo, TwitterLogo } from 'src/lib/svgs';
 import SpotifyLogo from 'src/lib/svgs/spotify';
@@ -11,8 +11,7 @@ import { objectSans } from '@components/Layout';
 
 import type { userBioInputType } from '@utils/schemas/userSchema';
 import { userBioInputSchema } from '@utils/schemas/userSchema';
-import { userSchema } from '@utils/schemas/userSchema';
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(' ');
@@ -39,14 +38,14 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
     setIsOpen(false);
   };
 
-  const userData = trpc.users.getUser.useQuery(
+  const userData = api.users.getUser.useQuery(
     { username },
     {
       enabled: !!username,
-    },
+    }
   );
 
-  const updateUserMutation = trpc.users.updateUser.useMutation();
+  const updateUserMutation = api.users.updateUser.useMutation();
 
   const submitHandler = async (data: userBioInputType) => {
     // console.log(data);
@@ -109,9 +108,9 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll rounded-2xl   border-2  border-white bg-black p-8 pb-12 align-middle   text-white shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll rounded-2xl border-2 border-white bg-black p-8 pb-12 align-middle text-white shadow-[6px_6px_0px_rgb(255,255,255)] transition-all">
                   <Dialog.Title>
-                    <h2 className="pb-4 text-left text-4xl font-bold">
+                    <h2 className="pb-4 text-left font-bold text-4xl">
                       Settings
                     </h2>
                   </Dialog.Title>
@@ -120,7 +119,7 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                       <div className="mt-2 p-4">
                         {/* <div className="mb-4 flex flex-row items-center justify-between align-middle transition-all"></div> */}
                         <label
-                          className="flex p-2 text-sm font-normal"
+                          className="flex p-2 font-normal text-sm"
                           htmlFor="bio"
                         >
                           Bio
@@ -130,16 +129,16 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                           id="bio"
                           {...register('bio')}
                           placeholder={userData.data?.bio || 'Bio'}
-                          className=" w-full  border-[1px] border-gray-800 bg-black p-2 text-white placeholder-gray-600     focus:outline-gray-700   "
+                          className=" w-full border-[1px] border-gray-800 bg-black p-2 text-white placeholder-gray-600 focus:outline-gray-700 "
                         />
                         <div className="my-8 w-full border-b-[1px] bg-gray-600"></div>
-                        <div className="grid  grid-cols-1 gap-6 md:grid-rows-2">
+                        <div className="grid grid-cols-1 gap-6 md:grid-rows-2">
                           <div className="flex flex-col items-center justify-between gap-4 md:flex-row ">
                             <div className="flex w-full basis-0 flex-col items-start gap-2 align-middle md:basis-1/2 ">
                               <div className="flex flex-row items-center gap-2 align-middle">
                                 <SpotifyLogo />
                                 <label
-                                  className="text-sm font-normal"
+                                  className="font-normal text-sm"
                                   htmlFor="Spotify"
                                 >
                                   Spotify Username
@@ -154,14 +153,14 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="Spotify username"
                                 {...register('spotifyAccount')}
                                 // value={value}
-                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
+                                className="w-full border-[1px] border-gray-800 bg-black p-2 text-md placeholder-gray-600 focus:outline-gray-700 dark:text-white "
                               />
                             </div>
                             <div className="flex w-full basis-0 flex-col items-start gap-2 align-middle md:basis-1/2 ">
                               <div className="flex flex-row items-center gap-2 align-middle">
                                 <LastFMLogo />
                                 <label
-                                  className="text-sm font-normal"
+                                  className="font-normal text-sm"
                                   htmlFor="last.fm"
                                 >
                                   Last.fm Username
@@ -174,7 +173,7 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="Last.fm username"
                                 {...register('lastFmAccount')}
                                 // value={value}
-                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
+                                className="w-full border-[1px] border-gray-800 bg-black p-2 text-md placeholder-gray-600 focus:outline-gray-700 dark:text-white "
                               />
                             </div>
                           </div>
@@ -183,7 +182,7 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                               <div className="flex flex-row items-center gap-2 align-middle">
                                 <SoundCloudLogo />
                                 <label
-                                  className="text-sm font-normal"
+                                  className="font-normal text-sm"
                                   htmlFor="SoundCloud"
                                 >
                                   SoundCloud Username
@@ -198,14 +197,14 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="SoundCloud username"
                                 {...register('soundCloudAccount')}
                                 // value={value}
-                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
+                                className="w-full border-[1px] border-gray-800 bg-black p-2 text-md placeholder-gray-600 focus:outline-gray-700 dark:text-white "
                               />
                             </div>
                             <div className="flex w-full basis-0 flex-col items-start gap-2 align-middle md:basis-1/2 ">
                               <div className="flex flex-row items-center gap-2 align-middle">
                                 <TwitterLogo />
                                 <label
-                                  className="text-sm font-normal"
+                                  className="font-normal text-sm"
                                   htmlFor="Twitter"
                                 >
                                   Twitter Username
@@ -220,14 +219,14 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                                 placeholder="Twitter username"
                                 {...register('twitterAccount')}
                                 // value={value}
-                                className="text-md w-full  border-[1px] border-gray-800 bg-black   p-2 placeholder-gray-600 focus:outline-gray-700     dark:text-white    "
+                                className="w-full border-[1px] border-gray-800 bg-black p-2 text-md placeholder-gray-600 focus:outline-gray-700 dark:text-white "
                               />
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-12 -mb-8 flex flex-row justify-between">
+                      <div className="-mb-8 mt-12 flex flex-row justify-between">
                         <Link
                           className="text-gray-600 hover:text-gray-400"
                           href={`/auth/settings`}
@@ -236,7 +235,7 @@ function SettingsModal({ isOpen, setIsOpen, username }: Props) {
                         </Link>
                         <button
                           type="submit"
-                          className={` rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-black disabled:cursor-not-allowed`}
+                          className={` rounded-md border border-transparent bg-white px-4 py-2 font-medium text-black text-sm disabled:cursor-not-allowed`}
                         >
                           Save
                         </button>

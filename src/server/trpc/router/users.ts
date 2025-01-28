@@ -3,14 +3,13 @@ import { z } from 'zod';
 import { userSchema } from '@utils/schemas/userSchema';
 
 import { protectedProcedure, publicProcedure, router } from '../trpc';
-import { ExternalAccount } from '../../../utils/types/user';
-import type { User } from '@clerk/clerk-sdk-node';
 
 export const userRouter = router({
   getUser: publicProcedure
     .input(z.object({ username: z.string() }))
     .query(async ({ ctx, input }) => {
-      const { username } = input;
+      console.log(ctx.user.username);
+      const { username } = ctx.user;
 
       const user = await ctx.prisma.user.findUnique({
         where: {

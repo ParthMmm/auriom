@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import type { ReviewWithUserWithAlbum } from '@utils/types/review';
 
@@ -35,8 +35,8 @@ function Review({ review }: Props) {
 
   return (
     <div>
-      <div className="m-4   max-h-96 space-x-1 overflow-hidden bg-black p-4">
-        <div className="flex flex-row items-center justify-between  align-middle">
+      <div className="m-4 max-h-96 space-x-1 overflow-hidden bg-black p-4">
+        <div className="flex flex-row items-center justify-between align-middle">
           <div>
             <div className="flex flex-row items-center justify-start gap-2 align-middle">
               {review.user.profileImage ? (
@@ -62,7 +62,7 @@ function Review({ review }: Props) {
             </div>
           </div>
           <div className="">
-            <div className=" text-right tabular-nums text-harlequin-500">
+            <div className=" text-right text-harlequin-500 tabular-nums">
               {review.rating} <span className="text-gray-600">/ 5</span>
             </div>
           </div>

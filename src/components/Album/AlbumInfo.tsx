@@ -2,10 +2,9 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import ShareButton from '@components/ShareButton';
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 import ActionButtons from './ActionButtons';
-import { ShareIcon } from '@heroicons/react/20/solid';
-import ShareButton from '@components/ShareButton';
 
 type Props = {
   album: AlbumInfoRoot;
@@ -22,7 +21,7 @@ function AlbumInfo({ album }: Props) {
   const artists = album.artists.map((artist) => artist.name).join(', ');
   return (
     <div className="container">
-      <div className="mt-24 mb-8 flex flex-col justify-between rounded-2xl   md:flex-row ">
+      <div className="mt-24 mb-8 flex flex-col justify-between rounded-2xl md:flex-row ">
         <div className="flex flex-col items-center md:flex-row ">
           <div className="">
             {imageURL && (
@@ -36,9 +35,9 @@ function AlbumInfo({ album }: Props) {
               />
             )}
           </div>
-          <div className="flex flex-col items-center gap-4  p-4 md:items-start md:justify-between  ">
+          <div className="flex flex-col items-center gap-4 p-4 md:items-start md:justify-between ">
             <div className="flex flex-col items-center md:items-start">
-              <h1 className="text-3xl  font-bold md:w-3/4 md:text-4xl">
+              <h1 className="font-bold text-3xl md:w-3/4 md:text-4xl">
                 {album.name}
               </h1>
               <h3 className=" text-xl md:text-3xl ">{artists}</h3>
@@ -61,7 +60,7 @@ function AlbumInfo({ album }: Props) {
             </div>
 
             <div className="flex flex-col items-center md:items-start">
-              <span className=" text-sm text-gray-500">Label</span>
+              <span className=" text-gray-500 text-sm">Label</span>
               <h5>{album.label}</h5>
             </div>
           </div>

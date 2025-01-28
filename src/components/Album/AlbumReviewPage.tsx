@@ -1,22 +1,21 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import SmallSpinner from '@components/SmallSpinner';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 const Review = dynamic(() => import('@components/Reviews/Review'), {
-  suspense: true,
+  ssr: false,
 });
 
 const CondensedAlbumInfo = dynamic(
   () => import('@components/Album/CondensedAlbumInfo'),
   {
-    suspense: true,
-  },
+    ssr: false,
+  }
 );
 
 function AlbumReviewPage({}) {
@@ -25,27 +24,25 @@ function AlbumReviewPage({}) {
   const spotifyId = router.query.id as string;
 
   const { data, fetchNextPage, isError, isLoading } =
-    trpc.review.getReviewsForAlbum.useInfiniteQuery(
+    api.review.getReviewsForAlbum.useInfiniteQuery(
       { spotifyId },
       {
         enabled: !!spotifyId,
-        getNextPageParam: (lastPage) => {
-          lastPage?.nextCursor;
-        },
-      },
+        getNextPageParam: (lastPage) => lastPage?.nextCursor,
+      }
     );
 
-  const albumInfo = trpc.spotify.getAlbum.useQuery(
+  const albumInfo = api.spotify.getAlbum.useQuery(
     { spotifyId },
     {
       enabled: !!spotifyId,
-    },
+    }
   );
 
   const album = albumInfo?.data;
 
   const imageURL = albumInfo?.data?.images.filter(
-    (image) => image.height === 300,
+    (image) => image.height === 300
   )[0]?.url;
 
   const artists = album?.artists.map((artist) => artist.name).join(', ');
@@ -96,7 +93,7 @@ function AlbumReviewPage({}) {
         </div>
         <div className="w-full basis-3/4">
           <div className="pb-8">
-            <h1 className="text-4xl font-bold">
+            <h1 className="font-bold text-4xl">
               Reviews for <br />
               {album?.name}
             </h1>
@@ -104,16 +101,16 @@ function AlbumReviewPage({}) {
           </div>
           <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
             <InfiniteScroll
-              next={() => fetchNextPage({ pageParam: cursor })}
+              next={() => fetchNextPage()}
               hasMore={cursor ? true : false}
               loader={<SmallSpinner />}
               dataLength={data?.pages?.length * 4 || 0}
             >
-              <div className="flex flex-col justify-between  space-y-2 divide-y-2">
+              <div className="flex flex-col justify-between space-y-2 divide-y-2">
                 {data.pages.map((page) =>
                   page?.reviews.map((review) => (
                     <Review key={review.id} review={review} />
-                  )),
+                  ))
                 )}
               </div>
             </InfiniteScroll>

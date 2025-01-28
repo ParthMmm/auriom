@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import SpotifyCard from '@components/Track/SpotifyCard';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 import type { TrackItem } from '@utils/types/spotify';
 
 function Tracks({}) {
@@ -11,12 +11,12 @@ function Tracks({}) {
   const query = router.query.input as string;
 
   const { data, fetchNextPage, isLoading, error } =
-    trpc.spotify.trackSearch.useInfiniteQuery(
+    api.spotify.trackSearch.useInfiniteQuery(
       { query: query, type: 'track' },
       {
         enabled: !!query,
         getNextPageParam: (lastPage) => lastPage?.offset + lastPage?.limit,
-      },
+      }
     );
   if (isLoading) {
     return <div>loading</div>;
@@ -39,7 +39,7 @@ function Tracks({}) {
             {data?.pages.map((page) =>
               page?.items.map((track: TrackItem) => (
                 <SpotifyCard key={track.uri} track={track} />
-              )),
+              ))
             )}
           </div>
         </InfiniteScroll>

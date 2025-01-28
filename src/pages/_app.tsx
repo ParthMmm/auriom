@@ -1,25 +1,17 @@
 // src/pages/_app.tsx
 import { ClerkProvider } from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Analytics } from '@vercel/analytics/react';
-import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import { Toaster } from 'react-hot-toast';
 
 import ErrorBoundary from '@components/ErrorBoundary';
-import { objectSans } from '@components/Layout';
+import Layout, { objectSans } from '@components/Layout';
 import Spinner from '@components/Spinner';
 
-import { trpc } from '@utils/trpc';
-
 import '../styles/globals.css';
-
-const Layout = dynamic(() => import('@components/Layout'), {
-  suspense: true,
-});
+import { api } from '@utils/trpc';
+import type { AppProps } from 'next/app';
 
 const queryClient = new QueryClient();
 const frontendApi = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API;
@@ -70,20 +62,18 @@ const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
     <Suspense fallback={<Spinner />}>
       <ClerkProvider
         {...pageProps}
-        frontendApi={frontendApi}
+        publishableKey={frontendApi}
         appearance={{
-          baseTheme: dark,
+          baseTheme: 'dark',
         }}
       >
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>{getContent()}</ErrorBoundary>
-
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ClerkProvider>
-      <Analytics />
     </Suspense>
   );
 };
 
-export default trpc.withTRPC(MyApp);
+export default api.withTRPC(MyApp);

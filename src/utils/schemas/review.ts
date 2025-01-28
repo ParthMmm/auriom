@@ -24,9 +24,9 @@ export const reviewSchema = z.object({
             uri: z.string(),
             id: z.string(),
             name: z.string(),
-          }),
+          })
         ),
-      }),
+      })
     )
     .optional(),
 });
@@ -43,9 +43,9 @@ export const favoriteTracklistSchema = z.array(
         uri: z.string(),
         id: z.string(),
         name: z.string(),
-      }),
+      })
     ),
-  }),
+  })
 );
 
 export type Review = z.infer<typeof reviewSchema>;

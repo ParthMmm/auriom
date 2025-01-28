@@ -2,9 +2,9 @@ import dynamic from 'next/dynamic';
 
 import Hero from './Hero';
 
-const NewReleases = dynamic(() => import('./NewReleases'), { suspense: true });
+const NewReleases = dynamic(() => import('./NewReleases'), { ssr: false });
 
-const Features = dynamic(() => import('./Features'), { suspense: true });
+const Features = dynamic(() => import('./Features'), { ssr: false });
 
 function Landing({}) {
   return (

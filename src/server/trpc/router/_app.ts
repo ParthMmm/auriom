@@ -1,10 +1,10 @@
-import { shelfRouter } from './shelf';
 // src/server/router/_app.ts
 import { router } from '../trpc';
 // import { albumRouter } from './album';
 import { albumActionsRouter } from './albumActions';
 import { authRouter } from './auth';
 import { reviewRouter } from './review';
+import { shelfRouter } from './shelf';
 import { spotifyRouter } from './spotify';
 import { userRouter } from './users';
 

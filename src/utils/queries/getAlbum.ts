@@ -3,7 +3,6 @@ import axios from 'axios';
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 
 import type { Context } from './../../server/trpc/context';
-import { stripURI } from './../stripURI';
 
 export const getAlbum = async (ctx: Context, spotifyId: string) => {
   const album = await ctx.prisma.album.findUnique({
@@ -30,7 +29,7 @@ export const getAlbum = async (ctx: Context, spotifyId: string) => {
 
     const res = await axios.get(
       `https://api.spotify.com/v1/albums/${spotifyId}`,
-      config,
+      config
     );
 
     const data = res.data as AlbumInfoRoot;

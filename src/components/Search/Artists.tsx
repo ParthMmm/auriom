@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import SpotifyCard from '@components/Artist/SpotifyCard';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 import type { ArtistItem } from '@utils/types/spotify';
 
 function Artists({}) {
@@ -11,12 +11,12 @@ function Artists({}) {
   const query = router.query.input as string;
 
   const { data, fetchNextPage, isLoading, error } =
-    trpc.spotify.artistSearch.useInfiniteQuery(
+    api.spotify.artistSearch.useInfiniteQuery(
       { query: query, type: 'artist' },
       {
         enabled: !!query,
         getNextPageParam: (lastPage) => lastPage?.offset + lastPage?.limit,
-      },
+      }
     );
 
   if (isLoading) {
@@ -33,13 +33,13 @@ function Artists({}) {
         next={() => fetchNextPage()}
         hasMore={true}
         loader={<div>yo</div>}
-        dataLength={data?.pages?.length * 20 || 0}
+        dataLength={(data?.pages ?? []).length * 20}
       >
         <div className="grid-playlists-container">
           {data?.pages.map((page) =>
             page?.items.map((artist: ArtistItem) => (
               <SpotifyCard key={artist.uri} artist={artist} />
-            )),
+            ))
           )}
         </div>
       </InfiniteScroll>

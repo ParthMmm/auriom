@@ -1,38 +1,46 @@
-import Marquee from 'react-fast-marquee';
-
 import SmallSpinner from '@components/SmallSpinner';
-
-import { trpc } from '@utils/trpc';
-
+import { api } from '@utils/trpc';
+import type { AlbumItem } from '@utils/types/spotify';
 import AlbumCard from './AlbumCard';
+import { InfiniteSlider } from './marquee';
 
-function NewReleases({}) {
-  // even:mt-[calc(100vw-100px)]
-  const { data, isLoading, error } = trpc.spotify.getNewReleases.useQuery();
+function NewReleases() {
+  const { data, isPending, error } = api.spotify.getNewReleases.useQuery(
+    undefined,
+    {
+      staleTime: 1000 * 60 * 60 * 24,
+    }
+  );
 
-  if (isLoading) {
+  if (isPending) {
     return <SmallSpinner />;
   }
 
   if (error) {
+    console.error('Error in NewReleases:', error);
+    return null;
+  }
+
+  if (!data || !data.items || data.items.length === 0) {
+    return null;
+  }
+
+  const filteredAlbums = data.items.filter((album): album is AlbumItem => {
+    return album.images.length > 0 && album.artists.length > 0;
+  });
+
+  if (filteredAlbums.length === 0) {
     return null;
   }
 
   return (
     <div className="flex w-screen flex-col justify-start bg-black">
-      <h2 className="py-4 text-center text-2xl font-black">hot new releases</h2>
-      <Marquee
-        pauseOnHover
-        gradientColor={[0, 0, 0]}
-        speed={40}
-        gradientWidth={100}
-      >
-        <div className="flex flex-row  overflow-y-scroll pb-4">
-          {data?.items.map((album) => (
-            <AlbumCard key={album.uri} album={album} />
-          ))}
-        </div>
-      </Marquee>
+      <h2 className="py-4 text-center font-black text-2xl">hot new releases</h2>
+      <InfiniteSlider durationOnHover={1500} duration={700} gap={24}>
+        {filteredAlbums.map((album) => (
+          <AlbumCard key={album.uri} album={album} />
+        ))}
+      </InfiniteSlider>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 
 const SearchPage = dynamic(() => import('../components/Search/Page'), {
-  suspense: true,
+  ssr: false,
 });
 
 export default SearchPage;

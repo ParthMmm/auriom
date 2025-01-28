@@ -1,23 +1,15 @@
-import axios from 'axios';
+import { TRPCError } from '@trpc/server';
+import { ofetch } from 'ofetch';
 import { z } from 'zod';
 
 import { getSearchSchema } from '@utils/schemas/searchSchema';
-// import { getHTTPStatusCodeFromError } from "@trpc/server/http";
-// import type { TRPCError } from "@trpc/server";
-import { stripURI } from '@utils/stripURI';
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
 import type { TracksRoot } from '@utils/types/spotify/albumTracks';
-import type { Root } from '@utils/types/spotify/spotify';
+import type { Albums, Root } from '@utils/types/spotify/spotify';
 
 import * as trpc from '../trpc';
 import { getAlbumTracklist } from './../../../utils/queries/getAlbumTracklist';
 import { getAlbumTracksSchema } from './../../../utils/schemas/searchSchema';
-
-// const error: TRPCError = {
-//   name: "TRPCError",
-//   code: "UNAUTHORIZED",
-//   message: '"spotify auth broken',
-// };
 
 export const spotifyRouter = trpc.router({
   //public procedure to search for item with spotify web api based on input
@@ -26,30 +18,30 @@ export const spotifyRouter = trpc.router({
     .query(async ({ input, ctx }) => {
       const { query, type, cursor } = input;
 
-      if (ctx.spotifyToken) {
-        const token = ctx.spotifyToken.access_token;
+      if (!ctx.spotifyToken) {
+        return { offset: 0, items: [], total: 0, limit: 0 };
+      }
 
-        const config = {
+      const token = ctx.spotifyToken.access_token;
+      const offset = cursor ? cursor : 0;
+
+      const data = await ofetch<Pick<Root, 'albums'>>(
+        'https://api.spotify.com/v1/search',
+        {
+          query: {
+            q: query,
+            type,
+            offset,
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        };
+        }
+      );
 
-        const offset = cursor ? cursor : 0;
-
-        const res = await axios.get(
-          `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config,
-        );
-
-        type Album = Pick<Root, 'albums'>;
-
-        const data: Album = res.data;
-
-        return data.albums;
-      }
-      return { offset: 0, items: [], total: 0, limit: 0 };
+      return data.albums;
     }),
+
   artistSearch: trpc.publicProcedure
     .input(getSearchSchema)
     .query(async ({ input, ctx }) => {
@@ -66,17 +58,20 @@ export const spotifyRouter = trpc.router({
 
         const offset = cursor ? cursor : 0;
 
-        const res = await axios.get(
+        const res = await ofetch<Pick<Root, 'artists'>>(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
-        const data: Pick<Root, 'artists'> = res.data;
-
-        return data.artists;
+        return res.artists;
       }
       return { offset: 0, items: [], total: 0, limit: 0 };
     }),
+
   trackSearch: trpc.publicProcedure
     .input(getSearchSchema)
     .query(async ({ input, ctx }) => {
@@ -93,15 +88,16 @@ export const spotifyRouter = trpc.router({
 
         const offset = cursor ? cursor : 0;
 
-        const res = await axios.get(
+        const res = await ofetch<Pick<Root, 'tracks'>>(
           `https://api.spotify.com/v1/search?q=${query}&type=${type}&offset=${offset}`,
-          config,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
-        type tracks = Pick<Root, 'tracks'>;
-        const data = res.data as tracks;
-
-        return data.tracks;
+        return res.tracks;
       }
       return { offset: 0, items: [], total: 0, limit: 0 };
     }),
@@ -120,16 +116,17 @@ export const spotifyRouter = trpc.router({
           },
         };
 
-        const res = await axios.get(
+        const res = await ofetch<AlbumInfoRoot>(
           `https://api.spotify.com/v1/albums/${spotifyId}`,
-          config,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
-        const data: AlbumInfoRoot = res.data;
-
-        return data;
+        return res;
       }
-      // return { offset: 0, items: [], total: 0, limit: 0 };
     }),
 
   getAlbumTracklist: trpc.publicProcedure
@@ -137,54 +134,125 @@ export const spotifyRouter = trpc.router({
     .query(async ({ input, ctx }) => {
       const { spotifyId } = input;
 
-      // const id = id3[1];
       const tracklist = await getAlbumTracklist(ctx, spotifyId);
 
       return tracklist;
     }),
+
   getMultipleAlbumImages: trpc.publicProcedure
     .input(z.object({ uri: z.string() }))
     .query(async ({ input, ctx }) => {
-      if (ctx.spotifyToken) {
-        const token = ctx.spotifyToken.access_token;
+      if (!ctx.spotifyToken) {
+        return null;
+      }
 
-        const config = {
+      const token = ctx.spotifyToken.access_token;
+
+      const data = await ofetch<TracksRoot>(
+        `https://api.spotify.com/v1/albums/${input.uri}/tracks`,
+        {
+          query: {
+            limit: 50,
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        };
+        }
+      );
 
-        const res = await axios.get(
-          `https://api.spotify.com/v1/albums/${input.uri}/tracks?limit=50`,
-          config,
-        );
-
-        const data: TracksRoot = res.data;
-
-        return data;
-      }
+      return data;
     }),
 
   getNewReleases: trpc.publicProcedure.query(async ({ ctx }) => {
-    if (ctx.spotifyToken) {
-      const token = ctx.spotifyToken.access_token;
+    if (!ctx.spotifyToken) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'No Spotify token available',
+      });
+    }
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+    const token = ctx.spotifyToken.access_token;
 
-      const res = await axios.get(
-        `https://api.spotify.com/v1/browse/new-releases?limit=50`,
-        config,
+    try {
+      const response = await ofetch<{ albums: Albums }>(
+        'https://api.spotify.com/v1/browse/new-releases',
+        {
+          query: {
+            limit: 50,
+            country: 'US',
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      type Album = Pick<Root, 'albums'>;
+      if (!response || !response.albums) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Invalid response from Spotify API',
+        });
+      }
 
-      const data: Album = res.data;
+      const parsed = newReleasesSchema.safeParse(response.albums);
+      if (!parsed.success) {
+        console.error('Schema validation error:', parsed.error);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Invalid data structure from Spotify API',
+        });
+      }
 
-      return data.albums;
+      return parsed.data;
+    } catch (error) {
+      console.error('Error fetching new releases:', error);
+      if (error instanceof TRPCError) throw error;
+
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Failed to fetch new releases from Spotify',
+      });
     }
   }),
+});
+
+export const newReleasesSchema = z.object({
+  href: z.string(),
+  limit: z.number(),
+  next: z.string().nullable(),
+  offset: z.number(),
+  previous: z.string().nullable(),
+  total: z.number(),
+  items: z.array(
+    z.object({
+      album_type: z.string(),
+      total_tracks: z.number(),
+      available_markets: z.array(z.string()),
+      external_urls: z.object({ spotify: z.string() }),
+      href: z.string(),
+      id: z.string(),
+      images: z.array(
+        z.object({
+          height: z.number(),
+          url: z.string(),
+          width: z.number(),
+        })
+      ),
+      name: z.string(),
+      release_date: z.string(),
+      release_date_precision: z.string(),
+      type: z.string(),
+      uri: z.string(),
+      artists: z.array(
+        z.object({
+          external_urls: z.object({ spotify: z.string() }),
+          href: z.string(),
+          id: z.string(),
+          name: z.string(),
+          type: z.string(),
+          uri: z.string(),
+        })
+      ),
+    })
+  ),
 });

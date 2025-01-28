@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import ViewReviewModal from '@components/Reviews/ViewReviewModal';
 
@@ -34,7 +34,7 @@ function UserReviewCard({ review }: Props) {
   // });
 
   const imageURL = review.Album?.images?.filter(
-    (image) => image.height === 300,
+    (image) => image.height === 300
   )[0]?.url;
 
   const artists = () => {
@@ -51,7 +51,7 @@ function UserReviewCard({ review }: Props) {
         //   key={artist?.id}
         // >
         <>
-          <span className="md:text-md pr-2 text-sm font-normal text-gray-500 transition-all hover:text-harlequin-500">
+          <span className="pr-2 font-normal text-gray-500 text-sm transition-all hover:text-harlequin-500 md:text-md">
             {artist?.name}
           </span>
         </>
@@ -64,9 +64,9 @@ function UserReviewCard({ review }: Props) {
 
   return (
     <div className=" ">
-      <div className="h-full border-[1px] border-gray-700  p-6 transition-all hover:border-gray-500">
-        <div className="my-4 flex flex-row  gap-4">
-          <div className="flex flex-row items-start justify-start  align-middle ">
+      <div className="h-full border-[1px] border-gray-700 p-6 transition-all hover:border-gray-500">
+        <div className="my-4 flex flex-row gap-4">
+          <div className="flex flex-row items-start justify-start align-middle ">
             <Link
               href={{
                 pathname: `/album/[id]`,
@@ -106,27 +106,27 @@ function UserReviewCard({ review }: Props) {
                 }}
                 // as={`/album/${encodeURIComponent(album.name)}/${artists}`}
               >
-                <span className="overflow-hidden text-sm font-normal transition-all line-clamp-2 hover:text-harlequin-500 ">
+                <span className="line-clamp-2 overflow-hidden font-normal text-sm transition-all hover:text-harlequin-500 ">
                   {review?.Album.title}
                 </span>
               </Link>{' '}
               <div className="">{artists()}</div>
-              <div className=" text-left tabular-nums text-harlequin-500">
+              <div className=" text-left text-harlequin-500 tabular-nums">
                 {review.rating} <span className="text-gray-600">/ 5</span>
               </div>
             </div>
-            <div className="pt-2 text-sm text-gray-500">
+            <div className="pt-2 text-gray-500 text-sm">
               {dayjs(review.createdAt).format('MMM D, YYYY')}
             </div>
           </div>
         </div>
 
-        <p className=" mt-4 text-sm text-white line-clamp-3">{body}</p>
+        <p className=" mt-4 line-clamp-3 text-sm text-white">{body}</p>
 
         {showMore && (
           <div className="text-right">
             <button
-              className="text-sm text-harlequin-600 hover:text-harlequin-500"
+              className="text-harlequin-600 text-sm hover:text-harlequin-500"
               onClick={() => setIsOpen(true)}
             >
               Read full review

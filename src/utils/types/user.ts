@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-export interface PublicMetadata {}
+export type PublicMetadata = {};
 
-export interface PrivateMetadata {}
+export type PrivateMetadata = {};
 
-export interface UnsafeMetadata {}
+export type UnsafeMetadata = {};
 
 export interface Verification {
   status: string;
@@ -26,7 +26,7 @@ export interface EmailAddress {
   linkedTo: LinkedTo[];
 }
 
-export interface PublicMetadata2 {}
+export type PublicMetadata2 = {};
 
 export interface Verification2 {
   status: string;

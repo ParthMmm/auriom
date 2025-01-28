@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useState } from 'react';
 
 import type { AlbumInfoRoot } from '@utils/types/spotify/albumInfo';
@@ -21,7 +20,7 @@ function Reviews({ album }: Props) {
   return (
     <div className="mb-12 w-full md:mb-24 ">
       <div className="flex flex-row items-center justify-between align-middle">
-        <h2 className="text-4xl font-bold">reviews</h2>
+        <h2 className="font-bold text-4xl">reviews</h2>
         <button onClick={() => setIsOpen(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -10,7 +10,10 @@ type Props = {
 };
 
 function Tracklist({ albumTracks }: Props) {
-  const setCurrentTracklist = useStore((state) => state.setCurrentTracklist);
+  const setCurrentTracklist = useStore(
+    (state: { setCurrentTracklist: (tracks: AlbumTracksItem[]) => void }) =>
+      state.setCurrentTracklist
+  );
 
   useEffect(() => {
     setCurrentTracklist(albumTracks);
@@ -18,7 +21,7 @@ function Tracklist({ albumTracks }: Props) {
 
   return (
     <div className="mb-12 w-full md:mb-24">
-      <h2 className="text-4xl font-bold">tracklist</h2>
+      <h2 className="font-bold text-4xl">tracklist</h2>
 
       <div className=" rounded-2xl border-2 shadow-[6px_6px_0px_rgb(255,255,255)]">
         <div className=" ">
@@ -34,7 +37,7 @@ function Tracklist({ albumTracks }: Props) {
                     {track.name}
                   </span>
                   {track.explicit && (
-                    <div className="inline-block pl-2 text-xs text-gray-500">
+                    <div className="inline-block pl-2 text-gray-500 text-xs">
                       E
                     </div>
                   )}

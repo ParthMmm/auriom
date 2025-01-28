@@ -1,9 +1,5 @@
 import type { Album, Artist, Image, Review, User } from '@prisma/client';
 
-import { AlbumInfo } from '@utils/types';
-
-import type { ArtistInfo } from './index';
-
 export type UserInputReview = {
   rating: number;
   body: string;

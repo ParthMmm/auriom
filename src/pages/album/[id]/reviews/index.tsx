@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic';
 const AlbumReviewPage = dynamic(
   () => import('@components/Album/AlbumReviewPage'),
   {
-    suspense: true,
-  },
+    ssr: false,
+  }
 );
 
 export default AlbumReviewPage;

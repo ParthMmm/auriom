@@ -1,5 +1,5 @@
 export const stripURI = (uri: string) => {
-  const re = new RegExp(':([^:]*)$');
+  const re = /:([^:]*)$/;
 
   const strippedURI = uri.match(re);
 

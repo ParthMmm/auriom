@@ -4,13 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Rating } from 'react-simple-star-rating';
 
 import { objectSans } from '@components/Layout';
 
 import type { UserInputReview } from '@utils/schemas/review';
 import { userInputReviewSchema } from '@utils/schemas/review';
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 type Props = {
   isOpen: boolean;
@@ -44,7 +43,7 @@ export default function CreateReviewModal({
 
   const [error, setError] = useState('');
 
-  const createReviewMutation = trpc.review.createReview.useMutation({
+  const createReviewMutation = api.review.createReview.useMutation({
     onError: (error) => {
       setError(error.message);
       toast.error(error.message);
@@ -86,7 +85,7 @@ export default function CreateReviewModal({
     if (createReviewMutation.isSuccess) {
       return (
         <div className="flex flex-col items-center justify-center text-white">
-          <div className="text-2xl font-bold">Review created!</div>
+          <div className="font-bold text-2xl">Review created!</div>
           {/* <div className="text-xl font-bold">Thanks for your feedback!</div>
           <div className="text-xl font-bold">
             You can edit your review at any time.
@@ -97,15 +96,15 @@ export default function CreateReviewModal({
     if (createReviewMutation.isError) {
       return (
         <div className="flex flex-col items-center justify-center text-white">
-          <div className="text-2xl font-bold">{error}</div>
+          <div className="font-bold text-2xl">{error}</div>
           {/* <div className="text-xl font-bold">Please try again later.</div> */}
         </div>
       );
     }
-    if (createReviewMutation.isLoading) {
+    if (createReviewMutation.isPending) {
       return (
         <div className="flex flex-col items-center justify-center text-white">
-          <div className="text-2xl font-bold">Creating review...</div>
+          <div className="font-bold text-2xl">Creating review...</div>
         </div>
       );
     }
@@ -113,16 +112,16 @@ export default function CreateReviewModal({
       <>
         <Dialog.Title
           as="h3"
-          className="mb-12 -mt-12 text-center text-4xl font-medium  text-white"
+          className="-mt-12 mb-12 text-center font-medium text-4xl text-white"
         >
           Create Shelf
         </Dialog.Title>
         <form onSubmit={handleSubmit(submitHandler)}>
-          <div className="mt-12 -mb-8 text-right">
+          <div className="-mb-8 mt-12 text-right">
             <button
               disabled={rating === 0}
               type="submit"
-              className={` rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-black disabled:cursor-not-allowed`}
+              className={` rounded-md border border-transparent bg-white px-4 py-2 font-medium text-black text-sm disabled:cursor-not-allowed`}
             >
               Post Review
             </button>
@@ -179,7 +178,7 @@ export default function CreateReviewModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll   rounded-2xl  border-2 border-white bg-black p-8  py-24   align-middle shadow-[6px_6px_0px_rgb(255,255,255)]  transition-all">
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-y-scroll rounded-2xl border-2 border-white bg-black p-8 py-24 align-middle shadow-[6px_6px_0px_rgb(255,255,255)] transition-all">
                   {modalState()}
                 </Dialog.Panel>
               </Transition.Child>

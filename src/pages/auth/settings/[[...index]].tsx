@@ -6,9 +6,9 @@ function UserSecurityPage() {
   const username = user?.username;
 
   return (
-    <div className=" flex min-h-screen  flex-col items-center justify-center bg-black  pt-12 text-white">
-      <div className="mb-8 flex flex-col items-center  justify-center  ">
-        <h1 className="text-4xl font-black tracking-tight text-white transition-colors hover:text-parp-500 md:text-6xl">
+    <div className=" flex min-h-screen flex-col items-center justify-center bg-black pt-12 text-white">
+      <div className="mb-8 flex flex-col items-center justify-center ">
+        <h1 className="font-black text-4xl text-white tracking-tight transition-colors hover:text-parp-500 md:text-6xl">
           <Link href="/">auriom</Link>
         </h1>
         <Link

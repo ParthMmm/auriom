@@ -1,7 +1,37 @@
 /* src/styles/global.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Harlequin Colors */
+  --color-harlequin-50: oklch(0.94 0.15 140.03); /* #CEFDC4 */
+  --color-harlequin-100: oklch(0.92 0.19 138.08); /* #BDFCB0 */
+  --color-harlequin-200: oklch(0.9 0.22 136.33); /* #9CFA89 */
+  --color-harlequin-300: oklch(0.87 0.25 134.34); /* #7CF962 */
+  --color-harlequin-400: oklch(0.84 0.28 132.34); /* #5BF73A */
+  --color-harlequin-500: oklch(0.81 0.31 130.34); /* #3AF613 */
+  --color-harlequin-600: oklch(0.65 0.25 131.34); /* #29C908 */
+  --color-harlequin-700: oklch(0.49 0.19 132.34); /* #1E9306 */
+  --color-harlequin-800: oklch(0.33 0.13 133.34); /* #135D04 */
+  --color-harlequin-900: oklch(0.17 0.07 134.34); /* #082701 */
+
+  /* Parp Colors */
+  --color-parp-50: oklch(0.94 0.15 320.03); /* #F3C4FD */
+  --color-parp-100: oklch(0.92 0.19 318.08); /* #EFB0FC */
+  --color-parp-200: oklch(0.9 0.22 316.33); /* #E789FA */
+  --color-parp-300: oklch(0.87 0.25 314.34); /* #E062F9 */
+  --color-parp-400: oklch(0.84 0.28 312.34); /* #D83AF7 */
+  --color-parp-500: oklch(0.81 0.31 310.34); /* #D013F6 */
+  --color-parp-600: oklch(0.65 0.25 311.34); /* #A908C9 */
+  --color-parp-700: oklch(0.49 0.19 312.34); /* #7B0693 */
+  --color-parp-800: oklch(0.33 0.13 313.34); /* #4E045D */
+  --color-parp-900: oklch(0.17 0.07 314.34); /* #210127 */
+
+  --font-sans: "Object Sans", sans-serif;
+  --font-weight-normal: 315;
+  --font-weight-bold: 570;
+  --font-weight-black: 730;
+  --font-weight-thin: 140;
+}
 
 @layer base {
   html,
@@ -175,21 +205,52 @@ img.asset {
   .grid-view .grid-playlist {
     margin-bottom: 40px;
     width: calc(
-      (100vw - var(--gutter-x) * 2 - var(--gutter) * (var(--column-count) - 1)) /
-        var(--column-count) * 4 + var(--gutter) * 3
+      (
+        100vw -
+        var(--gutter-x) *
+        2 -
+        var(--gutter) *
+        (var(--column-count) - 1)
+      ) /
+      var(--column-count) *
+      4 +
+      var(--gutter) *
+      3
     );
   }
-  .grid-view .grid-playlist:nth-child(3n-1) {
+  .grid-view .grid-playlist:nth-child(3n - 1) {
     margin-top: calc(
-      (100vw - var(--gutter-x) * 2 - var(--gutter) * (var(--column-count) - 1)) /
-        var(--column-count) * 4 * -0.3 + var(--gutter) * 3 * -0.3
+      (
+        100vw -
+        var(--gutter-x) *
+        2 -
+        var(--gutter) *
+        (var(--column-count) - 1)
+      ) /
+      var(--column-count) *
+      4 *
+      -0.3 +
+      var(--gutter) *
+      3 *
+      -0.3
     );
   }
   .grid-view .grid-playlist:first-child,
   .grid-view .grid-playlist:nth-child(3) {
     margin-top: calc(
-      (100vw - var(--gutter-x) * 2 - var(--gutter) * (var(--column-count) - 1)) /
-        var(--column-count) * 4 * 0.3 + var(--gutter) * 3 * 0.3
+      (
+        100vw -
+        var(--gutter-x) *
+        2 -
+        var(--gutter) *
+        (var(--column-count) - 1)
+      ) /
+      var(--column-count) *
+      4 *
+      0.3 +
+      var(--gutter) *
+      3 *
+      0.3
     );
   }
   .grid-view .grid-playlist:nth-child(2) {
@@ -197,8 +258,17 @@ img.asset {
   }
   .grid-view .grid-playlist-placeholder {
     height: calc(
-      (100vw - var(--gutter-x) * 2 - var(--gutter) * (var(--column-count) - 1)) /
-        var(--column-count) * 4 + var(--gutter) * 3
+      (
+        100vw -
+        var(--gutter-x) *
+        2 -
+        var(--gutter) *
+        (var(--column-count) - 1)
+      ) /
+      var(--column-count) *
+      4 +
+      var(--gutter) *
+      3
     );
   }
 }

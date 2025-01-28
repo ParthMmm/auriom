@@ -5,7 +5,9 @@ import Artists from './Artists';
 import Tracks from './Tracks';
 
 function Controller({}) {
-  const filter = useStore((state) => state.searchFilter);
+  const filter = useStore(
+    (state: { searchFilter: string }) => state.searchFilter
+  );
 
   if (filter === 'album') {
     return <Albums />;

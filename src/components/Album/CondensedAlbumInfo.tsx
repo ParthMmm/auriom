@@ -1,26 +1,25 @@
-import dayjs from 'dayjs';
 import Image from 'next/image';
 
 import Spinner from '@components/Spinner';
 
-import { trpc } from '@utils/trpc';
+import { api } from '@utils/trpc';
 
 type Props = {
   spotifyId: string;
 };
 
 function CondensedAlbumInfo({ spotifyId }: Props) {
-  const albumInfo = trpc.spotify.getAlbum.useQuery(
+  const albumInfo = api.spotify.getAlbum.useQuery(
     { spotifyId },
     {
       enabled: !!spotifyId,
-    },
+    }
   );
 
   const album = albumInfo?.data;
 
   const imageURL = albumInfo?.data?.images.filter(
-    (image) => image.height === 300,
+    (image) => image.height === 300
   )[0]?.url;
 
   const artists = album?.artists.map((artist) => artist.name).join(', ');
@@ -31,8 +30,8 @@ function CondensedAlbumInfo({ spotifyId }: Props) {
 
   if (album) {
     return (
-      <div className="flex flex-col   md:w-[300px] md:items-start md:justify-start">
-        <div className="h-48 w-48  md:h-72 md:w-72">
+      <div className="flex flex-col md:w-[300px] md:items-start md:justify-start">
+        <div className="h-48 w-48 md:h-72 md:w-72">
           {imageURL && (
             <Image
               src={imageURL}
