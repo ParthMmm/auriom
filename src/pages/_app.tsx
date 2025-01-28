@@ -62,7 +62,9 @@ const MyApp = ({ Component, pageProps, ...appProps }: AppProps) => {
     <Suspense fallback={<Spinner />}>
       <ClerkProvider
         {...pageProps}
-        publishableKey={frontendApi}
+        publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+        frontendApi={frontendApi}
+        
         appearance={{
           baseTheme: 'dark',
         }}
